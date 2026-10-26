@@ -139,7 +139,7 @@ tr.failed td { background: var(--bad-soft); }
 .ph .err { color: #a32d2d; font-size: 13px; min-height: 1em; }
 .ph-toast { position: absolute; left: 10px; right: 10px; top: 10px; background: #1a1a18; color: #fff; border-radius: 16px; padding: 16px 12px; font-size: 21px; font-weight: 800; line-height: 1.35; text-align: center; pointer-events: none; z-index: 5; }
 .ph-calling { position: absolute; inset: 0; background: #1d2420; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; z-index: 6; }
-.ph-calling .who { font-size: 25px; font-weight: 800; }
+.ph-calling .who { font-size: 22px; font-weight: 800; line-height: 1.3; max-width: 100%; word-break: break-all; }
 .ph-calling .numtxt { font-family: var(--mono); font-size: 20px; opacity: 0.85; }
 .ph-calling .demo { font-size: 13px; opacity: 0.7; }
 .ph-calling button { margin-top: 16px; background: #c43c3c; color: #fff; border: 0; border-radius: 999px; padding: 13px 26px; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }

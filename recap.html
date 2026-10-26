@@ -70,6 +70,12 @@
   .next { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
   footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
   @media (max-width: 640px) { .bar .pill, .brand span { display: none; } }
+  .compare { min-width: 0; }
+  .compare td:nth-child(2), .compare td:nth-child(3) { white-space: nowrap; }
+  .testlist { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px; }
+  .testlist summary { cursor: pointer; padding: 10px 0; font-weight: 700; color: var(--go); }
+  .testlist ol { margin: 0 0 10px; padding-left: 22px; display: grid; gap: 2px; font-size: 15px; }
+  .testlist .note { padding-bottom: 12px; }
 </style>
 </head>
 <body>
@@ -117,7 +123,7 @@
     <p class="note">주황색 항목은 할머니나 제가 직접 문제를 발견한 때입니다.</p>
     <ol class="flow">
       <li><time>앱 이전</time><div><h3>교통약자 택시 신청</h3><p>할머니가 장애인(교통약자) 택시를 이용하신다는 걸 알고 알아보니 전남과 광주 모두 지원 대상이었습니다. 두 곳 모두 신청해 드렸습니다.</p></div></li>
-      <li><time>앱 이전</time><div><h3>귀가는 광주 센터로</h3><p>전남 센터는 하루 전 오전 10시에 예약합니다. 진료가 언제 끝날지 몰라 귀가편 시간을 맞출 수 없어서, 집에 올 때는 출발 1시간 전에 부르는 광주 센터를 쓰기로 했습니다. 두 센터에 직접 전화해 확인했습니다.</p></div></li>
+      <li><time>앱 이전</time><div><h3>귀가는 광주 센터로</h3><p>병원 갈 때 부르는 전남광역이동지원센터는 하루 전 오전 10시에 예약합니다. 진료가 언제 끝날지 몰라 귀가편 시간을 맞출 수 없어서, 집에 올 때는 출발 1시간 전에 부르는 광주광역시교통약자이동지원센터를 쓰기로 했습니다. 두 센터에 직접 전화해 확인했습니다.</p></div></li>
       <li class="key"><time>문제</time><div><h3>수첩과 두 개의 번호</h3><p>할머니는 단축번호를 외우기 어려워 수첩을 보고 번호를 누르셨고, 이제는 갈 때와 올 때 걸 곳까지 다릅니다.</p></div></li>
       <li><time>10월</time><div><h3>만들고, 빼고, 배포</h3><p>버튼 두 개짜리 웹앱을 만들고 화면을 하나씩 뺐습니다. 10월 16일 지금 형태로 GitHub Pages에 배포하고 할머니 폰 홈 화면에 아이콘으로 넣었습니다.</p></div></li>
       <li class="key"><time>10월 25일</time><div><h3>할머니: "처음으로 버튼이 어렵다"</h3><p>병원에 자주 가시는 시기가 아니어서 주로 가족에게 전화할 때 쓰셨고, 그 화면의 '처음으로' 버튼이 어렵다고 하셨습니다.</p></div></li>
@@ -159,16 +165,19 @@
 
   <section id="tests">
     <span class="tag">검증</span>
-    <h2>테스트가 문제를 잡는지도 확인했습니다</h2>
-    <p class="lede">안드로이드의 크롬·삼성 인터넷은 화면을 누르지 않은 상태에서 페이지가 추가한 뒤로가기 기록을 건너뜁니다. 그래서 갤럭시에서만 안내가 뜨지 않았습니다. 같은 15가지 테스트를 고치기 전 버전에도 돌려서, 테스트가 이 문제를 실제로 잡아내는지 확인했습니다.</p>
-    <div class="toggles" role="group" aria-label="버전 고르기">
-      <button type="button" data-v="now" aria-pressed="true">지금 버전</button>
-      <button type="button" data-v="old" aria-pressed="false">고치기 전 버전</button>
-      <span class="count" id="score" aria-live="polite" style="font-size:15px"></span>
-    </div>
+    <h2>갤럭시에서만 안 되던 것을 고치고 확인했습니다</h2>
+    <p class="lede">안드로이드의 크롬·삼성 인터넷은 화면을 누르지 않은 상태에서 페이지가 추가한 뒤로가기 기록을 건너뜁니다. 그래서 갤럭시에서만 '뒤로 두 번이면 닫힘'이 안 됐습니다. 고친 뒤 자동 테스트를 만들고, 그 테스트를 고치기 전 버전에도 돌려서 문제를 실제로 잡아내는지 확인했습니다.</p>
     <div class="table-box">
-      <table><thead><tr><th>#</th><th>경우</th><th>크롬</th><th>삼성 인터넷</th></tr></thead><tbody id="test-body"></tbody></table>
+      <table class="compare">
+        <thead><tr><th>확인한 것</th><th>고치기 전</th><th>지금</th></tr></thead>
+        <tbody>
+          <tr><td>할머니 갤럭시에서 '뒤로 두 번이면 닫힘'</td><td class="no">안 됨</td><td class="yes">됨 · 할머니 폰에서 확인</td></tr>
+          <tr><td>갤럭시가 건너뛰는 뒤로가기 기록 (자동 테스트)</td><td class="no">11개</td><td class="yes">0개</td></tr>
+          <tr><td>나머지 자동 테스트 13가지 × 크롬·삼성 인터넷</td><td>통과</td><td class="yes">통과</td></tr>
+        </tbody>
+      </table>
     </div>
+    <details class="testlist"><summary>자동 테스트 15가지 펼쳐 보기</summary><ol><li>켜고 화면 누른 뒤 뒤로 1번 → 큰 안내</li><li>이어서 뒤로 1번 더 → 닫힘</li><li>번호 고치기를 저장 3번·취소 1번 한 뒤 뒤로 2번 → 닫힘</li><li>가족 화면에서 뒤로 → 첫 화면</li><li>가족에게 전화한 뒤 자동으로 첫 화면</li><li>번호 추가 화면에서 뒤로 → 첫 화면</li><li>번호 추가 저장 후 뒤로 3번 → 닫힘</li><li>병원 갈 때·집에 올 때가 맞는 센터로 연결</li><li>안내가 3초 뒤 사라짐</li><li>3초 뒤 화면을 누르고 뒤로 → 안내가 다시 뜸</li><li>안내가 떠 있을 때 '병원 갈 때'를 눌러도 연결</li><li>새로고침 후에도 정상</li><li>가족 화면을 5번 들락날락한 뒤 뒤로 2번 → 닫힘</li><li>화면을 한 번도 안 누르고 뒤로 → 안드로이드 규칙대로 닫힘</li><li>갤럭시가 건너뛰는 뒤로가기 기록이 0개</li></ol><p class="note">15가지를 크롬과 삼성 인터넷 두 환경에서 각각 돌려 30개 모두 통과했습니다.</p></details>
     <p class="note">테스트는 컴퓨터에서 두 브라우저의 휴대폰 환경을 흉내 내 돌렸고, 마지막 확인은 할머니 폰에서 했습니다.</p>
   </section>
 
@@ -254,29 +263,11 @@
   }));
   drawDec("all");
 
-  /* 테스트 결과 (실제 실행 결과) */
-  const TESTS = ["켜고 화면 누른 뒤 뒤로 1번 → 안내", "이어서 뒤로 1번 더 → 닫힘", "번호 고치기 저장 3번·취소 1번 후 뒤로 2번 → 닫힘", "가족 화면에서 뒤로 → 첫 화면", "가족 전화 후 자동으로 첫 화면", "번호 추가 화면에서 뒤로 → 첫 화면", "번호 추가 저장 후 뒤로 3번 → 닫힘", "병원 갈 때·집에 올 때가 맞는 센터로 연결", "안내가 3초 뒤 사라짐", "3초 뒤 화면 누르고 뒤로 → 안내 다시", "안내가 떠 있을 때 '병원 갈 때' 눌러도 연결", "새로고침 후에도 정상", "가족 화면 5번 들락날락 후 뒤로 2번 → 닫힘", "화면을 한 번도 안 누르고 뒤로 → 바로 닫힘 (안드로이드 규칙)", "안드로이드가 건너뛸 기록이 0개인지"];
-  const OLD = { 14: "기록을 몰래 추가해 안내가 뜸", 15: "건너뛸 기록 11개 발견" };
-  function drawTests(v) {
-    let pass = 0;
-    $("test-body").innerHTML = TESTS.map((t, i) => {
-      const n = i + 1, bad = v === "old" && OLD[n];
-      if (!bad) pass += 2;
-      const cell = bad ? `<span class="fail">실패 · ${OLD[n]}</span>` : `<span class="pass">통과</span>`;
-      return `<tr class="${bad ? "failed" : ""}"><td class="mono">${n}</td><td>${esc(t)}</td><td>${cell}</td><td>${cell}</td></tr>`;
-    }).join("");
-    const failed = 30 - pass;
-    $("score").innerHTML = `<b class="${failed ? "fail" : "pass"}">${pass}</b> / 30 통과` + (failed ? ` · 실패 ${failed}개 (2가지 × 2개 브라우저)` : "");
-  }
-  document.querySelectorAll("[data-v]").forEach(b => b.addEventListener("click", () => {
-    document.querySelectorAll("[data-v]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); drawTests(b.dataset.v);
-  }));
-  drawTests("now");
 
   /* 질문과 답: 확인된 사실로만 답함 */
   const QA = [
     ["문제", "왜 그냥 단축번호나 즐겨찾기를 쓰지 않았나요?", ["단축번호는 몇 번이 누구인지 외워야 하는데, 할머니는 그게 어려워서 수첩을 쓰셨습니다. 즐겨찾기는 글씨가 작고 거쳐야 할 화면이 많았습니다.", "병원 택시는 자주 필요한 번호를 한 화면에 큰 글씨로 모았고, 갈 때와 올 때 걸 센터를 버튼에 적어 두었습니다."]],
-    ["문제", "전남 센터에 귀가편까지 한 번에 예약하면 되지 않나요?", ["예약은 됩니다. 하지만 전남 센터는 하루 전 오전 10시에 예약해야 하고, 진료가 언제 끝날지 몰라 귀가 시간을 미리 맞출 수가 없습니다.", "그래서 귀가는 출발 1시간 전에 부르면 되는 광주 센터를 따로 신청했습니다. 두 센터에 직접 전화해 확인한 내용입니다."]],
+    ["문제", "전남 센터에 귀가편까지 한 번에 예약하면 되지 않나요?", ["예약은 됩니다. 하지만 전남광역이동지원센터는 하루 전 오전 10시에 예약해야 하고, 진료가 언제 끝날지 몰라 귀가 시간을 미리 맞출 수가 없습니다.", "그래서 귀가는 출발 1시간 전에 부르면 되는 광주광역시교통약자이동지원센터를 따로 신청했습니다. 두 센터에 직접 전화해 확인한 내용입니다."]],
     ["문제", "이 문제는 어떻게 발견했나요?", ["할머니가 교통약자 택시를 이용하신다는 걸 알고 두 센터를 신청해 드리면서, 번호가 두 개가 된다는 걸 알았습니다. 그리고 할머니가 번호를 수첩에 적어 두고 한 자리씩 누르신다는 걸 알고 있었습니다."]],
     ["만들기", "코드는 직접 짰나요?", ["아니요. 코드는 Claude가 썼습니다.", "저는 무엇을 만들지, 무엇을 뺄지 정했고, 할머니와 가족 반응을 보고 고칠 점을 찾았고, 기기별로 확인하고 배포를 결정했습니다. 처음 설계 중 AI가 낸 아이디어 세 가지는 하나는 뺐고, 하나는 하지 않았고, 하나는 목적을 바꿔서 넣었습니다."]],
     ["만들기", "AI가 제안했는데 뺀 것이 있나요?", ["전화를 걸기 전에 상담원에게 말할 이름과 주소를 화면에 크게 띄우자는 제안이 있었습니다.", "할머니는 통화하면서 휴대폰 화면을 보고 읽기 어려워하셨고, 센터는 전화번호로 이름을 이미 알고 있어서 뺐습니다."]],

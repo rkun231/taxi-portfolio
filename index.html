@@ -16,7 +16,7 @@
 <style>
   html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   /* 위쪽 바: 장면 목록 */
-  .bar { position: fixed; inset: 0 0 auto; z-index: 20; background: rgba(242, 244, 241, 0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+  .bar { position: fixed; inset: 0 0 auto; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
   .bar-in { display: flex; align-items: center; gap: 12px; height: 52px; }
   .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; white-space: nowrap; text-decoration: none; color: var(--ink); }
   .brand i { width: 26px; height: 26px; border-radius: 7px; background: var(--go); color: #fff; font-style: normal; font-size: 11px; display: grid; place-items: center; }
@@ -231,7 +231,7 @@
         <button type="button" data-v="old" aria-pressed="false">고치기 전 버전</button>
         <span class="score" id="score" aria-live="polite"></span>
       </div>
-      <div class="table-box" style="max-height:46vh;overflow-y:auto">
+      <div class="table-box">
         <table>
           <thead><tr><th>#</th><th>경우</th><th>크롬</th><th>삼성 인터넷</th></tr></thead>
           <tbody id="tests"></tbody>
@@ -355,7 +355,9 @@
     if (i === current && links[i].getAttribute("aria-current") === "true") return;
     current = i;
     links.forEach((a, k) => a.setAttribute("aria-current", String(k === i)));
-    links[i].scrollIntoView({ block: "nearest", inline: "center" });
+    /* 목차 줄만 가로로 움직인다 (페이지 스크롤을 건드리지 않게) */
+    const t = $("toc"), ar = links[i].getBoundingClientRect(), tr = t.getBoundingClientRect();
+    t.scrollLeft += ar.left - tr.left - (t.clientWidth - ar.width) / 2;
     $("progress").style.width = ((i + 1) / slides.length * 100) + "%";
     document.title = `${String(slides[i].id).padStart(2, "0")} ${slides[i].dataset.title} · 병원 택시`;
     /* 기록을 쌓지 않고 주소만 바꾼다 (뒤로가기가 장면마다 쌓이지 않게) */

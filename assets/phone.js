@@ -181,7 +181,8 @@
   const phones = [...document.querySelectorAll("[data-phone]")].map(mount);
   window.TaxiPhone = {
     show(action) {
-      const p = phones[0]; if (!p) return;
+      /* 보이는 휴대폰을 고른다 (넓은 화면은 왼쪽 고정, 좁은 화면은 본문 속) */
+      const p = phones.find(x => x.host.offsetParent !== null) || phones[0]; if (!p) return;
       p.show(action);
       const rect = p.host.getBoundingClientRect();
       if (rect.top < 0 || rect.bottom > innerHeight) p.host.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });

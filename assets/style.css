@@ -2,29 +2,31 @@
    색은 앱의 두 버튼에서: 초록 = 병원 갈 때, 주황 = 집에 올 때.
    종이는 수첩처럼 옅은 모눈, 글은 먹색. 한 가지 밝은 화면으로만 만든다 (발표용 노트북·프로젝터 기준). */
 :root {
-  color-scheme: light;
-  --paper: #f2f4f1;
-  --grid: #e1e6e2;
-  --card: #ffffff;
-  --ink: #18211d;
-  --muted: #56625c;
-  --line: #d3dad5;
-  --go: #0f6e56;
-  --go-soft: #e1eee8;
-  --home: #c2541f;
-  --home-soft: #f7e6db;
-  --bad: #a32d2d;
-  --bad-soft: #f6e0e0;
+  /* 어두운 밤 화면 하나로 고정 (발표용). 초록 = 병원 갈 때, 주황 = 집에 올 때 */
+  color-scheme: dark;
+  --paper: #0e1412;
+  --grid: #1c2622;
+  --card: #161e1b;
+  --ink: #e6ece9;
+  --muted: #9aa8a1;
+  --line: #27322d;
+  --go: #4cc29d;
+  --go-soft: #143029;
+  --home: #ef8c55;
+  --home-soft: #36241a;
+  --bad: #ee8585;
+  --bad-soft: #3a1f20;
+  --on-go: #0b1210;
   --display: "Black Han Sans", "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --body: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   /* 체험 휴대폰: 실제 앱 색 그대로 */
-  --ph-bg: #f6f5f1; --ph-ink: #1a1a18; --ph-muted: #55544f; --ph-go: #0f6e56; --ph-home: #c2541f; --ph-frame: #1d2420;
+  --ph-bg: #f6f5f1; --ph-ink: #1a1a18; --ph-muted: #55544f; --ph-go: #0f6e56; --ph-home: #c2541f; --ph-frame: #050807;
 }
 [hidden] { display: none !important; }
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.7; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.7; word-break: keep-all; overflow-wrap: break-word; }
 img { max-width: 100%; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 h1, h2 { font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; line-height: 1.2; }
@@ -42,7 +44,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .pills { display: flex; flex-wrap: wrap; gap: 10px; }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 600; }
 .pill:hover { border-color: var(--go); }
-.pill.solid { background: var(--go); border-color: var(--go); color: #fff; }
+.pill.solid { background: var(--go); border-color: var(--go); color: var(--on-go); }
 
 /* 칩 (출처) */
 .chip { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 9px; border-radius: 999px; border: 1.5px solid currentColor; white-space: nowrap; line-height: 1.6; }
@@ -97,20 +99,21 @@ tr.failed td { background: var(--bad-soft); }
 /* QR 카드 */
 .qr-card { margin: 0; background: #ffffff; border: 2px solid var(--go); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; max-width: 280px; }
 .qr-card img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
-.qr-card figcaption { text-align: center; font-size: 13px; line-height: 1.45; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
-.qr-card figcaption b { font-size: 16px; color: var(--go); }
+.qr-card figcaption { text-align: center; font-size: 13px; line-height: 1.45; color: #55544f; display: flex; flex-direction: column; gap: 2px; }
+.qr-card figcaption b { font-size: 16px; color: #0f6e56; }
 
 /* 설명서 이미지 */
 .guides { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .guides figure { margin: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.guides .img-box { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fdfcf8; }
-.guides .img-box[style*="max-height"] { -webkit-mask-image: linear-gradient(#000 80%, transparent); mask-image: linear-gradient(#000 80%, transparent); }
+/* 설명서: 상자마다 따로 스크롤해서 끝까지 볼 수 있게 */
+.guides .img-box { border: 1px solid var(--line); border-radius: 12px; background: #fdfcf8; max-height: min(460px, 62vh); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.guides .scroll-hint { font-size: 12px; color: var(--muted); }
 .guides img { display: block; width: 100%; height: auto; }
 .guides figcaption { font-size: 14px; color: var(--muted); }
 
 /* ── 체험 휴대폰 ── */
 .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; width: 100%; }
-.device { width: 100%; max-width: 330px; background: var(--ph-frame); border-radius: 38px; padding: 12px 10px 8px; box-shadow: 0 18px 40px rgba(20, 30, 25, 0.18); }
+.device { width: 100%; max-width: 330px; background: var(--ph-frame); border: 1px solid #34413b; border-radius: 38px; padding: 12px 10px 8px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5); }
 .screen-area { position: relative; background: var(--ph-bg); color: var(--ph-ink); border-radius: 28px; height: 580px; max-height: 70vh; min-height: 500px; overflow: hidden; font-family: var(--body); line-height: 1.5; }
 .ph { position: absolute; inset: 0; padding: 18px 14px 16px; display: none; flex-direction: column; gap: 12px; overflow-y: auto; }
 .ph.on { display: flex; }
@@ -150,3 +153,15 @@ tr.failed td { background: var(--bad-soft); }
 .flash { animation: flash 1.2s ease 2; }
 @keyframes flash { 50% { box-shadow: 0 0 0 4px #e5834f; } }
 @media (prefers-reduced-motion: reduce) { .flash { animation: none; outline: 3px solid #e5834f; } html { scroll-behavior: auto !important; } }
+
+/* ── 왼쪽에 늘 떠 있는 체험 휴대폰 (넓은 화면) ── */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr); }
+.layout > * { min-width: 0; }
+.dock { display: none; }
+@media (min-width: 980px) {
+  .layout { grid-template-columns: 370px minmax(0, 1fr); column-gap: 8px; }
+  .dock { display: flex; flex-direction: column; justify-content: center; position: sticky; top: var(--dock-top, 64px); height: calc(100vh - var(--dock-top, 64px)); padding: 12px 0 12px max(18px, env(safe-area-inset-left, 0px)); }
+  .dock .screen-area { height: min(560px, calc(100vh - var(--dock-top, 64px) - 185px)); min-height: 380px; max-height: none; }
+  .dock .eyebrow { text-align: center; }
+  .inline-phone { display: none !important; }
+}

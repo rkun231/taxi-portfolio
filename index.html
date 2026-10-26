@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="할머니를 위한 병원 택시 웹앱을 만든 과정. SK AIGEN 지원 포트폴리오 발표 자료.">
-<meta name="theme-color" content="#0f6e56">
+<meta name="theme-color" content="#0e1412">
 <title>병원 택시 · 발표</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f6e56'/%3E%3Ctext x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'%3E택시%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="assets/style.css">
 <style>
-  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  :root { --dock-top: 60px; }
+  html { scroll-padding-top: 64px; }
   /* 위쪽 바: 장면 목록 */
   .bar { position: fixed; inset: 0 0 auto; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
   .bar-in { display: flex; align-items: center; gap: 12px; height: 52px; }
@@ -27,7 +28,6 @@
   .toc a[aria-current="true"] { background: var(--go); color: #fff; }
   .bar .pill { padding: 5px 12px; font-size: 13px; flex: none; }
   .help-btn { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); }
-  .progress { position: fixed; left: 0; bottom: 0; height: 4px; background: var(--home); z-index: 20; width: 0; transition: width .25s ease; }
 
   /* 장면 */
   .slide { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding-block: 88px 64px; border-bottom: 1px solid var(--line); }
@@ -36,10 +36,11 @@
   .lede { font-size: clamp(17px, 1.6vw, 20px); max-width: 60ch; }
   .split { display: grid; gap: 32px; grid-template-columns: minmax(0, 1fr); align-items: center; }
   @media (min-width: 900px) { .split { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } .split.phone-left { grid-template-columns: 360px minmax(0, 1fr); } }
+  @media (min-width: 980px) { .split.phone-left { grid-template-columns: minmax(0, 1fr); } }
   .stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 
   /* 표지 */
-  .cover h1 { font-size: clamp(44px, 7.5vw, 92px); }
+  .cover h1 { font-size: clamp(40px, 5.4vw, 78px); }
   .cover h1 em { font-style: normal; color: var(--go); }
   .cover .who { font-size: 15px; color: var(--muted); }
   .cover-grid { display: grid; gap: 36px; grid-template-columns: minmax(0, 1fr); align-items: center; }
@@ -78,8 +79,12 @@
     <button class="help-btn" type="button" id="help-open" aria-label="조작법">?</button>
   </div>
 </header>
-<div class="progress" id="progress" aria-hidden="true"></div>
 
+<div class="layout">
+  <aside class="dock" aria-label="체험 휴대폰">
+    <div class="eyebrow">직접 눌러보세요 · 가짜 번호로 동작</div>
+    <div data-phone></div>
+  </aside>
 <main>
 
   <section class="slide cover" id="1" data-title="표지">
@@ -141,11 +146,11 @@
   <section class="slide" id="4" data-title="체험">
     <div class="slide-in gutter">
       <div class="split phone-left">
-        <div data-phone></div>
+        <div data-phone class="inline-phone"></div>
         <div class="stack">
           <span class="tag">04 · 직접 눌러보세요</span>
           <h2>갈 곳만 고르면<br>맞는 센터로 걸립니다</h2>
-          <p class="lede">실제 앱과 똑같이 움직이는 체험 화면입니다. 가족 번호는 가짜이고 전화는 걸리지 않습니다.</p>
+          <p class="lede">왼쪽 휴대폰은 실제 앱과 똑같이 움직이는 체험 화면입니다. 가족 번호는 가짜이고 전화는 걸리지 않습니다.</p>
           <ul class="muted" style="margin:0;padding-left:20px">
             <li>병원 갈 때 → 전남 센터, 집에 올 때 → 광주 센터</li>
             <li>가족에게 전화 → 걸고 나면 자동으로 첫 화면</li>
@@ -251,8 +256,8 @@
           <p>쓰는 사람(할머니)과 번호를 관리하는 사람(가족)이 달라서, 설명서도 두 가지로 만들었습니다.</p>
         </div>
         <div class="guides">
-          <figure><div class="img-box" style="max-height:340px"><img src="assets/guide-grandma.webp" alt="할머니용 설명서: 택시 아이콘, 병원 갈 때 초록 버튼, 집에 올 때 주황 버튼, 전화 안 받으면 한 번 더, 모르겠으면 가족에게 전화" width="900" height="1812" loading="lazy"></div><figcaption>할머니용</figcaption></figure>
-          <figure><div class="img-box" style="max-height:340px"><img src="assets/guide-family.webp" alt="가족용 설명서: 전화번호 고치기에서 번호를 넣고 저장하는 방법과 홈 화면에 추가하는 방법" width="900" height="2405" loading="lazy"></div><figcaption>가족용</figcaption></figure>
+          <figure><div class="img-box"><img src="assets/guide-grandma.webp" alt="할머니용 설명서: 택시 아이콘, 병원 갈 때 초록 버튼, 집에 올 때 주황 버튼, 전화 안 받으면 한 번 더, 모르겠으면 가족에게 전화" width="900" height="1812" loading="lazy"></div><span class="scroll-hint">↕ 그림 안에서 스크롤하면 끝까지 볼 수 있어요</span><figcaption>할머니용</figcaption></figure>
+          <figure><div class="img-box"><img src="assets/guide-family.webp" alt="가족용 설명서: 전화번호 고치기에서 번호를 넣고 저장하는 방법과 홈 화면에 추가하는 방법" width="900" height="2405" loading="lazy"></div><span class="scroll-hint">↕ 그림 안에서 스크롤하면 끝까지 볼 수 있어요</span><figcaption>가족용</figcaption></figure>
         </div>
       </div>
     </div>
@@ -286,6 +291,7 @@
   </section>
 
 </main>
+</div>
 
 <div class="help" id="help" hidden role="dialog" aria-modal="true" aria-labelledby="help-title">
   <div class="help-card">
@@ -323,6 +329,8 @@
     <span class="foot"><span class="chip ${k}">${esc(src)}</span>${act ? `<button class="try" type="button" data-act="${act}">휴대폰에서 보기</button>` : ""}</span></div>`).join("");
   $("cuts").addEventListener("click", e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
+    const docked = document.querySelector(".dock").offsetParent !== null;
+    if (docked) { window.TaxiPhone && window.TaxiPhone.show(b.dataset.act); return; }
     location.hash = "#4"; setTimeout(() => window.TaxiPhone && window.TaxiPhone.show(b.dataset.act), 450);
   });
 
@@ -346,53 +354,19 @@
   }));
   drawTests("now");
 
-  /* 장면 목록 · 진행 막대 · 주소 #번호 */
+  /* 장면 목록: 그냥 링크만. 스크롤 중에는 아무 코드도 돌지 않는다 */
   const slides = [...document.querySelectorAll(".slide")];
-  $("toc").innerHTML = slides.map(s => `<a href="#${s.id}" data-to="${s.id}"><b>${String(s.id).padStart(2, "0")}</b>${esc(s.dataset.title)}</a>`).join("");
-  const links = [...$("toc").querySelectorAll("a")];
-  let current = 0;
-  function setCurrent(i) {
-    if (i === current && links[i].getAttribute("aria-current") === "true") return;
-    current = i;
-    links.forEach((a, k) => a.setAttribute("aria-current", String(k === i)));
-    /* 목차 줄만 가로로 움직인다 (페이지 스크롤을 건드리지 않게) */
-    const t = $("toc"), ar = links[i].getBoundingClientRect(), tr = t.getBoundingClientRect();
-    t.scrollLeft += ar.left - tr.left - (t.clientWidth - ar.width) / 2;
-    $("progress").style.width = ((i + 1) / slides.length * 100) + "%";
-    document.title = `${String(slides[i].id).padStart(2, "0")} ${slides[i].dataset.title} · 병원 택시`;
-    /* 기록을 쌓지 않고 주소만 바꾼다 (뒤로가기가 장면마다 쌓이지 않게) */
-    try { history.replaceState(null, "", "#" + slides[i].id); } catch (e) {}
-  }
-  /* 화면 위쪽 1/3 선을 지나간 마지막 장면이 지금 장면 */
-  function detect() {
+  $("toc").innerHTML = slides.map(s => `<a href="#${s.id}"><b>${String(s.id).padStart(2, "0")}</b>${esc(s.dataset.title)}</a>`).join("");
+  /* 키를 누른 순간에만 지금 장면을 계산 */
+  function currentIndex() {
     const line = innerHeight * 0.35;
     let i = 0;
     slides.forEach((s, k) => { if (s.getBoundingClientRect().top <= line) i = k; });
-    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) i = slides.length - 1;
-    setCurrent(i);
+    return i;
   }
-  let ticking = false;
-  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; detect(); }); } }, { passive: true });
-  addEventListener("resize", detect);
-  let lock = 0;   /* 이동 중에는 위치 감지를 잠깐 멈춘다 */
-  const _detect = detect;
-  detect = () => { if (Date.now() > lock) _detect(); };
-  function jumpToHash(smooth) {
-    const i = slides.findIndex(s => "#" + s.id === location.hash);
-    if (i < 0) return false;
-    lock = Date.now() + 900;
-    slides[i].scrollIntoView({ behavior: smooth ? "smooth" : "auto" });
-    setCurrent(i);
-    return true;
-  }
-  addEventListener("hashchange", () => jumpToHash(true));
-  if (!jumpToHash(false)) _detect();
-
   function goTo(i) {
     i = Math.max(0, Math.min(slides.length - 1, i));
-    lock = Date.now() + 900;
     slides[i].scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-    setCurrent(i);
   }
   const help = $("help");
   const toggleHelp = open => { help.hidden = !open; if (open) $("help-close").focus(); };
@@ -404,8 +378,8 @@
     if (e.key === "?") { toggleHelp(help.hidden); e.preventDefault(); return; }
     if (!help.hidden) { if (e.key === "Escape") toggleHelp(false); return; }
     if (e.key === " " && e.target.closest("button, a, summary")) return;
-    if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); goTo(current + 1); }
-    else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); goTo(current - 1); }
+    if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); goTo(currentIndex() + 1); }
+    else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); goTo(currentIndex() - 1); }
     else if (e.key === "Home") { e.preventDefault(); goTo(0); }
     else if (e.key === "End") { e.preventDefault(); goTo(slides.length - 1); }
     else if (e.key === "r" || e.key === "R") { location.href = "recap.html"; }

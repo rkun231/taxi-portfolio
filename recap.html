@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="병원 택시 웹앱 포트폴리오 다시 보기. 흐름, 체험, 결정 과정, 검증, 예상 질문과 답.">
+<meta name="theme-color" content="#0f6e56">
+<title>병원 택시 · 다시 보기</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f6e56'/%3E%3Ctext x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'%3E택시%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+  .bar { position: sticky; top: 0; z-index: 20; background: rgba(242, 244, 241, 0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+  .bar-in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 12px; height: 52px; }
+  .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; white-space: nowrap; text-decoration: none; color: var(--ink); }
+  .brand i { width: 26px; height: 26px; border-radius: 7px; background: var(--go); color: #fff; font-style: normal; font-size: 11px; display: grid; place-items: center; }
+  .toc { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc a { flex: none; padding: 4px 11px; border-radius: 999px; font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .toc a[aria-current="true"] { background: var(--go); color: #fff; }
+  .bar .pill { flex: none; padding: 5px 12px; font-size: 13px; }
+
+  .page { max-width: 1120px; margin: 0 auto; padding-block: 40px 80px; display: flex; flex-direction: column; gap: 72px; }
+  section { display: flex; flex-direction: column; gap: 20px; }
+  section h2 { font-size: clamp(26px, 3.4vw, 38px); }
+  .lede { font-size: 18px; max-width: 62ch; }
+
+  /* 한눈에 */
+  .hero h1 { font-size: clamp(40px, 6.4vw, 76px); }
+  .hero h1 em { font-style: normal; color: var(--go); }
+  .hero-grid { display: grid; gap: 32px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr) 260px; } }
+  .hero .qr-card { justify-self: center; }
+  .stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 2px; }
+  .stat .k { font-size: 13px; color: var(--muted); }
+  .stat .v { font-family: var(--display); font-size: 40px; line-height: 1.15; color: var(--go); font-variant-numeric: tabular-nums; }
+  .stat .s { font-size: 14px; color: var(--muted); }
+  .quote { border-left: 3px solid var(--home); padding: 4px 0 4px 16px; font-size: 18px; max-width: 62ch; }
+
+  /* 흐름 */
+  .flow { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .flow li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 18px; padding: 14px 0; border-top: 1px solid var(--line); }
+  .flow li:last-child { border-bottom: 1px solid var(--line); }
+  .flow time { font-family: var(--mono); font-size: 14px; color: var(--muted); padding-top: 2px; }
+  .flow li.key time { color: var(--home); }
+  .flow h3 { font-size: 17px; }
+  .flow p { color: var(--muted); font-size: 15px; }
+  @media (max-width: 560px) { .flow li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+
+  .demo-grid { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 960px) { .demo-grid { grid-template-columns: 350px minmax(0, 1fr); } .demo-grid > [data-phone] { position: sticky; top: 76px; } }
+
+  /* 질문과 답 */
+  .qa { display: flex; flex-direction: column; gap: 8px; }
+  .qa details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  .qa summary { cursor: pointer; padding: 14px 16px; font-weight: 700; display: flex; gap: 10px; align-items: baseline; list-style: none; }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary::before { content: "Q"; font-family: var(--mono); color: var(--go); flex: none; }
+  .qa details[open] summary { border-bottom: 1px solid var(--line); }
+  .qa .a { padding: 12px 16px 16px 40px; display: flex; flex-direction: column; gap: 8px; }
+  .qa .cat { font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 500; margin-left: auto; white-space: nowrap; }
+
+  .next { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+  @media (max-width: 640px) { .bar .pill, .brand span { display: none; } }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in gutter">
+    <a class="brand" href="#top"><i>택시</i><span>다시 보기</span></a>
+    <nav class="toc" aria-label="목차" id="toc">
+      <a href="#top">한눈에</a><a href="#flow">흐름</a><a href="#demo">체험</a><a href="#roles">역할</a><a href="#tests">검증</a><a href="#privacy">개인정보</a><a href="#qa">질문과 답</a><a href="#next">다음</a>
+    </nav>
+    <a class="pill" href="index.html">발표 자료</a>
+  </div>
+</header>
+
+<div class="page gutter">
+
+  <section class="hero" id="top">
+    <div class="hero-grid">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <span class="eyebrow">SK AIGEN 지원 포트폴리오 · 다시 보기 · kun</span>
+        <h1>할머니의 수첩을<br><em>한 화면으로</em></h1>
+        <p class="lede">외할머니는 80세가 넘으셨고 휠체어를 타십니다. 눈이 침침하고 스마트폰 조작이 어려우셔서 전화번호를 수첩에 적어두고 한 자리씩 눌러 거셨습니다. 병원에 갈 때와 집에 올 때 부르는 택시 센터도 달랐습니다. 이 두 가지를 큰 버튼 몇 개로 줄인 웹앱을 만들었습니다.</p>
+      </div>
+      <figure class="qr-card">
+        <img src="assets/qr.png" alt="발표 자료로 연결되는 QR 코드" width="230" height="230">
+        <figcaption><b>휴대폰으로 같이 보기</b><span>카메라로 비추면 발표 자료가 열려요</span></figcaption>
+      </figure>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">전화할 곳</span><span class="v">2곳</span><span class="s">병원 갈 때 전남, 집에 올 때 광주</span></div>
+      <div class="stat"><span class="k">만들면서 뺀 것</span><span class="v">7가지</span><span class="s">화면 6개 + 버튼 1개</span></div>
+      <div class="stat"><span class="k">뒤로가기 검증</span><span class="v">30/30</span><span class="s">15가지 × 크롬·삼성 인터넷</span></div>
+      <div class="stat"><span class="k">실제 사용자</span><span class="v">1명</span><span class="s">외할머니, 갤럭시 점프2</span></div>
+    </div>
+  </section>
+
+  <section id="flow">
+    <span class="tag">흐름</span>
+    <h2>택시 신청부터 갤럭시 검증까지</h2>
+    <p class="note">주황색 날짜는 할머니나 제가 직접 문제를 발견한 때입니다.</p>
+    <ol class="flow">
+      <li><time>앱 이전</time><div><h3>교통약자 택시 신청</h3><p>할머니가 장애인(교통약자) 택시를 이용하신다는 걸 알고 알아보니 전남과 광주 모두 지원 대상이었습니다. 두 곳 모두 신청해 드렸습니다.</p></div></li>
+      <li><time>앱 이전</time><div><h3>귀가는 광주 센터로</h3><p>전남 센터는 하루 전 오전 10시에 예약합니다. 진료가 언제 끝날지 몰라 귀가편 시간을 맞출 수 없어서, 집에 올 때는 출발 1시간 전에 부르는 광주 센터를 쓰기로 했습니다. 두 센터에 직접 전화해 확인했습니다.</p></div></li>
+      <li class="key"><time>문제</time><div><h3>수첩과 두 개의 번호</h3><p>할머니는 단축번호를 외우기 어려워 수첩을 보고 번호를 누르셨고, 이제는 갈 때와 올 때 걸 곳까지 다릅니다.</p></div></li>
+      <li><time>10월</time><div><h3>만들고, 빼고, 배포</h3><p>버튼 두 개짜리 웹앱을 만들고 화면을 하나씩 뺐습니다. 10월 16일 지금 형태로 GitHub Pages에 배포하고 할머니 폰 홈 화면에 아이콘으로 넣었습니다.</p></div></li>
+      <li class="key"><time>10월 25일</time><div><h3>할머니: "처음으로 버튼이 어렵다"</h3><p>병원에 자주 가시는 시기가 아니어서 주로 가족에게 전화할 때 쓰셨고, 그 화면의 '처음으로' 버튼이 어렵다고 하셨습니다.</p></div></li>
+      <li><time>10월 26일 14:45</time><div><h3>버튼을 없애고 자동으로 첫 화면</h3><p>가족에게 전화를 걸면 첫 화면으로 돌아가게 고쳤습니다.</p></div></li>
+      <li class="key"><time>10월 26일 15:37</time><div><h3>뒤로가기를 여러 번 눌러야 닫힘</h3><p>직접 써 보다가 발견했습니다. 두 번 누르면 닫히고, 한 번 누르면 큰 안내가 뜨게 해 달라고 했습니다.</p></div></li>
+      <li class="key"><time>10월 26일 15:55</time><div><h3>아이폰은 되고 갤럭시는 안 됨</h3><p>두 기기로 확인하다 발견했습니다. 크롬과 삼성 인터넷 모두에서 15가지 경우를 테스트하라고 기준을 정했습니다.</p></div></li>
+      <li><time>10월 26일 16:13</time><div><h3>할머니 폰에서 해결 확인</h3><p>테스트 30개 통과, 고치기 전 버전에서는 같은 테스트가 실패하는 것까지 확인한 뒤 할머니 폰으로 최종 확인했습니다.</p></div></li>
+    </ol>
+  </section>
+
+  <section id="demo">
+    <span class="tag">체험</span>
+    <h2>직접 눌러보세요</h2>
+    <p class="lede">실제 앱과 똑같이 움직이는 체험 화면입니다. 가족 번호는 가짜이고 전화는 걸리지 않습니다. 오른쪽 카드의 '휴대폰에서 보기'를 누르면 그 변화가 휴대폰에 나타납니다.</p>
+    <div class="demo-grid">
+      <div data-phone></div>
+      <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+        <h3>만들면서 뺀 것 7가지</h3>
+        <div class="cuts" id="cuts"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roles">
+    <span class="tag">역할</span>
+    <h2>누가 무엇을 정했나</h2>
+    <p class="lede">코드는 AI(Claude)가 썼습니다. 무엇을 넣고 뺄지는 아래처럼 나뉩니다.</p>
+    <div class="toggles" role="group" aria-label="출처로 거르기">
+      <button type="button" data-f="all" aria-pressed="true">전체</button>
+      <button type="button" data-f="me" aria-pressed="false">본인</button>
+      <button type="button" data-f="grandma" aria-pressed="false">할머니</button>
+      <button type="button" data-f="ai" aria-pressed="false">AI 제안</button>
+      <span class="count" id="dec-count" aria-live="polite"></span>
+    </div>
+    <div class="table-box">
+      <table><thead><tr><th>결정</th><th>출처</th><th>결과와 이유</th></tr></thead><tbody id="dec"></tbody></table>
+    </div>
+  </section>
+
+  <section id="tests">
+    <span class="tag">검증</span>
+    <h2>테스트가 문제를 잡는지도 확인했습니다</h2>
+    <p class="lede">안드로이드의 크롬·삼성 인터넷은 화면을 누르지 않은 상태에서 페이지가 추가한 뒤로가기 기록을 건너뜁니다. 그래서 갤럭시에서만 안내가 뜨지 않았습니다. 같은 15가지 테스트를 고치기 전 버전에도 돌려서, 테스트가 이 문제를 실제로 잡아내는지 확인했습니다.</p>
+    <div class="toggles" role="group" aria-label="버전 고르기">
+      <button type="button" data-v="now" aria-pressed="true">지금 버전</button>
+      <button type="button" data-v="old" aria-pressed="false">고치기 전 버전</button>
+      <span class="count" id="score" aria-live="polite" style="font-size:15px"></span>
+    </div>
+    <div class="table-box">
+      <table><thead><tr><th>#</th><th>경우</th><th>크롬</th><th>삼성 인터넷</th></tr></thead><tbody id="test-body"></tbody></table>
+    </div>
+    <p class="note">테스트는 컴퓨터에서 두 브라우저의 휴대폰 환경을 흉내 내 돌렸고, 마지막 확인은 할머니 폰에서 했습니다.</p>
+  </section>
+
+  <section id="privacy">
+    <span class="tag">개인정보 · 설명서</span>
+    <h2>가족 번호는 할머니 폰 밖으로 나가지 않습니다</h2>
+    <p class="lede">앱 코드는 공개 저장소에 있어서, 가족 번호는 코드에 넣지 않고 할머니 폰의 브라우저 저장소(<span class="mono">localStorage</span>)에만 저장합니다. 코드에 있는 번호는 누구에게나 공개된 두 센터 번호뿐입니다. 쓰는 사람(할머니)과 관리하는 사람(가족)이 달라서 설명서도 두 가지로 만들었습니다.</p>
+    <div class="guides">
+      <figure><div class="img-box"><img src="assets/guide-grandma.webp" alt="할머니용 설명서: 택시 아이콘, 병원 갈 때 초록 버튼, 집에 올 때 주황 버튼, 전화 안 받으면 한 번 더, 모르겠으면 가족에게 전화" width="900" height="1812" loading="lazy"></div><figcaption>할머니용 · 큰 글씨 5단계</figcaption></figure>
+      <figure><div class="img-box"><img src="assets/guide-family.webp" alt="가족용 설명서: 전화번호 고치기에서 번호를 넣고 저장하는 방법과 홈 화면에 추가하는 방법" width="900" height="2405" loading="lazy"></div><figcaption>가족용 · 번호 등록과 홈 화면 추가</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="qa">
+    <span class="tag">질문과 답</span>
+    <h2>나올 만한 질문과 제 답</h2>
+    <div class="toggles" role="group" aria-label="주제로 거르기" id="qa-filters"></div>
+    <div class="qa" id="qa-list"></div>
+  </section>
+
+  <section id="next">
+    <span class="tag">다음</span>
+    <h2>혼자서는 못 한 것</h2>
+    <div class="next">
+      <div class="center go" style="gap:6px"><b>가족에게 호출 알림</b><span>할머니가 택시를 부르면 가족에게 문자가 가게 하고 싶었지만, 서버와 문자 발송 서비스가 필요해 보류했습니다. 공부 중인 파이썬으로 이어가려 합니다.</span></div>
+      <div class="center home" style="gap:6px"><b>할머니 밖의 사용자</b><span>지금 사용자는 할머니 한 분입니다. 시·도 경계를 넘어 병원에 다니는 다른 어르신께도 맞는지는 아직 확인하지 못했습니다.</span></div>
+    </div>
+    <p class="note">사용 전후 횟수(잘못 건 전화, 가족에게 도움을 청한 횟수)는 11월 중순까지 기록 중입니다.</p>
+  </section>
+
+  <footer>
+    <span>만든 사람: kun · <a href="https://rkun231.github.io/Taxi-helper/" target="_blank" rel="noopener">실제 앱</a> · <a href="https://github.com/rkun231/Taxi-helper" target="_blank" rel="noopener">앱 코드</a></span>
+    <span>본인: 문제 발견, 두 센터 조사·신청, 넣고 뺄 것 결정, 할머니 반응 관찰, 기기별 확인, 배포 결정</span>
+    <span>AI(Claude): 코드 작성, 화면 시안, 설명서 이미지 제작, 자동 테스트 실행</span>
+  </footer>
+</div>
+
+<script src="assets/phone.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  /* 빼기 카드 */
+  const CUTS = [
+    ["이름·주소를 상담원에게 읽어주는 화면", "삭제", "통화하면서 화면을 보며 읽기 어려워하셨고, 센터는 전화번호로 이름을 이미 압니다.", "grandma", "할머니 관찰", null],
+    ["전화 전 확인 화면, 통화 후 '택시 잡으셨어요?'", "버튼 한 번에 바로 전화", "단계가 늘수록 헷갈리십니다.", "me", "본인", "buttons"],
+    ["앱을 켜면 가족 번호 설정부터", "첫 화면 고정, 설정은 가족이 나중에", "할머니가 처음 보는 화면이 설정이면 안 됩니다.", "me", "본인", null],
+    ["인사말을 3초 꾹 눌러 설정 열기", "'전화번호 고치기' 글씨", "숨은 기능은 가족도 못 찾습니다.", "me", "본인", "fix"],
+    ["버튼에 '함평 → 광주' 지명", "\"집에서 병원으로 가요\"", "갈 곳이 바로 적혀 있어야 판단하기 쉽습니다.", "me", "본인", "labels"],
+    ["번호를 '-'까지 맞춰 입력", "숫자만 치면 '-' 자동", "가족이 숫자만 쳐도 되게 했습니다.", "me", "본인", "dash"],
+    ["가족 화면의 '처음으로' 버튼", "전화를 걸면 자동으로 첫 화면", "10월 25일 할머니가 어렵다고 하셔서 다음 날 없앴습니다.", "grandma", "할머니 말씀", "family"],
+  ];
+  $("cuts").innerHTML = CUTS.map(([was, now, why, k, src, act]) => `
+    <div class="cut"><span class="was">${esc(was)}</span><span class="now">→ ${esc(now)}</span><span class="why">${esc(why)}</span>
+    <span class="foot"><span class="chip ${k}">${esc(src)}</span>${act ? `<button class="try" type="button" data-act="${act}">휴대폰에서 보기</button>` : ""}</span></div>`).join("");
+  $("cuts").addEventListener("click", e => { const b = e.target.closest("[data-act]"); if (b && window.TaxiPhone) window.TaxiPhone.show(b.dataset.act); });
+
+  /* 결정 출처 */
+  const DEC = [
+    ["전남·광주 두 센터 모두 신청", "me", "본인 조사", "양쪽 모두 지원 대상인 것을 직접 알아봄"],
+    ["귀가용으로 광주 센터를 따로 신청", "me", "본인 판단", "전남은 하루 전 오전 10시 예약이라 귀가 시간을 맞출 수 없음"],
+    ["자주 쓰는 번호를 한 화면에, 큰 글씨로", "grandma", "할머니 관찰", "단축번호를 못 외우셔서 수첩을 보고 한 자리씩 누르심"],
+    ["버튼 2개, 큰 글씨, 색과 그림", "me", "본인", "채택. 처음 만들어 달라고 할 때 요구한 내용"],
+    ["누르면 바로 전화, 앱 설치 없이 홈 화면 바로가기", "me", "본인", "채택"],
+    ["호출하면 가족에게 문자", "me", "본인", "보류. 웹페이지만으로는 불가, 서버가 필요함"],
+    ["상담원에게 말할 내용(이름·주소) 화면", "ai", "AI 제안", "뺌. 통화 중 화면 읽기가 어려우시고, 센터가 이름을 앎"],
+    ["'가족에게 전화' 버튼", "ai", "AI 제안", "목적을 바꿔 채택. AI는 택시가 안 잡힐 때용, 저는 수첩 대신 가족 번호를 모아두는 용도로 판단 → 가장 많이 쓰임"],
+    ["진료 전날 알림, 음성으로 연결", "ai", "AI 제안", "하지 않음"],
+    ["화면 빼기 5가지", "me", "본인", "확인 화면, 설정 먼저, 숨은 설정, 지명 표시, 번호 형식 (위 체험 참고)"],
+    ["'처음으로' 버튼 삭제", "grandma", "할머니 말씀", "10월 25일 \"어렵다\" → 10월 26일 수정"],
+    ["뒤로가기 두 번이면 닫힘, 한 번이면 큰 안내", "me", "본인", "직접 써 보다 여러 번 눌러야 닫히는 것을 발견"],
+    ["크롬·삼성 인터넷 15가지 테스트", "me", "본인", "아이폰과 갤럭시가 다르게 동작하는 것을 발견하고 검증 기준을 정함"],
+  ];
+  function drawDec(f) {
+    const rows = DEC.filter(d => f === "all" || d[1] === f);
+    $("dec").innerHTML = rows.map(([w, k, s, y]) => `<tr><td>${esc(w)}</td><td><span class="chip ${k}">${esc(s)}</span></td><td>${esc(y)}</td></tr>`).join("");
+    $("dec-count").textContent = `${rows.length}개`;
+  }
+  document.querySelectorAll("[data-f]").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("[data-f]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); drawDec(b.dataset.f);
+  }));
+  drawDec("all");
+
+  /* 테스트 결과 (실제 실행 결과) */
+  const TESTS = ["켜고 화면 누른 뒤 뒤로 1번 → 안내", "이어서 뒤로 1번 더 → 닫힘", "번호 고치기 저장 3번·취소 1번 후 뒤로 2번 → 닫힘", "가족 화면에서 뒤로 → 첫 화면", "가족 전화 후 자동으로 첫 화면", "번호 추가 화면에서 뒤로 → 첫 화면", "번호 추가 저장 후 뒤로 3번 → 닫힘", "병원 갈 때·집에 올 때가 맞는 센터로 연결", "안내가 3초 뒤 사라짐", "3초 뒤 화면 누르고 뒤로 → 안내 다시", "안내가 떠 있을 때 '병원 갈 때' 눌러도 연결", "새로고침 후에도 정상", "가족 화면 5번 들락날락 후 뒤로 2번 → 닫힘", "화면을 한 번도 안 누르고 뒤로 → 바로 닫힘 (안드로이드 규칙)", "안드로이드가 건너뛸 기록이 0개인지"];
+  const OLD = { 14: "기록을 몰래 추가해 안내가 뜸", 15: "건너뛸 기록 11개 발견" };
+  function drawTests(v) {
+    let pass = 0;
+    $("test-body").innerHTML = TESTS.map((t, i) => {
+      const n = i + 1, bad = v === "old" && OLD[n];
+      if (!bad) pass += 2;
+      const cell = bad ? `<span class="fail">실패 · ${OLD[n]}</span>` : `<span class="pass">통과</span>`;
+      return `<tr class="${bad ? "failed" : ""}"><td class="mono">${n}</td><td>${esc(t)}</td><td>${cell}</td><td>${cell}</td></tr>`;
+    }).join("");
+    const failed = 30 - pass;
+    $("score").innerHTML = `<b class="${failed ? "fail" : "pass"}">${pass}</b> / 30 통과` + (failed ? ` · 실패 ${failed}개 (2가지 × 2개 브라우저)` : "");
+  }
+  document.querySelectorAll("[data-v]").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("[data-v]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); drawTests(b.dataset.v);
+  }));
+  drawTests("now");
+
+  /* 질문과 답: 확인된 사실로만 답함 */
+  const QA = [
+    ["문제", "왜 그냥 단축번호나 즐겨찾기를 쓰지 않았나요?", ["단축번호는 몇 번이 누구인지 외워야 하는데, 할머니는 그게 어려워서 수첩을 쓰셨습니다. 즐겨찾기는 글씨가 작고 거쳐야 할 화면이 많았습니다.", "병원 택시는 자주 필요한 번호를 한 화면에 큰 글씨로 모았고, 갈 때와 올 때 걸 센터를 버튼에 적어 두었습니다."]],
+    ["문제", "전남 센터에 귀가편까지 한 번에 예약하면 되지 않나요?", ["예약은 됩니다. 하지만 전남 센터는 하루 전 오전 10시에 예약해야 하고, 진료가 언제 끝날지 몰라 귀가 시간을 미리 맞출 수가 없습니다.", "그래서 귀가는 출발 1시간 전에 부르면 되는 광주 센터를 따로 신청했습니다. 두 센터에 직접 전화해 확인한 내용입니다."]],
+    ["문제", "이 문제는 어떻게 발견했나요?", ["할머니가 교통약자 택시를 이용하신다는 걸 알고 두 센터를 신청해 드리면서, 번호가 두 개가 된다는 걸 알았습니다. 그리고 할머니가 번호를 수첩에 적어 두고 한 자리씩 누르신다는 걸 알고 있었습니다."]],
+    ["만들기", "코드는 직접 짰나요?", ["아니요. 코드는 Claude가 썼습니다.", "저는 무엇을 만들지, 무엇을 뺄지 정했고, 할머니와 가족 반응을 보고 고칠 점을 찾았고, 기기별로 확인하고 배포를 결정했습니다. 처음 설계 중 AI가 낸 아이디어 세 가지는 하나는 뺐고, 하나는 하지 않았고, 하나는 목적을 바꿔서 넣었습니다."]],
+    ["만들기", "AI가 제안했는데 뺀 것이 있나요?", ["전화를 걸기 전에 상담원에게 말할 이름과 주소를 화면에 크게 띄우자는 제안이 있었습니다.", "할머니는 통화하면서 휴대폰 화면을 보고 읽기 어려워하셨고, 센터는 전화번호로 이름을 이미 알고 있어서 뺐습니다."]],
+    ["만들기", "'가족에게 전화' 버튼은 왜 넣었나요?", ["AI는 택시가 안 잡힐 때 가족에게 연락하는 용도로 제안했습니다. 저는 가족 번호를 한곳에 모아 두면 할머니가 수첩 없이 전화하실 수 있겠다고 보고 넣었습니다.", "실제로 지금 할머니가 가장 많이 쓰시는 버튼입니다."]],
+    ["만들기", "tel: 링크는 어떻게 작동하나요?", ["버튼에 'tel:전화번호' 형태의 링크를 걸어 두면, 휴대폰에서 누를 때 전화 앱이 그 번호가 입력된 채로 열립니다. 앱 안에서 전화를 거는 게 아니라 휴대폰의 전화 앱에 넘겨주는 방식입니다."]],
+    ["만들기", "가족 번호는 안전한가요?", ["코드는 공개 저장소에 있어서 가족 번호는 코드에 넣지 않았습니다. 번호는 할머니 폰 브라우저의 localStorage에만 저장되고, 서버로 보내지 않습니다. 코드에 있는 번호는 누구에게나 공개된 두 센터 번호뿐입니다."]],
+    ["검증", "Claude가 틀린 적이 있나요?", ["있습니다. 뒤로가기를 고치면서 번호를 고칠 때마다 뒤로가기 기록이 쌓이는 문제가 생겼고, 제가 직접 써 보다가 여러 번 눌러야 닫힌다는 걸 발견했습니다.", "고친 뒤에는 아이폰에서는 되고 갤럭시에서는 안 됐습니다. 두 기기로 확인하다가 발견했습니다."]],
+    ["검증", "어떻게 검증했나요?", ["크롬과 삼성 인터넷 두 환경에서 15가지 경우씩, 30개 테스트를 돌리라고 기준을 정했습니다. 30개 모두 통과했습니다.", "같은 테스트를 고치기 전 버전에도 돌려서 실패하는 것을 확인했습니다. 그래야 테스트가 문제를 제대로 잡는다고 믿을 수 있었습니다. 마지막은 할머니 폰에서 직접 확인했습니다."]],
+    ["결과", "할머니가 실제로 쓰시나요?", ["네. 병원에 자주 가시는 시기가 아니어서 지금은 주로 가족에게 전화할 때 쓰십니다. 10월 25일에 '처음으로' 버튼이 어렵다고 말씀하셔서 다음 날 고쳤습니다.", "잘못 건 전화나 가족에게 도움을 청한 횟수는 11월 중순까지 기록하고 있습니다."]],
+    ["결과", "다음에 하고 싶은 것은요?", ["할머니가 택시를 부르면 가족에게 문자가 가는 기능입니다. 웹페이지만으로는 안 되고 서버가 필요해서, 공부 중인 파이썬으로 이어가고 싶습니다.", "그리고 할머니 말고 다른 어르신께도 맞는지 확인해 보고 싶습니다. 혼자서는 못 한 부분입니다."]],
+  ];
+  const CATS = ["전체", ...new Set(QA.map(q => q[0]))];
+  $("qa-filters").innerHTML = CATS.map((c, i) => `<button type="button" data-q="${esc(c)}" aria-pressed="${i === 0}">${esc(c)} ${c === "전체" ? QA.length : QA.filter(q => q[0] === c).length}</button>`).join("");
+  function drawQA(cat) {
+    $("qa-list").innerHTML = QA.filter(q => cat === "전체" || q[0] === cat).map(([c, q, a]) =>
+      `<details><summary>${esc(q)}<span class="cat">${esc(c)}</span></summary><div class="a">${a.map(p => `<p>${esc(p)}</p>`).join("")}</div></details>`).join("");
+  }
+  $("qa-filters").addEventListener("click", e => {
+    const b = e.target.closest("[data-q]"); if (!b) return;
+    $("qa-filters").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); drawQA(b.dataset.q);
+  });
+  drawQA("전체");
+
+  /* 목차 현재 위치 */
+  const links = [...document.querySelectorAll("#toc a")];
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { const i = secs.indexOf(e.target); links.forEach((a, k) => a.setAttribute("aria-current", String(k === i))); links[i].scrollIntoView({ block: "nearest", inline: "center" }); } });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  secs.forEach(s => s && io.observe(s));
+})();
+</script>
+</body>
+</html>

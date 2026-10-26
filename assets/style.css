@@ -103,7 +103,8 @@ tr.failed td { background: var(--bad-soft); }
 /* 설명서 이미지 */
 .guides { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .guides figure { margin: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.guides .img-box { border: 1px solid var(--line); border-radius: 12px; overflow: auto; max-height: 460px; background: #fdfcf8; }
+.guides .img-box { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fdfcf8; }
+.guides .img-box[style*="max-height"] { -webkit-mask-image: linear-gradient(#000 80%, transparent); mask-image: linear-gradient(#000 80%, transparent); }
 .guides img { display: block; width: 100%; height: auto; }
 .guides figcaption { font-size: 14px; color: var(--muted); }
 

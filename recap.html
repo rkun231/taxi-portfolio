@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="assets/style.css">
 <style>
   html { scroll-behavior: smooth; scroll-padding-top: 70px; }
-  .bar { position: sticky; top: 0; z-index: 20; background: rgba(242, 244, 241, 0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
   .bar-in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 12px; height: 52px; }
   .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; white-space: nowrap; text-decoration: none; color: var(--ink); }
   .brand i { width: 26px; height: 26px; border-radius: 7px; background: var(--go); color: #fff; font-style: normal; font-size: 11px; display: grid; place-items: center; }
@@ -54,7 +54,9 @@
   @media (max-width: 560px) { .flow li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 
   .demo-grid { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-  @media (min-width: 960px) { .demo-grid { grid-template-columns: 350px minmax(0, 1fr); } .demo-grid > [data-phone] { position: sticky; top: 76px; } }
+  @media (min-width: 960px) { .demo-grid { grid-template-columns: 350px minmax(0, 1fr); } }
+  @media (min-width: 960px) and (min-height: 860px) { .demo-grid > [data-phone] { position: sticky; top: 76px; } }
+  #privacy .guides { max-width: 760px; }
 
   /* 질문과 답 */
   .qa { display: flex; flex-direction: column; gap: 8px; }
@@ -296,8 +298,10 @@
   /* 목차 현재 위치 */
   const links = [...document.querySelectorAll("#toc a")];
   const secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  /* 목차 줄만 가로로 움직인다 (페이지 스크롤을 건드리지 않게) */
+  const centerToc = a => { const t = a.parentElement, ar = a.getBoundingClientRect(), tr = t.getBoundingClientRect(); t.scrollLeft += ar.left - tr.left - (t.clientWidth - ar.width) / 2; };
   const io = new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting) { const i = secs.indexOf(e.target); links.forEach((a, k) => a.setAttribute("aria-current", String(k === i))); links[i].scrollIntoView({ block: "nearest", inline: "center" }); } });
+    es.forEach(e => { if (e.isIntersecting) { const i = secs.indexOf(e.target); links.forEach((a, k) => a.setAttribute("aria-current", String(k === i))); centerToc(links[i]); } });
   }, { rootMargin: "-40% 0px -55% 0px" });
   secs.forEach(s => s && io.observe(s));
 })();

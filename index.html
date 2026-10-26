@@ -69,10 +69,10 @@
   @media (max-width: 640px) { .bar .pill.recap-link, .brand span { display: none; } }
   .compare { min-width: 0; }
   .compare td:nth-child(2), .compare td:nth-child(3) { white-space: nowrap; }
-  .testlist { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px; }
-  .testlist summary { cursor: pointer; padding: 10px 0; font-weight: 700; color: var(--go); }
-  .testlist ol { margin: 0 0 10px; padding-left: 22px; display: grid; gap: 2px; font-size: 15px; }
-  .testlist .note { padding-bottom: 12px; }
+  .guides.thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .guides.thumbs a { text-decoration: none; color: inherit; min-width: 0; }
+  .guides.thumbs .img-box { max-height: 230px; overflow: hidden; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+  .guides.thumbs a:hover .img-box { border-color: var(--go); }
 </style>
 </head>
 <body>
@@ -247,7 +247,7 @@
           </tbody>
         </table>
       </div>
-      <details class="testlist"><summary>자동 테스트 15가지 펼쳐 보기</summary><ol><li>켜고 화면 누른 뒤 뒤로 1번 → 큰 안내</li><li>이어서 뒤로 1번 더 → 닫힘</li><li>번호 고치기를 저장 3번·취소 1번 한 뒤 뒤로 2번 → 닫힘</li><li>가족 화면에서 뒤로 → 첫 화면</li><li>가족에게 전화한 뒤 자동으로 첫 화면</li><li>번호 추가 화면에서 뒤로 → 첫 화면</li><li>번호 추가 저장 후 뒤로 3번 → 닫힘</li><li>병원 갈 때·집에 올 때가 맞는 센터로 연결</li><li>안내가 3초 뒤 사라짐</li><li>3초 뒤 화면을 누르고 뒤로 → 안내가 다시 뜸</li><li>안내가 떠 있을 때 '병원 갈 때'를 눌러도 연결</li><li>새로고침 후에도 정상</li><li>가족 화면을 5번 들락날락한 뒤 뒤로 2번 → 닫힘</li><li>화면을 한 번도 안 누르고 뒤로 → 안드로이드 규칙대로 닫힘</li><li>갤럭시가 건너뛰는 뒤로가기 기록이 0개</li></ol><p class="note">15가지를 크롬과 삼성 인터넷 두 환경에서 각각 돌려 30개 모두 통과했습니다.</p></details>
+      <p class="note">확인한 15가지 목록과 방법은 <a href="recap.html#tests">자세히 보기</a>에 있습니다.</p>
     </div>
   </section>
 
@@ -261,11 +261,11 @@
           <p>버튼은 <span class="mono">tel:</span> 링크입니다. 누르면 휴대폰 전화 앱이 그 번호로 바로 열립니다.</p>
           <p>쓰는 사람(할머니)과 번호를 관리하는 사람(가족)이 달라서, 설명서도 두 가지로 만들었습니다.</p>
         </div>
-        <div class="guides">
-          <figure><div class="img-box"><img src="assets/guide-grandma.webp" alt="할머니용 설명서: 택시 아이콘, 병원 갈 때 초록 버튼, 집에 올 때 주황 버튼, 전화 안 받으면 한 번 더, 모르겠으면 가족에게 전화" width="900" height="1812" loading="lazy"></div><span class="scroll-hint">↕ 그림 안에서 스크롤하면 끝까지 볼 수 있어요</span><figcaption>할머니용</figcaption></figure>
-          <figure><div class="img-box"><img src="assets/guide-family.webp" alt="가족용 설명서: 전화번호 고치기에서 번호를 넣고 저장하는 방법과 홈 화면에 추가하는 방법" width="900" height="2405" loading="lazy"></div><span class="scroll-hint">↕ 그림 안에서 스크롤하면 끝까지 볼 수 있어요</span><figcaption>가족용</figcaption></figure>
+        <div class="guides thumbs">
+          <a href="recap.html#privacy"><figure><div class="img-box"><img src="assets/guide-grandma.webp" alt="할머니용 설명서 미리보기" width="900" height="1812" loading="lazy"></div><figcaption>할머니용</figcaption></figure></a>
+          <a href="recap.html#privacy"><figure><div class="img-box"><img src="assets/guide-family.webp" alt="가족용 설명서 미리보기" width="900" height="2405" loading="lazy"></div><figcaption>가족용</figcaption></figure></a>
+          <p class="note" style="grid-column:1/-1">설명서 원본은 <a href="recap.html#privacy">자세히 보기</a>에서 끝까지 볼 수 있어요.</p>
         </div>
-      </div>
     </div>
   </section>
 

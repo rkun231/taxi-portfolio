@@ -24,6 +24,7 @@
   .toc { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
   .toc::-webkit-scrollbar { display: none; }
   .toc a { flex: none; display: inline-flex; gap: 5px; align-items: baseline; padding: 4px 10px; border-radius: 999px; font-size: 13px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .toc .stage { flex: none; align-self: center; margin-left: 8px; padding: 2px 6px; font-size: 11px; font-weight: 700; color: var(--go); white-space: nowrap; }
   .toc a b { font-family: var(--mono); font-weight: 500; font-size: 11px; }
   .toc a[aria-current="true"] { background: var(--go); color: #fff; }
   .bar .pill { padding: 5px 12px; font-size: 13px; flex: none; }
@@ -99,7 +100,7 @@
         <div class="stack" style="gap:20px">
           <span class="eyebrow">SK AIGEN 지원 포트폴리오 · kun</span>
           <h1>할머니의 수첩을<br><em>한 화면으로</em></h1>
-          <p class="lede">80세가 넘은 외할머니를 위해 만든 웹앱 '병원 택시'를 만든 과정입니다. 문제를 찾고, 넣을 것과 뺄 것을 정하고, 할머니 휴대폰에서 검증했습니다.</p>
+          <p class="lede">80세가 넘은 외할머니를 위해 만든 웹앱 '병원 택시'를 만든 과정입니다. 과제정의 → 해결안 → 검증 → 의사결정 기록 → 회고 순서로 정리했습니다.</p>
           <div class="pills">
             <a class="pill solid" href="#4">직접 눌러보기</a>
             <a class="pill" href="recap.html">자세히 보기</a>
@@ -115,31 +116,31 @@
     </div>
   </section>
 
-  <section class="slide" id="2" data-title="문제">
+  <section class="slide" id="2" data-title="문제" data-stage="과제정의">
     <div class="slide-in gutter">
-      <span class="tag">02 · 문제</span>
+      <span class="tag">02 · 과제정의 · 문제</span>
       <h2>할머니는 수첩을 펼쳐<br>한 자리씩 누르셨습니다</h2>
       <div class="split">
         <div class="notebook" aria-label="할머니가 전화하시던 방식">
+          <p>한동안 할아버지 건강 문제로 할머니가 병원에 자주 다니셨습니다.</p>
           <p>눈이 침침하시고 스마트폰 조작이 어려우십니다.</p>
-          <p>단축번호는 몇 번이 누구인지 외우기 어려우셨습니다.</p>
-          <p>그래서 번호를 수첩에 적고, 펼쳐서 한 자리씩 눌러 거셨습니다.</p>
-          <p>두 분 모두 휠체어를 타시고, 병원은 광주에 있습니다.</p>
+          <p>단축번호는 외우기 어려워하셔서 번호를 수첩에 적어 한 자리씩 입력하셨습니다.</p>
+          <p>또 병원은 집 근처가 아닌 광주광역시에 있습니다.</p>
         </div>
-        <p class="lede">병원 가는 길은 교통약자 택시로 해결할 수 있었습니다. 그런데 택시를 부르는 것도 결국 전화였습니다.</p>
+        <p class="lede">병원을 오가는 길은 교통약자 택시로 해결했으나 택시를 부르는 번호가 두 개로 늘었습니다.</p>
       </div>
     </div>
   </section>
 
-  <section class="slide" id="3" data-title="앱 전에">
+  <section class="slide" id="3" data-title="앱 전에" data-stage="과제정의">
     <div class="slide-in gutter">
-      <span class="tag">03 · 앱을 만들기 전</span>
-      <h2>택시부터 신청했습니다</h2>
+      <span class="tag">03 · 과제정의 · 앱을 만들기 전</span>
+      <h2>택시부터 알아봤습니다</h2>
       <ol class="steps">
-        <li><b>알게 됨</b>할머니가 병원에 다니실 때 교통약자 택시를 이용하신다는 것</li>
-        <li><b>조사 · 신청</b>전남과 광주 두 곳 모두 지원 대상이라 둘 다 신청해 드렸습니다</li>
-        <li><b>판단</b>전남은 하루 전 오전 10시 예약이라, 진료가 언제 끝날지 모르는 귀가편은 맞출 수 없습니다</li>
-        <li><b>확인</b>두 센터에 직접 전화해 예약 방식을 확인했습니다</li>
+        <li><b>알게 됨</b>할머니가 교통약자 택시를 이용할 수 있는 대상이라는 것.</li>
+        <li><b>확인</b>전남 센터에 물어보니 지원 대상이 맞고, 이미 등록돼 있으셨습니다.</li>
+        <li><b>판단</b>전남 센터로 귀가편까지 쓰려면 하루 전 출발 예약 전화에서 같이 등록해야 한다는 사실을 알게 되었습니다. 그러나 진료가 언제 끝날지 몰라 귀가 시간을 미리 정할 수가 없었습니다.</li>
+        <li><b>신청</b>그래서 출발 1시간 전에 부를 수 있는 광주 센터를 추가로 신청해 드렸습니다.</li>
       </ol>
       <div class="centers">
         <div class="center go"><b>🏥 병원 갈 때 · 전남광역이동지원센터</b><span class="num">1899-1110</span><span class="muted">하루 전 오전 10시에 전화 예약</span></div>
@@ -149,12 +150,12 @@
     </div>
   </section>
 
-  <section class="slide" id="4" data-title="체험">
+  <section class="slide" id="4" data-title="체험" data-stage="해결안">
     <div class="slide-in gutter">
       <div class="split phone-left">
         <div data-phone class="inline-phone"></div>
         <div class="stack">
-          <span class="tag">04 · 직접 눌러보세요</span>
+          <span class="tag">04 · 해결안 · 직접 눌러보세요</span>
           <h2>갈 곳만 고르면<br>맞는 센터로 걸립니다</h2>
           <p class="lede">왼쪽 휴대폰은 실제 앱과 똑같이 움직이는 체험 화면입니다. 가족 번호는 가짜이고 전화는 걸리지 않습니다.</p>
           <ul class="muted" style="margin:0;padding-left:20px">
@@ -167,9 +168,9 @@
     </div>
   </section>
 
-  <section class="slide" id="5" data-title="왜 웹앱">
+  <section class="slide" id="5" data-title="왜 웹앱" data-stage="해결안">
     <div class="slide-in gutter">
-      <span class="tag">05 · 왜 웹앱인가</span>
+      <span class="tag">05 · 해결안 · 왜 웹앱인가</span>
       <h2>휴대폰에 있는 기능부터 따져 봤습니다</h2>
       <div class="table-box">
         <table>
@@ -186,74 +187,9 @@
     </div>
   </section>
 
-  <section class="slide" id="6" data-title="빼기">
+  <section class="slide" id="6" data-title="개인정보·설명서" data-stage="해결안">
     <div class="slide-in gutter">
-      <span class="tag">06 · 만들면서</span>
-      <h2>더하지 않고 뺐습니다</h2>
-      <div class="cuts two" id="cuts"></div>
-    </div>
-  </section>
-
-  <section class="slide" id="7" data-title="AI 제안">
-    <div class="slide-in gutter">
-      <span class="tag">07 · 누가 정했나</span>
-      <h2>AI가 낸 아이디어는<br>그대로 들어간 것이 없습니다</h2>
-      <div class="table-box">
-        <table>
-          <thead><tr><th>처음 설계</th><th>낸 사람</th><th>결과</th></tr></thead>
-          <tbody>
-            <tr><td>버튼 2개, 큰 글씨, 색과 그림</td><td><span class="chip me">본인</span></td><td>채택</td></tr>
-            <tr><td>누르면 바로 전화, 홈 화면 바로가기</td><td><span class="chip me">본인</span></td><td>채택</td></tr>
-            <tr><td>호출하면 가족에게 문자</td><td><span class="chip me">본인</span></td><td>보류 · 웹페이지만으로는 불가, 서버가 필요</td></tr>
-            <tr><td>상담원에게 말할 내용(이름·주소) 화면</td><td><span class="chip ai">AI</span></td><td class="no">뺌 · 통화 중 화면 읽기가 어려우시고, 센터가 이름을 앎</td></tr>
-            <tr><td>'가족에게 전화' 버튼</td><td><span class="chip ai">AI</span></td><td>목적을 바꿔 채택 · AI는 택시가 안 잡힐 때용으로, 저는 수첩 대신 가족 번호를 모아두는 용도로</td></tr>
-            <tr><td>진료 전날 알림, 음성 연결</td><td><span class="chip ai">AI</span></td><td>하지 않음</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="lede">코드는 Claude가 썼습니다. 저는 무엇을 넣고 뺄지 정하고, 할머니 폰에서 확인했습니다.</p>
-    </div>
-  </section>
-
-  <section class="slide" id="8" data-title="고친 과정">
-    <div class="slide-in gutter">
-      <span class="tag">08 · 고친 과정</span>
-      <h2>Claude에게 이렇게 말했습니다</h2>
-      <div class="chat">
-        <div class="msg me"><span class="who">나</span><div class="say">가족에게 전화한 뒤에 처음으로 돌아가는 버튼을 누르지 않아도 처음으로 돌아가게 고쳐 줘.<small>전날 할머니가 그 버튼이 어렵다고 하셨습니다.</small></div></div>
-        <div class="msg"><span class="who">Claude</span><div class="say">버튼을 없애고, 전화를 걸면 첫 화면으로 돌아가게 고쳤습니다.</div></div>
-        <div class="msg me"><span class="who">나</span><div class="say">홈 화면에서 뒤로가기를 여러 번 눌러야 빠져나가지던데, 두 번 누르면 꺼지게 하고 한 번 눌렀을 때 안내 문구를 크게 띄워 줘.<small>직접 써 보다가 발견했습니다.</small></div></div>
-        <div class="msg"><span class="who">Claude</span><div class="say">번호를 고칠 때마다 뒤로가기 기록이 쌓이던 문제였습니다. 고쳤습니다.</div></div>
-        <div class="msg me"><span class="who">나</span><div class="say">아이폰에서는 되는데 갤럭시에서는 안 돼.</div></div>
-        <div class="msg me"><span class="who">나</span><div class="say">크롬이나 삼성 인터넷 모두 이런 문제가 안 나도록 15가지 테스트를 돌려서 해결해 줘.</div></div>
-        <div class="msg"><span class="who">Claude</span><div class="say">안드로이드 브라우저는 화면을 누르지 않은 채 추가된 뒤로가기 기록을 건너뜁니다. 고치고 두 브라우저에서 30개 테스트를 통과했습니다.</div></div>
-        <div class="msg me"><span class="who">나</span><div class="say">해결됐어.<small>할머니 폰에서 직접 확인했습니다.</small></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide" id="9" data-title="검증">
-    <div class="slide-in gutter">
-      <span class="tag">09 · 검증</span>
-      <h2>갤럭시에서만 안 되던 것을<br>고치고 확인했습니다</h2>
-      <p class="lede">고친 뒤 자동 테스트를 만들고, 그 테스트를 고치기 전 버전에도 돌려 봤습니다. 고치기 전 버전에서 실패해야 테스트가 문제를 제대로 잡는다고 믿을 수 있으니까요.</p>
-      <div class="table-box">
-        <table class="compare">
-          <thead><tr><th>확인한 것</th><th>고치기 전</th><th>지금</th></tr></thead>
-          <tbody>
-            <tr><td>할머니 갤럭시에서 '뒤로 두 번이면 닫힘'</td><td class="no">안 됨</td><td class="yes">됨 · 할머니 폰에서 확인</td></tr>
-            <tr><td>갤럭시가 건너뛰는 뒤로가기 기록 (자동 테스트)</td><td class="no">11개</td><td class="yes">0개</td></tr>
-            <tr><td>나머지 자동 테스트 13가지 × 크롬·삼성 인터넷</td><td>통과</td><td class="yes">통과</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="note">확인한 15가지 목록과 방법은 <a href="recap.html#tests">자세히 보기</a>에 있습니다.</p>
-    </div>
-  </section>
-
-  <section class="slide" id="10" data-title="개인정보·설명서">
-    <div class="slide-in gutter">
-      <span class="tag">10 · 개인정보와 설명서</span>
+      <span class="tag">06 · 해결안 · 개인정보와 설명서</span>
       <h2>가족 번호는 할머니 폰 밖으로<br>나가지 않습니다</h2>
       <div class="split">
         <div class="stack">
@@ -269,27 +205,94 @@
     </div>
   </section>
 
-  <section class="slide" id="11" data-title="쓰고 나서">
+  <section class="slide" id="7" data-title="쓰고 나서" data-stage="검증">
     <div class="slide-in gutter">
-      <span class="tag">11 · 쓰고 나서</span>
+      <span class="tag">07 · 검증 · 쓰고 나서</span>
       <p class="big-line">병원보다<br><span class="go">가족에게 전화</span>할 때<br>더 많이 쓰셨습니다</p>
-      <p class="lede">병원에 자주 가시는 시기가 아니어서, 수첩을 펼치지 않아도 되는 쪽이 먼저 쓰였습니다. 뿌듯했습니다. 그 사용 중에 나온 할머니의 말씀으로 '처음으로' 버튼을 없앴습니다.</p>
-      <p class="note">사용 전후 횟수(잘못 건 전화, 가족에게 도움을 청한 횟수)는 11월 중순까지 기록 중입니다.</p>
+      <p class="lede">집안에 병원 일이 한참 이어지다 끝난 뒤라 할머니가 병원에 갈 일이 줄었습니다. 그래서 수첩을 펼치지 않고 가족에게 전화할 수 있는 '가족 전화'가 먼저 쓰였습니다. 어머니께 안부 전화를 하시고, 저에게도 고맙다고 몇 번 전화하셨습니다. 뿌듯했습니다.</p>
+      <p>10월 25일 외숙모가 설치해 드린 날, 할머니가 가족에게 전화해 보시고 바로 '처음으로' 버튼을 누르기 어렵다고 하셨고 제가 전해 들은 즉시 수정하였습니다.</p>
+      <p class="note">'병원 갈 때'·'집에 올 때' 버튼은 아직 쓰신 적이 없습니다. 이 부분은 검증되지 않은 상태입니다.</p>
     </div>
   </section>
 
-  <section class="slide" id="12" data-title="다음">
+  <section class="slide" id="8" data-title="고친 과정" data-stage="검증">
     <div class="slide-in gutter">
-      <span class="tag">12 · 다음</span>
-      <h2>혼자서는 못 한 것</h2>
-      <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-        <div class="center go" style="gap:6px"><b>가족에게 호출 알림</b><span>할머니가 택시를 부르면 가족에게 문자가 가게 하고 싶었지만, 서버와 문자 발송 서비스가 필요해 보류했습니다. AI 활용과 공부 중인 파이썬으로 이어갈 생각입니다.</span></div>
-        <div class="center home" style="gap:6px"><b>할머니 밖의 사용자</b><span>지금 사용자는 할머니 한 분입니다. 시·도 경계를 넘어 병원에 다니는 다른 어르신께도 맞는지는 아직 확인하지 못했습니다.</span></div>
+      <span class="tag">08 · 검증 · 고친 과정</span>
+      <h2>Claude에게 이렇게 말했습니다</h2>
+      <div class="chat">
+        <div class="msg me"><span class="who">나</span><div class="say">가족에게 전화한 뒤에 처음으로 돌아가는 버튼을 누르지 않아도 처음으로 돌아가게 고쳐 줘.</div></div>
+        <div class="msg"><span class="who">Claude</span><div class="say">버튼을 없애고, 전화를 걸면 첫 화면으로 돌아가게 고쳤습니다.</div></div>
+        <div class="msg me"><span class="who">나</span><div class="say">홈 화면에서 뒤로가기를 여러 번 눌러야 빠져나가지던데, 두 번 누르면 꺼지게 하고 한 번 눌렀을 때 안내 문구를 크게 띄워 줘.<small>직접 써 보다가 발견했습니다.</small></div></div>
+        <div class="msg"><span class="who">Claude</span><div class="say">번호를 고칠 때마다 뒤로가기 기록이 쌓이던 문제였습니다. 고쳤습니다.</div></div>
+        <div class="msg me"><span class="who">나</span><div class="say">아이폰에서는 되는데 갤럭시에서는 안 돼.</div></div>
+        <div class="msg me"><span class="who">나</span><div class="say">크롬이나 삼성 인터넷 모두 이런 문제가 안 나도록 15가지 테스트를 돌려서 해결해 줘.</div></div>
+        <div class="msg"><span class="who">Claude</span><div class="say">안드로이드 브라우저는 화면을 누르지 않은 채 추가된 뒤로가기 기록을 건너뜁니다. 고치고 두 브라우저에서 30개 테스트를 통과했습니다.</div></div>
+        <div class="msg me"><span class="who">나</span><div class="say">해결됐어.<small>할머니 폰(갤럭시 점프2)과 최대한 비슷한 조건으로, 같은 삼성 갤럭시인 어머니 폰(갤럭시 S22)으로 확인했습니다. 저는 서울, 할머니는 함평에 계십니다.</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="9" data-title="자동 테스트" data-stage="검증">
+    <div class="slide-in gutter">
+      <span class="tag">09 · 검증 · 자동 테스트</span>
+      <h2>갤럭시에서만 안 되던 것을<br>고치고 확인했습니다</h2>
+      <p class="lede">고친 뒤 고치기 전 버전에서 실패해야 테스트가 문제를 제대로 잡았다고 믿을 수 있을 거 같아 자동 테스트를 만들고, 그 테스트를 고치기 전 버전에도 돌려 봤습니다.</p>
+      <div class="table-box">
+        <table class="compare">
+          <thead><tr><th>확인한 것</th><th>고치기 전</th><th>지금</th></tr></thead>
+          <tbody>
+            <tr><td>갤럭시에서 '뒤로 두 번이면 닫힘'</td><td class="no">안 됨</td><td class="yes">됨 · 어머니 갤럭시 S22로 확인</td></tr>
+            <tr><td>갤럭시가 건너뛰는 뒤로가기 기록 (자동 테스트)</td><td class="no">11개</td><td class="yes">0개</td></tr>
+            <tr><td>나머지 자동 테스트 13가지 × 크롬·삼성 인터넷</td><td>통과</td><td class="yes">통과</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">확인한 15가지 목록과 방법은 <a href="recap.html#tests">자세히 보기</a>에 있습니다.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="10" data-title="빼기" data-stage="의사결정">
+    <div class="slide-in gutter">
+      <span class="tag">10 · 의사결정 · 만들면서</span>
+      <h2>더하지 않고 뺐습니다</h2>
+      <div class="cuts two" id="cuts"></div>
+    </div>
+  </section>
+
+  <section class="slide" id="11" data-title="AI 제안" data-stage="의사결정">
+    <div class="slide-in gutter">
+      <span class="tag">11 · 의사결정 · 누가 정했나</span>
+      <h2>AI가 낸 아이디어는<br>그대로 들어간 것이 없습니다</h2>
+      <div class="table-box">
+        <table>
+          <thead><tr><th>처음 설계</th><th>낸 사람</th><th>결과</th></tr></thead>
+          <tbody>
+            <tr><td>버튼 2개, 큰 글씨, 색과 그림</td><td><span class="chip me">본인</span></td><td>채택</td></tr>
+            <tr><td>누르면 바로 전화, 홈 화면 바로가기</td><td><span class="chip me">본인</span></td><td>채택</td></tr>
+            <tr><td>호출하면 가족에게 문자</td><td><span class="chip me">본인</span></td><td>보류 · 웹페이지만으로는 불가, 서버가 필요</td></tr>
+            <tr><td>상담원에게 말할 내용(이름·주소) 화면</td><td><span class="chip ai">AI</span></td><td class="no">뺌 · 통화 중 화면 읽기가 어려우시고, 센터가 이름을 앎</td></tr>
+            <tr><td>'가족에게 전화' 버튼</td><td><span class="chip ai">AI</span></td><td>목적을 바꿔 채택 · AI는 택시가 안 잡힐 때용으로, 저는 수첩 대신 가족 번호를 모아두는 용도로</td></tr>
+            <tr><td>진료 전날 알림, 음성 연결</td><td><span class="chip ai">AI</span></td><td>하지 않음</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="lede">코드는 Claude가 썼습니다. 무엇을 넣고 뺄지는 제가 정했고, 할머니 반응과 기기별 동작은 제가 확인했습니다.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="12" data-title="배운 것·이어갈 것" data-stage="회고">
+    <div class="slide-in gutter">
+      <span class="tag">12 · 회고</span>
+      <h2>배운 것, 놓친 것, 이어갈 것</h2>
+      <div class="steps retro" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+        <div class="center go" style="gap:6px"><b>배운 것</b><span>만들 때는 문제없어 보여도, 계속 써 보면서 문제를 찾아 고쳐야 한다는 걸 알았습니다. '처음으로' 버튼도, 갤럭시 뒤로가기도 다 써 보고 나서야 드러났습니다.</span></div>
+        <div class="center home" style="gap:6px"><b>놓친 것</b><span>할머니 폰(갤럭시 점프2)을 직접 만져 보지 못하고, 비슷한 조건인 어머니 갤럭시 S22로 확인했습니다. '병원 갈 때'·'집에 올 때'는 아직 실제로 쓰이지 않았습니다. 동네에 같은 택시를 부르시는 분들이 계시다는 것도 할머니께 전해 들었을 뿐, 직접 만나 보지 못했습니다.</span></div>
+        <div class="center go" style="gap:6px"><b>이어갈 것</b><span>동네 어르신들을 직접 만나 병원길이 어디서 막히는지 확인하고, 여러 분이 써도 되는지 시험해 보고 싶습니다. 가족에게 호출 알림을 보내는 기능은 서버와 문자 발송 서비스가 필요해 보류했습니다. AI 활용과 공부 중인 파이썬으로 이어갈 생각입니다.</span></div>
       </div>
       <div class="cover-grid" style="margin-top:12px">
         <div class="stack">
-          <p class="big-line" style="font-size:clamp(30px,4.6vw,56px)">질문 받겠습니다</p>
-          <div class="pills"><a class="pill solid" href="recap.html">자세히 보기 · 예상 질문과 답</a><a class="pill" href="https://github.com/rkun231/Taxi-helper" target="_blank" rel="noopener">앱 코드 ↗</a></div>
+          <p class="big-line" style="font-size:clamp(30px,4.6vw,56px)">예상 질문과 답</p>
+          <div class="pills"><a class="pill solid" href="recap.html#qa">자세히 보기 · 예상 질문과 답</a><a class="pill" href="https://github.com/rkun231/Taxi-helper" target="_blank" rel="noopener">앱 코드 ↗</a></div>
         </div>
         <figure class="qr-card" style="max-width:220px"><img src="assets/qr.png" alt="이 발표 자료로 연결되는 QR 코드" width="200" height="200" loading="lazy"><figcaption><b>이 자료 다시 열기</b></figcaption></figure>
       </div>
@@ -323,12 +326,12 @@
   /* 빼기 카드 */
   const CUTS = [
     ["이름·주소를 상담원에게 읽어주는 화면", "삭제", "통화하면서 화면을 보며 읽기 어려워하셨고, 센터는 전화번호로 이름을 이미 압니다.", "grandma", "할머니 관찰", null],
-    ["전화 전 확인 화면, 통화 후 '택시 잡으셨어요?'", "버튼 한 번에 바로 전화", "단계가 늘수록 헷갈리십니다.", "me", "본인", "buttons"],
+    ["전화 전 확인 화면, 통화 후 '택시 잡으셨어요?'", "버튼 한 번에 바로 전화", "전화번호부나 카카오톡에서 단계가 많으면 헷갈려하시는 걸 여러 번 봤습니다. 그래서 처음부터 넣지 않았습니다.", "me", "본인", "buttons"],
     ["앱을 켜면 가족 번호 설정부터", "첫 화면 고정, 설정은 가족이 나중에", "할머니가 처음 보는 화면이 설정이면 안 됩니다.", "me", "본인", null],
-    ["인사말을 3초 꾹 눌러 설정 열기", "'전화번호 고치기' 글씨", "숨은 기능은 가족도 못 찾습니다.", "me", "본인", "fix"],
-    ["버튼에 '함평 → 광주' 지명", "\"집에서 병원으로 가요\"", "갈 곳이 바로 적혀 있어야 판단하기 쉽습니다.", "me", "본인", "labels"],
+    ["인사말을 3초 꾹 눌러 설정 열기", "'전화번호 고치기' 글씨", "기능이 숨어 있어 가족들도 설명서를 보지 않는 한 찾기 힘들어했습니다.", "me", "본인", "fix"],
+    ["버튼에 '함평 → 광주' 지명", "\"집에서 병원으로 가요\"", "직관적으로 바로 이해하실 수 있게 바꿨습니다.", "me", "본인", "labels"],
     ["번호를 '-'까지 맞춰 입력", "숫자만 치면 '-' 자동", "가족이 숫자만 쳐도 되게 했습니다.", "me", "본인", "dash"],
-    ["가족 화면의 '처음으로' 버튼", "전화를 걸면 자동으로 첫 화면", "10월 25일 할머니가 어렵다고 하셔서 다음 날 없앴습니다.", "grandma", "할머니 말씀", "family"],
+    ["가족 화면의 '처음으로' 버튼", "전화를 걸면 자동으로 첫 화면", "10월 25일에 써 보시고 어렵다고 하셔서 바로 없앴습니다.", "grandma", "할머니 말씀", "family"],
   ];
   $("cuts").innerHTML = CUTS.map(([was, now, why, k, src, act]) => `
     <div class="cut"><span class="was">${esc(was)}</span><span class="now">→ ${esc(now)}</span><span class="why">${esc(why)}</span>
@@ -343,7 +346,13 @@
 
   /* 장면 목록: 그냥 링크만. 스크롤 중에는 아무 코드도 돌지 않는다 */
   const slides = [...document.querySelectorAll(".slide")];
-  $("toc").innerHTML = slides.map(s => `<a href="#${s.id}"><b>${String(s.id).padStart(2, "0")}</b>${esc(s.dataset.title)}</a>`).join("");
+  let lastStage = "";
+  $("toc").innerHTML = slides.map(s => {
+    const st = s.dataset.stage || "";
+    const lab = st && st !== lastStage ? `<span class="stage">${esc(st)}</span>` : "";
+    lastStage = st;
+    return `${lab}<a href="#${s.id}"><b>${String(s.id).padStart(2, "0")}</b>${esc(s.dataset.title)}</a>`;
+  }).join("");
   /* 키를 누른 순간에만 지금 장면을 계산 */
   function currentIndex() {
     const line = innerHeight * 0.35;

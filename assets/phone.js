@@ -20,7 +20,7 @@
   <div class="device">
     <div class="screen-area" data-r="screen">
       <div class="ph on" data-s="main">
-        <div class="hello">할머니, 어디로 모실까요?</div>
+        <div class="hello">어디로 모실까요?</div>
         <button class="big go" type="button" data-call="go"><span class="ico">🏥</span><span class="t">병원 갈 때</span><span class="r">집에서 병원으로 가요</span></button>
         <button class="big home" type="button" data-call="home"><span class="ico">🏠</span><span class="t">집에 올 때</span><span class="r">병원에서 집으로 와요</span></button>
         <div class="bottom">

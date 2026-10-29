@@ -4,7 +4,7 @@ SK AIGEN 지원용 포트폴리오입니다. 80세가 넘은 외할머니를 위
 
 - 발표 자료: https://rkun231.github.io/taxi-portfolio/ (→ 키로 장면 넘기기, ? 키로 조작법)
 - 자세히 보기: https://rkun231.github.io/taxi-portfolio/recap.html
-- 실제 앱: https://rkun231.github.io/Taxi-helper/
+- 실제 앱: https://rkun231.github.io/Taxi-helper/?test
 
 페이지 속 체험 휴대폰은 가짜 번호로 동작하며 전화는 걸리지 않습니다.
 

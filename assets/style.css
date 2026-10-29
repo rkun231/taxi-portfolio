@@ -95,6 +95,7 @@ tr.failed td { background: var(--bad-soft); }
 .msg .say { border-radius: 14px; padding: 10px 14px; background: var(--card); border: 1px solid var(--line); }
 .msg.me .say { background: var(--go-soft); border-color: transparent; }
 .msg .say small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.cell-note { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
 
 /* QR 카드 */
 .qr-card { margin: 0; background: #ffffff; border: 2px solid var(--go); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; max-width: 280px; }

@@ -7,8 +7,12 @@
   const START_HINT = "'병원 갈 때'는 전남 센터, '집에 올 때'는 광주 센터로 연결돼요. 첫 화면에서 '뒤로'도 눌러 보세요.";
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const digits = s => String(s || "").replace(/\D/g, "");
+  /* 실제 앱과 같은 번호 확인: 010은 11자리, 112·119·1339 같은 1로 시작하는 3~4자리 허용, 그 밖에 7자리 미만은 막음 */
+  const usable = n => { const d = digits(n); return d.length >= 7 || (/^1/.test(d) && d.length >= 3 && d.length <= 4); };
+  const badNumber = n => { const d = digits(n); if (!d) return ""; if (d.startsWith("010") && d.length !== 11) return "자리 수가 맞지 않아요"; return usable(d) ? "" : "너무 짧아요"; };
   function fmt(n) {
     const d = digits(n);
+    if (/^1/.test(d) && d.length <= 4) return d;
     if (d.length === 8 && /^1[5-9]/.test(d)) return d.slice(0, 4) + "-" + d.slice(4);
     if (d.length <= 3) return d;
     if (d.length <= 7) return d.slice(0, 3) + "-" + d.slice(3);
@@ -24,7 +28,7 @@
         <button class="big go" type="button" data-call="go"><span class="ico">🏥</span><span class="t">병원 갈 때</span><span class="r">집에서 병원으로 가요</span></button>
         <button class="big home" type="button" data-call="home"><span class="ico">🏠</span><span class="t">집에 올 때</span><span class="r">병원에서 집으로 와요</span></button>
         <div class="bottom">
-          <button class="fix" type="button" data-a="fix">전화번호 고치기</button>
+          <button class="fix" type="button" data-a="fix">가족 번호 고치기</button>
           <button class="fam" type="button" data-a="family">📞 가족에게 전화</button>
         </div>
       </div>
@@ -48,10 +52,12 @@
         <p class="small">번호는 이 휴대폰 안에만 저장됩니다. 비워둔 사람은 화면에 나오지 않아요.</p>
         <div class="rows" data-r="rows"></div>
         <button class="add" type="button" data-a="row">+ 다른 번호 추가</button>
+        <div class="err" data-r="sErr"></div>
         <button class="save" type="button" data-a="setupSave">저장하기</button>
         <button class="cancel" type="button" data-a="home">취소</button>
       </div>
       <div class="ph-toast" data-r="toast" hidden>한 번 더 누르면<br>앱이 닫혀요</div>
+      <div class="ph-toast" data-r="saved" hidden>저장했어요</div>
       <div class="ph-calling" data-r="calling" hidden>
         <div class="demo">전화 앱으로 넘어간 장면</div>
         <div class="who" data-r="cWho"></div>
@@ -76,11 +82,11 @@
     host.classList.add("phone-wrap");
     host.innerHTML = MARKUP;
     const r = name => host.querySelector(`[data-r="${name}"]`);
-    let family, onSub = false, armed = false, timer = null;
+    let family, onSub = false, armed = false, timer = null, savedTimer = null;
 
     const hint = t => { r("hint").textContent = t; };
     const render = s => host.querySelectorAll(".ph").forEach(p => p.classList.toggle("on", p.dataset.s === s));
-    const go = s => { onSub = s !== "main"; render(s); };
+    const go = s => { onSub = s !== "main"; if (s !== "main") r("saved").hidden = true; render(s); };
     const home = () => go("main");
 
     function call(who, num, isFamily) {
@@ -89,16 +95,16 @@
       r("calling").hidden = false;
     }
     function openFamily() {
-      const list = family.filter(f => digits(f.phone).length >= 7);
+      const list = family.filter(f => usable(f.phone));
       r("famList").innerHTML = list.length
         ? list.map(f => `<button class="fam" type="button" data-i="${family.indexOf(f)}">📞 ${esc(f.label)}</button>`).join("")
-        : `<div class="empty">아직 등록된 번호가 없어요.</div>`;
+        : `<div class="empty">아직 등록된 번호가 없어요.<br>가족에게 번호를 넣어 달라고 하세요.</div>`;
       go("family");
       hint("'처음으로' 버튼이 없어요. 이름을 누르면 전화가 걸리고, 그냥 나가려면 '뒤로'를 누르세요.");
     }
     const rowHtml = f => `<div class="pair"><input type="text" class="fl" value="${esc(f.label)}" aria-label="호칭"><input type="tel" class="fp" inputmode="tel" value="${esc(fmt(f.phone))}" placeholder="010-0000-0000" aria-label="번호"></div>`;
     function openSetup() {
-      r("rows").innerHTML = family.map(rowHtml).join(""); go("setup");
+      r("rows").innerHTML = family.map(rowHtml).join(""); r("sErr").textContent = ""; go("setup");
       hint("이 화면은 가족이 써요. 숫자만 쳐도 '-'가 자동으로 붙어요.");
     }
     function back() {
@@ -122,7 +128,7 @@
     }
     function reset() {
       clearTimeout(timer); armed = false;
-      ["toast", "calling", "closed"].forEach(n => { r(n).hidden = true; });
+      ["toast", "saved", "calling", "closed"].forEach(n => { r(n).hidden = true; });
       family = DEFAULT.map(([label, phone]) => ({ label, phone }));
       home(); hint(START_HINT);
     }
@@ -143,7 +149,9 @@
         case "add": r("aLabel").value = ""; r("aPhone").value = ""; r("aErr").textContent = ""; go("add"); break;
         case "addSave": {
           const label = r("aLabel").value.trim(), phone = digits(r("aPhone").value);
-          if (!label || phone.length < 7) { r("aErr").textContent = "이름과 전화번호를 모두 넣어 주세요."; break; }
+          if (!label || !phone) { r("aErr").textContent = "이름과 전화번호를 모두 넣어 주세요."; break; }
+          const bad = badNumber(phone);
+          if (bad) { r("aErr").textContent = `번호가 ${bad}. 다시 확인해 주세요.`; hint("010 번호는 11자리여야 해요. 112·119처럼 짧은 긴급 번호는 넣을 수 있어요."); break; }
           const slot = family.find(f => f.label === label && !digits(f.phone));
           if (slot) slot.phone = phone; else family.push({ label, phone });
           openFamily(); break;
@@ -151,9 +159,13 @@
         case "row": r("rows").insertAdjacentHTML("beforeend", rowHtml({ label: "", phone: "" })); break;
         case "setupSave": {
           const ls = [...host.querySelectorAll(".fl")], ps = [...host.querySelectorAll(".fp")];
+          const bi = ps.findIndex(p => badNumber(p.value));
+          if (bi >= 0) { r("sErr").textContent = `'${ls[bi].value.trim() || "가족"}' 번호가 ${badNumber(ps[bi].value)}. 다시 확인해 주세요.`; ps[bi].focus();
+            hint("번호를 잘못 넣으면 어느 칸인지 알려 주고 저장을 멈춰요."); break; }
           family = ls.map((l, i) => ({ label: l.value.trim() || "가족", phone: digits(ps[i].value) }))
-            .filter((f, i) => i < DEFAULT.length || digits(f.phone).length >= 7);
-          home(); hint("저장하면 바로 첫 화면이에요. 앱을 켤 때 설정을 먼저 보여 주지 않아요."); break;
+            .filter((f, i) => i < DEFAULT.length || usable(f.phone));
+          home(); r("saved").hidden = false; clearTimeout(savedTimer); savedTimer = setTimeout(() => { r("saved").hidden = true; }, 2000);
+          hint("저장하면 '저장했어요'가 뜨고 바로 첫 화면이에요. 앱을 켤 때 설정을 먼저 보여 주지 않아요."); break;
         }
         case "home": home(); break;
         case "hang": hang(); break;
@@ -167,7 +179,7 @@
     const flash = el => { el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); };
     function show(action) {
       reset();
-      if (action === "fix") { flash(host.querySelector(".fix")); hint("밑줄 친 '전화번호 고치기'를 눌러 보세요. 예전에는 인사말을 3초 꾹 눌러야 열렸어요."); }
+      if (action === "fix") { flash(host.querySelector(".fix")); hint("밑줄 친 '가족 번호 고치기'를 눌러 보세요. 예전에는 인사말을 3초 꾹 눌러야 열렸어요."); }
       if (action === "family") { openFamily(); flash(r("famList")); }
       if (action === "buttons") { flash(r("screen")); hint("버튼을 누르면 확인 화면 없이 바로 전화 앱으로 넘어가요."); }
       if (action === "labels") { flash(host.querySelector(".big.go")); hint("지명 대신 '집에서 병원으로 가요'처럼 갈 곳을 적었어요."); }

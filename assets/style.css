@@ -118,6 +118,7 @@ tr.failed td { background: var(--bad-soft); }
 .screen-area { position: relative; background: var(--ph-bg); color: var(--ph-ink); border-radius: 28px; height: 580px; max-height: 70vh; min-height: 500px; overflow: hidden; font-family: var(--body); line-height: 1.5; }
 .ph { position: absolute; inset: 0; padding: 18px 14px 16px; display: none; flex-direction: column; gap: 12px; overflow-y: auto; }
 .ph.on { display: flex; }
+.ph > * { flex-shrink: 0; }
 .ph .hello { font-size: 22px; font-weight: 700; text-align: center; padding-top: 4px; }
 .ph .big { border: 0; border-radius: 18px; padding: 18px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #fff; cursor: pointer; font-family: inherit; }
 .ph .big:active, .ph .fam:active { transform: scale(0.98); }
@@ -125,7 +126,7 @@ tr.failed td { background: var(--bad-soft); }
 .ph .big .t { font-size: 29px; font-weight: 800; line-height: 1.2; }
 .ph .big .r { font-size: 16px; }
 .ph .go { background: var(--ph-go); } .ph .home { background: var(--ph-home); }
-.ph .bottom { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
+.ph .bottom { margin-top: auto; display: flex; flex-direction: column; gap: 26px; }
 .ph .fix { align-self: center; background: none; border: 0; color: var(--ph-muted); text-decoration: underline; font: inherit; font-size: 15px; cursor: pointer; padding: 4px 10px; }
 .ph .fam { background: #fff; border: 3px solid var(--ph-ink); color: var(--ph-ink); border-radius: 14px; padding: 12px; font: inherit; font-size: 21px; font-weight: 800; cursor: pointer; text-align: center; }
 .ph .add { background: none; border: 2px dashed #888780; color: #44443f; border-radius: 12px; padding: 10px; font: inherit; font-size: 16px; cursor: pointer; }

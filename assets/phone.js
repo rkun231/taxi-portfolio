@@ -61,7 +61,7 @@
       </div>
       <div class="ph-closed" data-r="closed" hidden>
         <div>앱이 닫혔어요</div>
-        <button class="appicon" type="button" data-a="reopen" aria-label="병원 택시 다시 열기">택시</button>
+        <button class="appicon" type="button" data-a="reopen" aria-label="병원 택시 다시 열기">병원<br>택시</button>
         <div style="font-size:13px;opacity:.7">아이콘을 누르면 다시 열려요</div>
       </div>
     </div>

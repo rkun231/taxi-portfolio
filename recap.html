@@ -7,7 +7,7 @@
 <meta name="description" content="병원 택시 웹앱 포트폴리오 자세히 보기. 흐름, 체험, 결정 과정, 검증, 예상 질문과 답.">
 <meta name="theme-color" content="#0e1412">
 <title>병원 택시 · 자세히 보기</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f6e56'/%3E%3Ctext x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'%3E택시%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="assets/app-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -19,7 +19,7 @@
   .bar { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
   .bar-in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 12px; height: 52px; }
   .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; white-space: nowrap; text-decoration: none; color: var(--ink); }
-  .brand i { width: 26px; height: 26px; border-radius: 7px; background: var(--go); color: #fff; font-style: normal; font-size: 11px; display: grid; place-items: center; }
+  .brand img { width: 26px; height: 26px; border-radius: 7px; display: block; }
   .toc { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
   .toc::-webkit-scrollbar { display: none; }
   .toc a { flex: none; padding: 4px 11px; border-radius: 999px; font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; }
@@ -91,7 +91,7 @@
 
 <header class="bar">
   <div class="bar-in gutter">
-    <a class="brand" href="#top"><i>택시</i><span>자세히 보기</span></a>
+    <a class="brand" href="#top"><img src="assets/app-icon.png" alt="" width="26" height="26"><span>자세히 보기</span></a>
     <nav class="toc" aria-label="목차" id="toc">
       <a href="#top">한눈에</a><a href="#flow">흐름</a><a href="#roles">역할</a><a href="#tests">검증 방법</a><a href="#privacy">저장 방식·설명서</a><a href="#qa">질문과 답</a>
     </nav>

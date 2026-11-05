@@ -7,7 +7,7 @@
 <meta name="description" content="할머니를 위한 병원 택시 웹앱을 만든 과정. SK AIGEN 지원 포트폴리오 발표 자료.">
 <meta name="theme-color" content="#0e1412">
 <title>병원 택시 · 발표</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f6e56'/%3E%3Ctext x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'%3E택시%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="assets/app-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -20,14 +20,17 @@
   .bar { position: fixed; inset: 0 0 auto; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
   .bar-in { display: flex; align-items: center; gap: 12px; height: 52px; }
   .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; white-space: nowrap; text-decoration: none; color: var(--ink); }
-  .brand i { width: 26px; height: 26px; border-radius: 7px; background: var(--go); color: #fff; font-style: normal; font-size: 11px; display: grid; place-items: center; }
-  .toc { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .brand img { width: 26px; height: 26px; border-radius: 7px; display: block; }
+  .toc { position: relative; flex: 1; min-width: 0; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
   .toc::-webkit-scrollbar { display: none; }
-  .toc a { flex: none; display: inline-flex; gap: 5px; align-items: baseline; padding: 4px 10px; border-radius: 999px; font-size: 13px; color: var(--muted); text-decoration: none; white-space: nowrap; }
-  .toc .stage { flex: none; align-self: center; margin-left: 8px; padding: 2px 6px; font-size: 11px; font-weight: 700; color: var(--go); white-space: nowrap; }
+  .toc a { flex: none; display: inline-flex; gap: 5px; align-items: baseline; padding: 4px 6px; border-radius: 999px; font-size: 13px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .toc .stage { flex: none; align-self: center; margin-left: 4px; padding: 2px 3px; font-size: 11px; font-weight: 700; color: var(--go); white-space: nowrap; }
   .toc a b { font-family: var(--mono); font-weight: 500; font-size: 11px; }
   .toc a[aria-current="true"] { background: var(--go); color: #fff; }
   .bar .pill { padding: 5px 12px; font-size: 13px; flex: none; }
+  .prog { flex: none; font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .touch-only { display: none; }
+  @media (hover: none) and (pointer: coarse) { .kbd-only { display: none; } .touch-only { display: inline; } }
   .help-btn { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); }
 
   /* 장면 */
@@ -80,9 +83,10 @@
 
 <header class="bar">
   <div class="bar-in gutter">
-    <a class="brand" href="#1"><i>택시</i><span>병원 택시</span></a>
+    <a class="brand" href="#1"><img src="assets/app-icon.png" alt="" width="26" height="26"><span>병원 택시</span></a>
     <nav class="toc" aria-label="장면 목록" id="toc"></nav>
     <a class="pill recap-link" href="recap.html">자세히 보기</a>
+    <span class="prog" id="prog" aria-live="polite">1 / 12</span>
     <button class="help-btn" type="button" id="help-open" aria-label="조작법">?</button>
   </div>
 </header>
@@ -106,7 +110,7 @@
             <a class="pill" href="recap.html">자세히 보기</a>
             <a class="pill" href="https://rkun231.github.io/Taxi-helper/?test" target="_blank" rel="noopener">실제 앱 ↗</a>
           </div>
-          <p class="note">→ 키나 스페이스로 다음 장면 · ? 키로 조작법</p>
+          <p class="note"><span class="kbd-only">→ 키나 스페이스로 다음 장면 · ? 키로 조작법</span><span class="touch-only">아래로 넘기면 다음 장면 · 위쪽 번호를 누르면 그 장면으로 가요</span></p>
         </div>
         <figure class="qr-card">
           <img src="assets/qr.png" alt="이 발표 자료로 연결되는 QR 코드" width="250" height="250">
@@ -242,7 +246,7 @@
           <thead><tr><th>확인한 것</th><th>고치기 전</th><th>지금</th></tr></thead>
           <tbody>
             <tr><td>갤럭시에서 '뒤로 두 번이면 닫힘'</td><td class="no">안 됨</td><td class="yes">됨 · 어머니 갤럭시 S22로 확인</td></tr>
-            <tr><td>갤럭시가 건너뛰는 뒤로가기 기록 (자동 테스트)</td><td class="no">11개</td><td class="yes">0개</td></tr>
+            <tr><td>'뒤로'를 눌러도 갤럭시가 무시하고 건너뛰던 단계 (자동 테스트로 센 수)</td><td class="no">11개</td><td class="yes">0개</td></tr>
             <tr><td>나머지 자동 테스트 13가지 × 크롬·삼성 인터넷</td><td>통과</td><td class="yes">통과</td></tr>
           </tbody>
         </table>
@@ -353,6 +357,20 @@
     lastStage = st;
     return `${lab}<a href="#${s.id}"><b>${String(s.id).padStart(2, "0")}</b>${esc(s.dataset.title)}</a>`;
   }).join("");
+  /* 지금 장면 표시: 스크롤 이벤트 대신 IntersectionObserver (화면 가운데 줄을 지나는 장면만 알려 줌) */
+  const tocLinks = [...$("toc").querySelectorAll("a")];
+  function mark(i) {
+    tocLinks.forEach((a, k) => a.setAttribute("aria-current", k === i ? "true" : "false"));
+    $("prog").textContent = `${i + 1} / ${slides.length}`;
+    const t = $("toc"), a = tocLinks[i];
+    if (a.offsetLeft < t.scrollLeft || a.offsetLeft + a.offsetWidth > t.scrollLeft + t.clientWidth)
+      t.scrollTo({ left: a.offsetLeft - (t.clientWidth - a.offsetWidth) / 2, behavior: "smooth" });
+  }
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) mark(slides.indexOf(e.target)); }),
+      { rootMargin: "-35% 0px -64% 0px" });
+    slides.forEach(s => io.observe(s));
+  }
   /* 키를 누른 순간에만 지금 장면을 계산 */
   function currentIndex() {
     const line = innerHeight * 0.35;

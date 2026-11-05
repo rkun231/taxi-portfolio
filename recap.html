@@ -20,7 +20,7 @@
   .bar-in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 12px; height: 52px; }
   .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; white-space: nowrap; text-decoration: none; color: var(--ink); }
   .brand img { width: 26px; height: 26px; border-radius: 7px; display: block; }
-  .toc { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .toc { position: relative; flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
   .toc::-webkit-scrollbar { display: none; }
   .toc a { flex: none; padding: 4px 11px; border-radius: 999px; font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; }
   .toc a[aria-current="true"] { background: var(--go); color: #fff; }
@@ -123,7 +123,7 @@
 
   <section id="flow">
     <span class="tag">흐름</span>
-    <h2>택시 신청부터 갤럭시 검증까지</h2>
+    <h2>택시 신청부터 지금까지</h2>
     <p class="note">주황색 항목은 할머니나 제가 직접 문제를 발견한 때입니다.</p>
     <ol class="flow">
       <li><time>앱 이전</time><div><h3>교통약자 택시 확인</h3><p>할머니가 교통약자 택시를 이용할 수 있는 대상인지 전남 센터에 물어보니, 지원 대상이 맞고 이미 등록돼 있으셨습니다.</p></div></li>
@@ -136,6 +136,9 @@
       <li class="key"><time>발견</time><div><h3>뒤로가기를 10번 넘게 눌러야 닫힘</h3><p>직접 써 보다가 삼성 인터넷과 크롬 모두에서 발견했습니다. 원인은 몰랐지만, 두 번 누르면 닫히고 한 번 누르면 큰 안내가 뜨게 해 달라고 했습니다.</p></div></li>
       <li class="key"><time>발견</time><div><h3>아이폰은 되고 갤럭시는 안 됨</h3><p>고친 뒤 아이폰과 갤럭시로 각각 눌러 보니 갤럭시에서는 그대로였습니다. 크롬과 삼성 인터넷 모두에서 15가지 경우를 테스트하라고 기준을 정했습니다.</p></div></li>
       <li><time>확인</time><div><h3>갤럭시에서 해결 확인</h3><p>테스트 30개 통과, 고치기 전 버전에서는 같은 테스트가 실패하는 것까지 확인한 뒤 할머니 폰(갤럭시 점프2)과 최대한 비슷한 조건으로, 같은 삼성 갤럭시인 어머니 폰(갤럭시 S22)으로 최종 확인했습니다. 저는 서울, 할머니는 함평에 계셔서 할머니 폰은 직접 만지지 못했습니다.</p></div></li>
+      <li><time>10월 29일</time><div><h3>버튼 사용 기록 시작</h3><p>'병원 갈 때'·'집에 올 때' 버튼을 아직 쓰신 적이 없어서, 실제로 쓰시는지 확인하려고 버튼을 누를 때마다 익명으로 기록하기 시작했습니다.</p></div></li>
+      <li><time>11월 2일</time><div><h3>홈 화면 아이콘을 큰 글씨로</h3><p>홈 화면에서 다른 앱과 헷갈리지 않게, 아이콘 후보 4개 중 작은 크기에서도 가장 잘 읽히는 노란 바탕 큰 글씨 '병원 택시'를 골라 바꾸고 설명서도 새 아이콘으로 고쳤습니다.</p></div></li>
+      <li><time>11월 6일</time><div><h3>사용성 원칙으로 다시 점검</h3><p>Claude에게 닐슨의 사용성 10원칙으로 앱을 점검하게 했고, 나온 9가지 중 6가지를 직접 골라 고쳤습니다. '전화번호 고치기'를 '가족 번호 고치기'로 바꾸고 가족 전화 버튼과 간격을 넓혔고, 010 번호 자리 수가 틀리면 저장을 막고, 112·119 같은 긴급 번호는 넣을 수 있게 했습니다. 저장하면 '저장했어요'가 뜹니다.</p></div></li>
     </ol>
   </section>
 
@@ -161,7 +164,7 @@
     <p class="lede">고치기 전과 지금의 결과 비교는 <a href="index.html#9">발표 자료 9번 장면</a>에 있습니다. 여기에는 원인과 확인한 방법을 적었습니다.</p>
     <div class="method">
       <div class="m"><b>처음 상황</b><p>처음 앱은 삼성 인터넷과 크롬에서 뒤로가기를 10번 넘게 눌러야 꺼졌습니다. 원인을 몰라서, 뒤로가기를 두 번 누르면 꺼지도록 바꿔 달라고 Claude에게 요청했습니다. 고친 뒤 아이폰에서는 됐지만 갤럭시에서는 여전히 안 됐습니다.</p></div>
-      <div class="m"><b>원인</b><p>안드로이드의 크롬·삼성 인터넷은 사용자가 화면을 누르지 않은 상태에서 페이지가 추가한 뒤로가기 기록을 건너뜁니다. 앱이 켜지자마자 기록을 추가해서, 갤럭시에서만 '뒤로 두 번이면 닫힘'이 안 됐습니다. 그래서 할머니가 화면을 처음 누르는 순간에 기록을 만들도록 바꿨습니다.</p></div>
+      <div class="m"><b>원인</b><p><b>쉽게 말하면, 갤럭시는 할머니가 화면을 누르기 전에 앱이 만든 '뒤로' 단계를 무시합니다. 그래서 갤럭시에서만 두 번에 안 닫혔습니다.</b></p><p>안드로이드의 크롬·삼성 인터넷은 사용자가 화면을 누르지 않은 상태에서 페이지가 추가한 뒤로가기 기록을 건너뜁니다. 앱이 켜지자마자 기록을 추가해서, 갤럭시에서만 '뒤로 두 번이면 닫힘'이 안 됐습니다. 그래서 할머니가 화면을 처음 누르는 순간에 기록을 만들도록 바꿨습니다.</p></div>
       <div class="m"><b>방법</b><ol>
         <li>확인할 경우 15가지를 정했습니다 (아래 목록).</li>
         <li>컴퓨터에서 크롬과 삼성 인터넷의 휴대폰 환경을 흉내 내 각각 돌렸습니다. 15가지 × 2 = 30개가 모두 통과했습니다.</li>
@@ -170,7 +173,7 @@
       </ol></div>
     </div>
     <h3>확인한 15가지</h3>
-    <ol class="tests15"><li>켜고 화면 누른 뒤 뒤로 1번 → 큰 안내</li><li>이어서 뒤로 1번 더 → 닫힘</li><li>번호 고치기를 저장 3번·취소 1번 한 뒤 뒤로 2번 → 닫힘</li><li>가족 화면에서 뒤로 → 첫 화면</li><li>가족에게 전화한 뒤 자동으로 첫 화면</li><li>번호 추가 화면에서 뒤로 → 첫 화면</li><li>번호 추가 저장 후 뒤로 3번 → 닫힘</li><li>병원 갈 때·집에 올 때가 맞는 센터로 연결</li><li>안내가 3초 뒤 사라짐</li><li>3초 뒤 화면을 누르고 뒤로 → 안내가 다시 뜸</li><li>안내가 떠 있을 때 '병원 갈 때'를 눌러도 연결</li><li>새로고침 후에도 정상</li><li>가족 화면을 5번 들락날락한 뒤 뒤로 2번 → 닫힘</li><li>화면을 한 번도 안 누르고 뒤로 → 안드로이드 규칙대로 닫힘</li><li>갤럭시가 건너뛰는 뒤로가기 기록이 0개</li></ol>
+    <ol class="tests15"><li>켜고 화면 누른 뒤 뒤로 1번 → 큰 안내</li><li>이어서 뒤로 1번 더 → 닫힘</li><li>번호 고치기를 저장 3번·취소 1번 한 뒤 뒤로 2번 → 닫힘</li><li>가족 화면에서 뒤로 → 첫 화면</li><li>가족에게 전화한 뒤 자동으로 첫 화면</li><li>번호 추가 화면에서 뒤로 → 첫 화면</li><li>번호 추가 저장 후 뒤로 3번 → 닫힘</li><li>병원 갈 때·집에 올 때가 맞는 센터로 연결</li><li>안내가 3초 뒤 사라짐</li><li>3초 뒤 화면을 누르고 뒤로 → 안내가 다시 뜸</li><li>안내가 떠 있을 때 '병원 갈 때'를 눌러도 연결</li><li>새로고침 후에도 정상</li><li>가족 화면을 5번 들락날락한 뒤 뒤로 2번 → 닫힘</li><li>화면을 한 번도 안 누르고 뒤로 → 안드로이드 규칙대로 닫힘</li><li>'뒤로'를 눌러도 갤럭시가 무시하고 건너뛰던 단계가 0개</li></ol>
   </section>
 
   <section id="privacy">
@@ -197,11 +200,12 @@
   <section id="qa">
     <span class="tag">질문과 답</span>
     <h2>나올 만한 질문과 제 답</h2>
-    <div class="toggles" role="group" aria-label="주제로 거르기" id="qa-filters"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><div class="toggles" role="group" aria-label="주제로 거르기" id="qa-filters"></div><button type="button" class="pill" id="qa-all" aria-pressed="false">모두 펼치기</button></div>
     <div class="qa" id="qa-list"></div>
   </section>
 
   <footer>
+    <a class="pill" href="index.html" style="align-self:flex-start;margin-bottom:8px">← 발표 자료로</a>
     <span>만든 사람: 유경군 · <a href="https://rkun231.github.io/Taxi-helper/?test" target="_blank" rel="noopener">실제 앱</a> · <a href="https://github.com/rkun231/Taxi-helper" target="_blank" rel="noopener">앱 코드</a></span>
     <span>본인: 문제 발견, 전남 센터 등록 확인과 광주 센터 신청, 넣고 뺄 것 결정, 할머니 반응 관찰, 기기별 확인, 배포 결정</span>
     <span>AI(Claude): 코드 작성, 화면 시안, 설명서 이미지 제작, 자동 테스트 실행</span>
@@ -268,7 +272,28 @@
     $("qa-filters").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); drawQA(b.dataset.q);
   });
   drawQA("전체");
-  /* 스크롤 중에 실행되는 코드는 두지 않는다 (목차는 눌러서 이동만) */
+  $("qa-all").addEventListener("click", () => {
+    const list = [...$("qa-list").querySelectorAll("details")];
+    const open = !list.every(d => d.open);
+    list.forEach(d => { d.open = open; });
+    $("qa-all").textContent = open ? "모두 접기" : "모두 펼치기";
+    $("qa-all").setAttribute("aria-pressed", String(open));
+  });
+  $("qa-filters").addEventListener("click", () => { $("qa-all").textContent = "모두 펼치기"; $("qa-all").setAttribute("aria-pressed", "false"); });
+  /* 지금 보고 있는 부분 표시: 발표자료와 같은 IntersectionObserver 방식 (스크롤 이벤트 없음) */
+  const tocLinks = [...$("toc").querySelectorAll("a")];
+  const secs = tocLinks.map(a => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  function mark(i) {
+    tocLinks.forEach((a, k) => a.setAttribute("aria-current", k === i ? "true" : "false"));
+    const t = $("toc"), a = tocLinks[i];
+    if (a.offsetLeft < t.scrollLeft || a.offsetLeft + a.offsetWidth > t.scrollLeft + t.clientWidth)
+      t.scrollTo({ left: a.offsetLeft - (t.clientWidth - a.offsetWidth) / 2, behavior: "smooth" });
+  }
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) mark(secs.indexOf(e.target)); }),
+      { rootMargin: "-30% 0px -69% 0px" });
+    secs.forEach(s => io.observe(s));
+  }
 })();
 </script>
 </body>

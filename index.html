@@ -144,6 +144,12 @@
     #\31 2 .cover-grid { grid-template-columns: minmax(0, 1fr) 180px; }
     #\31 2 .qr-card { max-width: 170px !important; }
   }
+  /* 터치 태블릿 가로(iPad 1024×768 등): 44px 버튼 때문에 10번 장면이 960px을 넘지 않도록 여백만 더 줄임 */
+  @media (hover: none) and (pointer: coarse) and (min-width: 980px) and (max-width: 1439px) {
+    .slide { padding-block: 56px 24px; }
+    .cut { padding: 8px 12px; }
+    .cuts { gap: 6px; }
+  }
   .cover-problem { border-left: 3px solid var(--home); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 2px; max-width: 60ch; }
   .cover-problem b { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; color: var(--home); font-weight: 500; }
   .compare { min-width: 0; }

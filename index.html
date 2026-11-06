@@ -72,7 +72,14 @@
   .help-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 15px; }
   .help-card dt { font-family: var(--mono); font-size: 13px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 0 8px; text-align: center; }
   .help-card dd { margin: 0; }
-  .help-card button { align-self: flex-end; font: inherit; border: 0; background: var(--ink); color: #fff; border-radius: 999px; padding: 8px 18px; cursor: pointer; }
+  .help-card button { align-self: flex-end; font: inherit; border: 0; background: var(--ink); color: var(--paper); font-weight: 700; border-radius: 999px; padding: 8px 18px; min-height: 44px; cursor: pointer; }
+  /* 손가락으로 누르는 화면(태블릿 641~979px 포함): 위쪽 바의 누르는 곳 44px */
+  @media (pointer: coarse) {
+    .brand { min-width: 44px; min-height: 44px; }
+    .toc a { min-height: 44px; align-items: center; }
+    .bar .pill { min-height: 44px; padding: 0 14px; }
+    .help-btn { width: 44px; height: 44px; }
+  }
   @media (max-width: 640px) {
     .brand span { display: none; }
     .brand { min-width: 44px; min-height: 44px; justify-content: center; }
@@ -85,16 +92,42 @@
     .toc { display: none; }
     .bar.toc-open .toc { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 70px); max-height: calc(100svh - 70px); overflow-y: auto; background: var(--paper); border-bottom: 1px solid var(--line); padding: 6px 18px 12px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45); }
     .bar.toc-open .toc a { min-height: 44px; align-items: center; padding: 0 12px; font-size: 15px; }
-    .bar.toc-open .toc a b { font-size: 13px; }
-    .bar.toc-open .toc .stage { align-self: flex-start; margin: 8px 0 0; font-size: 12px; }
+    .bar.toc-open .toc a b { font-size: 14px; }
+    .bar.toc-open .toc .stage { align-self: flex-start; margin: 8px 0 0; font-size: 14px; }
+    /* 보조 글자 14px 이상 */
+    .bar .pill, .prog-btn, .prog-btn .caret, .steps li b, .cover .cover-problem b { font-size: 14px; }
+    /* 장면 길이 줄이기: 글은 그대로, 여백·줄간격만 */
+    body { line-height: 1.6; }
+    .slide { padding-block: 72px 40px; }
+    .slide-in { gap: 16px; }
+    .steps { gap: 8px; }
+    .steps li { padding: 10px 14px; gap: 2px; }
+    .centers { gap: 8px; }
+    .center { padding: 12px 14px; }
+    .chat { gap: 8px; }
+    .msg { gap: 8px; }
+    .msg .who { padding-top: 8px; }
+    .msg .say { padding: 8px 12px; }
+    .split { gap: 20px; }
+    .notebook { padding: 14px; gap: 8px; }
+    /* 10번 빼기 카드: 폰에서는 '전 → 후'만 보이고 눌러서 이유를 펼침 */
+    details.cut { padding: 0; gap: 0; }
+    details.cut summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; padding: 10px 14px; min-height: 44px; }
+    details.cut summary::-webkit-details-marker { display: none; }
+    details.cut summary .was, details.cut summary .now { grid-column: 1; }
+    details.cut summary::after { content: "▼" / ""; grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 14px; color: var(--muted); transition: transform .15s; }
+    details.cut[open] summary::after { transform: rotate(180deg); }
+    details.cut .body { display: flex; flex-direction: column; gap: 4px; padding: 0 14px 12px; }
     /* 표: 폰에서는 줄마다 카드로 쌓고 열 제목을 칸 앞에 붙임 (글은 그대로) */
     .table-box table.cards { min-width: 0; }
     .cards thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .cards tr { display: block; padding: 8px 0; border-bottom: 1px solid var(--line); }
     .cards tr:last-child { border-bottom: 0; }
     .cards td { display: block; border: 0; padding: 3px 14px; white-space: normal !important; }
-    .cards td::before { content: attr(data-label); display: inline-block; margin-right: 8px; font-size: 12px; font-weight: 700; color: var(--muted); }
+    .cards td::before { content: attr(data-label); display: inline-block; margin-right: 8px; font-size: 14px; font-weight: 700; color: var(--muted); }
     .cards td:first-child { font-weight: 700; } .cards td:first-child::before { display: none; }
+    .cards tr { padding: 6px 0; }
+    .cards td { padding: 2px 14px; }
     .try { min-height: 44px; padding: 0 4px; font-size: 14px; }
   }
   /* 손가락으로 보는 화면: 'QR로 이 자료 열기'는 필요 없으므로 숨김 (발표용 노트북에서는 그대로) */
@@ -246,7 +279,7 @@
         <div class="guides thumbs">
           <a href="recap.html#privacy"><figure><div class="img-box"><img src="assets/guide-grandma.webp" alt="할머니용 설명서 미리보기" width="900" height="1453" loading="lazy"></div><figcaption>할머니용</figcaption></figure></a>
           <a href="recap.html#privacy"><figure><div class="img-box"><img src="assets/guide-family.webp" alt="가족용 설명서 미리보기" width="900" height="2083" loading="lazy"></div><figcaption>가족용</figcaption></figure></a>
-          <p class="note" style="grid-column:1/-1">설명서 원본은 <a href="recap.html#privacy">자세히 보기</a>에서 끝까지 볼 수 있어요.</p>
+          <p class="note" style="grid-column:1/-1">설명서 원본은 <a class="link-pill" href="recap.html#privacy">자세히 보기</a>에서 끝까지 볼 수 있어요.</p>
         </div>
       </div>
     </div>
@@ -259,7 +292,7 @@
       <p class="lede">집안에 병원 일이 한참 이어지다 끝난 뒤라 할머니가 병원에 갈 일이 줄었고, 대신 수첩 없이 걸 수 있게 된 가족 전화를 주로 쓰셨습니다. 어머니께 안부 전화도 하시고, 저에게도 고맙다고 몇 번 전화하셨습니다.</p>
       <p>10월 25일 외숙모가 설치해 드린 날, 할머니가 가족에게 전화해 보시고 바로 '처음으로' 버튼이 누르기 까다롭다고 하셨고, 저는 전해 들은 즉시 고쳤습니다.</p>
       <p class="note">가족 전화는 여러 번 쓰셨지만, '병원 갈 때'·'집에 올 때'는 아직 쓰신 적이 없습니다. 이 버튼이 실제로 유용할지는 10월 29일부터 남기는 익명 버튼 기록으로 확인하려고 합니다.</p>
-      <p class="note">· 11월 2일 홈 화면 아이콘을 큰 글씨 '병원 택시'로 바꿨습니다.<br>· 11월 6일 Claude의 사용성 점검(닐슨 10원칙) 9가지 중 6가지를 골라 반영했습니다. (기록: <a href="recap.html#flow">자세히 보기 - 흐름</a>)</p>
+      <p class="note">· 11월 2일 홈 화면 아이콘을 큰 글씨 '병원 택시'로 바꿨습니다.<br>· 11월 6일 Claude의 사용성 점검(닐슨 10원칙) 9가지 중 6가지를 골라 반영했습니다. (기록: <a class="link-pill" href="recap.html#flow">자세히 보기 - 흐름</a>)</p>
     </div>
   </section>
 
@@ -295,7 +328,7 @@
           </tbody>
         </table>
       </div>
-      <p class="note">확인한 15가지 목록과 방법은 <a href="recap.html#tests">자세히 보기</a>에 있습니다.</p>
+      <p class="note">확인한 15가지 목록과 방법은 <a class="link-pill" href="recap.html#tests">자세히 보기</a>에 있습니다.</p>
     </div>
   </section>
 
@@ -381,9 +414,19 @@
     ["번호를 '-'까지 맞춰 입력", "숫자만 치면 '-' 자동", "조금 더 편하게 저장하도록 바꿨습니다.", "me", "본인", "dash"],
     ["가족 화면의 '처음으로' 버튼", "전화를 걸면 자동으로 첫 화면으로", "10월 25일에 써 보시고 어렵다고 하셔서 바로 없앴습니다.", "grandma", "할머니 말씀", "family"],
   ];
-  $("cuts").innerHTML = CUTS.map(([was, now, why, k, src, act]) => `
-    <div class="cut"><span class="was">${esc(was)}</span><span class="now">→ ${esc(now)}</span><span class="why">${esc(why)}</span>
-    <span class="foot"><span class="chip ${k}">${esc(src)}</span>${act ? `<button class="try" type="button" data-act="${act}">휴대폰에서 보기</button>` : ""}</span></div>`).join("");
+  /* 넓은 화면은 카드 7개를 다 펼쳐 두고, 폰(640px 이하)에서는 '전 → 후'만 보이고 눌러서 이유를 펼친다 (글은 같음) */
+  const phoneMQ = matchMedia("(max-width: 640px)");
+  function drawCuts() {
+    const fold = phoneMQ.matches;
+    $("cuts").innerHTML = CUTS.map(([was, now, why, k, src, act]) => {
+      const head = `<span class="was">${esc(was)}</span><span class="now">→ ${esc(now)}</span>`;
+      const rest = `<span class="why">${esc(why)}</span>
+      <span class="foot"><span class="chip ${k}">${esc(src)}</span>${act ? `<button class="try" type="button" data-act="${act}">휴대폰에서 보기</button>` : ""}</span>`;
+      return fold ? `<details class="cut"><summary>${head}</summary><div class="body">${rest}</div></details>` : `<div class="cut">${head}${rest}</div>`;
+    }).join("");
+  }
+  drawCuts();
+  phoneMQ.addEventListener("change", drawCuts);
   $("cuts").addEventListener("click", e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const docked = document.querySelector(".dock").offsetParent !== null;

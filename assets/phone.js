@@ -27,7 +27,9 @@
     return d.slice(0, 3) + "-" + d.slice(3, 7) + "-" + d.slice(7, 11);
   }
 
-  const MARKUP = `
+  /* 휴대폰이 한 페이지에 둘(왼쪽 고정·본문 속)이라 오류 칸 id 앞에 휴대폰마다 다른 이름을 붙인다 */
+  let seq = 0;
+  const MARKUP = u => `
   <div class="device">
     <div class="screen-area" data-r="screen">
       <div class="ph on" data-s="main">
@@ -47,12 +49,14 @@
       <div class="ph" data-s="add">
         <h4>번호 추가</h4>
         <div class="rows">
-          <label class="small">누구예요? (예: 외삼촌, 이웃집)<input type="text" data-r="aLabel" autocomplete="off"></label>
-          <label class="small">전화번호<input type="tel" inputmode="tel" data-r="aPhone" placeholder="010-0000-0000"></label>
-          <div class="err" data-r="aErr" role="alert"></div>
+          <label class="small">누구예요? (예: 외삼촌, 이웃집)<input type="text" data-r="aLabel" autocomplete="off" aria-describedby="${u}-a-err"></label>
+          <label class="small">전화번호<input type="tel" inputmode="tel" data-r="aPhone" placeholder="010-0000-0000" aria-describedby="${u}-a-err"></label>
+          <div class="err" data-r="aErr" id="${u}-a-err" role="alert"></div>
         </div>
-        <button class="save" type="button" data-a="addSave">추가하기</button>
-        <button class="cancel" type="button" data-a="family">취소</button>
+        <div class="btns">
+          <button class="save" type="button" data-a="addSave">추가하기</button>
+          <button class="cancel" type="button" data-a="family">취소</button>
+        </div>
       </div>
       <div class="ph" data-s="setup">
         <h4>가족 번호 설정</h4>
@@ -61,9 +65,11 @@
           <div class="rowlist" data-r="rows"></div>
           <button class="add" type="button" data-a="row">+ 다른 번호 추가</button>
         </div>
-        <div class="err" data-r="sErr" role="alert"></div>
-        <button class="save" type="button" data-a="setupSave">저장하기</button>
-        <button class="cancel" type="button" data-a="home">취소</button>
+        <div class="err" data-r="sErr" id="${u}-f-err" role="alert"></div>
+        <div class="btns">
+          <button class="save" type="button" data-a="setupSave">저장하기</button>
+          <button class="cancel" type="button" data-a="home">취소</button>
+        </div>
       </div>
       <div class="ph-toast" data-r="toast" hidden>한 번 더 누르면<br>앱이 닫혀요</div>
       <div class="ph-toast" data-r="saved" hidden>저장했어요</div>
@@ -77,7 +83,7 @@
       <div class="ph-closed" data-r="closed" hidden>
         <div>앱이 닫혔어요</div>
         <button class="appicon" type="button" data-a="reopen" aria-label="병원 택시 다시 열기">병원<br>택시</button>
-        <div style="font-size:13px;opacity:.7">아이콘을 누르면 다시 열려요</div>
+        <div class="sub">아이콘을 누르면 다시 열려요</div>
       </div>
     </div>
     <div class="navbar">
@@ -89,7 +95,8 @@
 
   function mount(host) {
     host.classList.add("phone-wrap");
-    host.innerHTML = MARKUP;
+    const u = "tp" + (++seq);
+    host.innerHTML = MARKUP(u);
     const r = name => host.querySelector(`[data-r="${name}"]`);
     let family, onSub = false, armed = false, timer = null, savedTimer = null;
 
@@ -111,8 +118,9 @@
       go("family");
       hint("'처음으로' 버튼이 없어요. 이름을 누르면 전화가 걸리고, 그냥 나가려면 '뒤로'를 누르세요.");
     }
-    const rowHtml = f => `<div class="pair"><input type="text" class="fl" value="${esc(f.label)}" placeholder="누구" aria-label="호칭"><input type="tel" class="fp" inputmode="tel" value="${esc(fmt(f.phone))}" placeholder="010-0000-0000" aria-label="번호"></div>`;
-    /* 실제 앱 v2와 같은 오류 표시: 틀린 칸은 빨간 테두리 + 그 칸으로 초점, 설정 화면 오류는 틀린 줄 바로 아래 */
+    /* 실제 앱 v4와 같은 이름: 스크린리더가 몇 번째 줄인지 알 수 있게 'n번째 줄 호칭/번호' */
+    const rowHtml = (f, i) => `<div class="pair"><input type="text" class="fl" value="${esc(f.label)}" placeholder="누구" aria-label="${i + 1}번째 줄 호칭"><input type="tel" class="fp" inputmode="tel" value="${esc(fmt(f.phone))}" placeholder="010-0000-0000" aria-label="${i + 1}번째 줄 번호"></div>`;
+    /* 실제 앱 v4와 같은 오류 표시: 틀린 칸은 빨간 테두리 + 그 칸으로 초점, 설정 화면 오류는 틀린 줄 바로 아래 */
     const markBad = el => { el.setAttribute("aria-invalid", "true"); el.focus(); };
     const clearBad = root => root.querySelectorAll("[aria-invalid]").forEach(el => el.removeAttribute("aria-invalid"));
     function setupErr(msg, row) {
@@ -180,14 +188,17 @@
           openFamily(); break;
         }
         case "row": {
-          r("rows").insertAdjacentHTML("beforeend", rowHtml({ label: "", phone: "" }));
+          r("rows").insertAdjacentHTML("beforeend", rowHtml({ label: "", phone: "" }, r("rows").querySelectorAll(".pair").length));
           const fl = r("rows").querySelectorAll(".fl"); fl[fl.length - 1].focus(); break;
         }
         case "setupSave": {
           const ls = [...host.querySelectorAll(".fl")], ps = [...host.querySelectorAll(".fp")];
           setupErr(""); clearBad(r("rows"));
+          r("rows").querySelectorAll("[aria-describedby]").forEach(el => el.removeAttribute("aria-describedby"));
           const bi = ps.findIndex(p => badNumber(p.value));
-          if (bi >= 0) { setupErr(`'${ls[bi].value.trim() || "가족"}' 번호가 ${badNumber(ps[bi].value)}. 다시 확인해 주세요.`, ps[bi].closest(".pair")); markBad(ps[bi]);
+          if (bi >= 0) { setupErr(`'${ls[bi].value.trim() || "가족"}' 번호가 ${badNumber(ps[bi].value)}. 다시 확인해 주세요.`, ps[bi].closest(".pair"));
+            ps[bi].setAttribute("aria-describedby", r("sErr").id);   /* 틀린 칸에 오류 문구를 연결 (앱과 같음) */
+            markBad(ps[bi]);
             hint("번호를 잘못 넣으면 어느 칸인지 알려 주고 저장을 멈춰요."); break; }
           family = ls.map((l, i) => ({ label: l.value.trim() || "가족", phone: digits(ps[i].value) }))
             .filter((f, i) => i < DEFAULT.length || usable(f.phone));

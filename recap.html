@@ -78,6 +78,8 @@
     .toc a { min-height: 44px; display: inline-flex; align-items: center; }
     .toc { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
     .toggles button, #qa-all { min-height: 44px; }
+    /* 보조 글자 14px 이상 */
+    .bar .pill, .stat .k, .qa .cat { font-size: 14px; }
     /* 역할 표: 줄마다 카드로 쌓고 열 제목을 칸 앞에 (글은 그대로) */
     .table-box table.cards { min-width: 0; }
     .cards thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -86,6 +88,13 @@
     .cards td { display: block; border: 0; padding: 3px 14px; white-space: normal !important; }
     .cards td::before { content: attr(data-label); display: inline-block; margin-right: 8px; font-size: 12px; font-weight: 700; color: var(--muted); }
     .cards td:first-child { font-weight: 700; } .cards td:first-child::before { display: none; }
+  }
+  /* 손가락으로 누르는 화면(태블릿 641~979px 포함): 위쪽 바·거르기 버튼 44px */
+  @media (pointer: coarse) {
+    .brand { min-width: 44px; min-height: 44px; }
+    .toc a { min-height: 44px; display: inline-flex; align-items: center; }
+    .bar .pill { min-height: 44px; padding: 0 14px; }
+    .toggles button, #qa-all { min-height: 44px; }
   }
   .compare { min-width: 0; }
   .compare td:nth-child(2), .compare td:nth-child(3) { white-space: nowrap; }
@@ -177,7 +186,7 @@
   <section id="tests">
     <span class="tag">검증 방법</span>
     <h2>어떻게 확인했나</h2>
-    <p class="lede">고치기 전과 지금의 결과 비교는 <a href="index.html#9">발표 자료 9번 장면</a>에 있습니다. 여기에는 원인과 확인한 방법을 적었습니다.</p>
+    <p class="lede">고치기 전과 지금의 결과 비교는 <a class="link-pill" href="index.html#9">발표 자료 9번 장면</a>에 있습니다. 여기에는 원인과 확인한 방법을 적었습니다.</p>
     <div class="method">
       <div class="m"><b>처음 상황</b><p>처음 앱은 삼성 인터넷과 크롬에서 뒤로가기를 10번 넘게 눌러야 꺼졌습니다. 나중에 알고 보니, 화면을 오갈 때마다 앱이 '뒤로' 단계를 하나씩 쌓아 두고 지우지 않았기 때문이었습니다. 당시에는 원인을 몰라서 뒤로가기를 두 번 누르면 꺼지도록 바꿔 달라고 Claude에게 요청했습니다. 고친 뒤 아이폰에서는 됐지만 갤럭시에서는 안내가 뜨지 않았습니다.</p></div>
       <div class="m"><b>원인</b><p>자세히 설명드리자면 갤럭시는 사용자가 화면을 누르기 전에 앱이 만든 '뒤로' 단계를 무시합니다. 그래서 갤럭시에서만 안내가 뜨지 않았습니다.</p><p>안드로이드의 크롬과 삼성 인터넷은 뒤로가기를 눌러도 못 나가게 막는 사이트를 막으려고, 사용자가 화면을 한 번도 누르지 않은 상태에서 페이지가 만든 뒤로가기 기록을 건너뜁니다. 그런데 앱은 켜지자마자 그 기록을 만들고 있었습니다. 그래서 사용자가 화면을 처음 누르는 순간에 기록을 만들도록 바꿨습니다.</p></div>
@@ -222,7 +231,7 @@
 
   <footer>
     <a class="pill" href="index.html" style="align-self:flex-start;margin-bottom:8px">← 발표 자료로</a>
-    <span>만든 사람: 유경군 · <a href="https://rkun231.github.io/Taxi-helper/?test" target="_blank" rel="noopener">실제 앱</a> · <a href="https://github.com/rkun231/Taxi-helper" target="_blank" rel="noopener">앱 코드</a></span>
+    <span>만든 사람: 유경군 · <a class="link-pill" href="https://rkun231.github.io/Taxi-helper/?test" target="_blank" rel="noopener">실제 앱</a> · <a class="link-pill" href="https://github.com/rkun231/Taxi-helper" target="_blank" rel="noopener">앱 코드</a></span>
     <span>본인: 문제 발견, 전남 센터 등록 확인과 광주 센터 신청, 넣고 뺄 것 결정, 할머니 반응 관찰, 기기별 확인, 배포 결정</span>
     <span>AI(Claude): 코드 작성, 화면 시안, 설명서 이미지 제작, 자동 테스트 실행</span>
   </footer>

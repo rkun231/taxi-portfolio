@@ -115,7 +115,8 @@ tr.failed td { background: var(--bad-soft); }
 /* ── 체험 휴대폰 ── */
 .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; width: 100%; }
 .device { width: 100%; max-width: 330px; background: var(--ph-frame); border: 1px solid #34413b; border-radius: 38px; padding: 12px 10px 8px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5); }
-.screen-area { position: relative; background: var(--ph-bg); color: var(--ph-ink); border-radius: 28px; height: 580px; max-height: 70vh; min-height: 500px; overflow: hidden; font-family: var(--body); line-height: 1.5; }
+/* container-type: 휴대폰 화면 높이에 맞춰 안쪽 여백만 줄이기 위해 (아래 @container) */
+.screen-area { position: relative; background: var(--ph-bg); color: var(--ph-ink); border-radius: 28px; height: 580px; max-height: 70vh; min-height: 500px; overflow: hidden; font-family: var(--body); line-height: 1.5; container-type: size; }
 .ph { position: absolute; inset: 0; padding: 18px 14px 16px; display: none; flex-direction: column; gap: 12px; overflow-y: auto; }
 .ph.on { display: flex; }
 .ph > * { flex-shrink: 0; }
@@ -131,32 +132,59 @@ tr.failed td { background: var(--bad-soft); }
 .ph .fix { align-self: center; background: none; border: 0; color: var(--ph-muted); text-decoration: underline; text-underline-offset: 3px; font: inherit; font-size: 16px; cursor: pointer; padding: 6px 14px; min-height: 44px; }
 .ph .fam { background: #fff; border: 3px solid var(--ph-ink); color: var(--ph-ink); border-radius: 14px; padding: 12px; font: inherit; font-size: 21px; font-weight: 800; cursor: pointer; text-align: center; }
 .ph .add { background: none; border: 2px dashed #888780; color: #44443f; border-radius: 12px; padding: 10px; font: inherit; font-size: 16px; cursor: pointer; }
-.ph .save { background: var(--ph-go); color: #fff; border: 0; border-radius: 12px; padding: 13px; font: inherit; font-size: 17px; font-weight: 700; cursor: pointer; }
-.ph .cancel { background: none; border: 2px solid #b4b2a9; color: #44443f; border-radius: 12px; padding: 10px; font: inherit; font-size: 16px; cursor: pointer; }
+.ph .save { background: var(--ph-go); color: #fff; border: 0; border-radius: 12px; padding: 13px; font: inherit; font-size: 17px; font-weight: 700; cursor: pointer; min-height: 48px; }
+.ph .cancel { background: none; border: 2px solid #b4b2a9; color: #44443f; border-radius: 12px; padding: 10px; font: inherit; font-size: 16px; cursor: pointer; min-height: 48px; }
+/* 저장·취소를 한 줄에 (실제 앱 v4 .form .btns 와 같은 2:1) */
+.ph .btns { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 8px; }
 .ph h4 { margin: 0; font-size: 19px; }
 .ph .small { font-size: 13px; color: var(--ph-muted); line-height: 1.5; }
 .ph .rows { display: flex; flex-direction: column; gap: 8px; background: #fff; border: 1px solid #d3d1c7; border-radius: 10px; padding: 10px; }
 .ph .pair { display: grid; grid-template-columns: 5.2em minmax(0, 1fr); gap: 6px; }
 .ph input { font: inherit; font-size: 16px; padding: 8px; border: 1px solid #b4b2a9; border-radius: 8px; background: #fff; color: var(--ph-ink); width: 100%; min-width: 0; }
+.ph input::placeholder { color: #6b6a65; opacity: 1; }   /* 실제 앱 v4와 같은 색: 빨간 오류 배경 위에서도 4.5:1 이상 */
 .ph .empty { background: #fff4d6; color: #6b4a00; border: 2px dashed #d9a400; border-radius: 12px; padding: 14px; font-size: 16px; text-align: center; }
-.ph .rowlist { display: flex; flex-direction: column; gap: 8px; }
-.ph .err { color: #a32d2d; font-size: 13px; min-height: 1em; }
-.ph .rows .err { font-size: 14px; font-weight: 700; }
-.ph .rows .err:empty { display: none; }
+.ph .rowlist { display: flex; flex-direction: column; gap: 7px; }
+.ph[data-s="setup"], .ph[data-s="add"] { gap: 10px; }   /* 설정 화면이 1366×768 노트북의 휴대폰 화면에도 한 번에 들어오게 */
+/* 오류: 실제 앱 v4처럼 어디서나 굵게, 오류가 없을 때는 자리를 차지하지 않음 */
+.ph .err { color: #a32d2d; font-size: 14px; font-weight: 700; }
+.ph .err:empty { display: none; }
 .ph input[aria-invalid="true"] { border: 2px solid #a32d2d; background: #fff6f6; }
-.ph-toast { position: absolute; left: 10px; right: 10px; top: 10px; background: #1a1a18; color: #fff; border-radius: 16px; padding: 16px 12px; font-size: 21px; font-weight: 800; line-height: 1.35; text-align: center; pointer-events: none; z-index: 5; }
+/* 토스트: 실제 앱 v4처럼 화면 아래쪽 */
+.ph-toast { position: absolute; left: 10px; right: 10px; bottom: 10px; background: #1a1a18; color: #fff; border-radius: 16px; padding: 16px 12px; font-size: 21px; font-weight: 800; line-height: 1.35; text-align: center; pointer-events: none; z-index: 5; }
 .ph-calling { position: absolute; inset: 0; background: #1d2420; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; z-index: 6; }
 .ph-calling .who { font-size: 22px; font-weight: 800; line-height: 1.3; max-width: 100%; word-break: break-all; }
 .ph-calling .numtxt { font-family: var(--mono); font-size: 20px; opacity: 0.85; }
 .ph-calling .demo { font-size: 13px; opacity: 0.7; }
 .ph-calling button { margin-top: 16px; background: #c43c3c; color: #fff; border: 0; border-radius: 999px; padding: 13px 26px; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
 .ph-closed { position: absolute; inset: 0; background: #2a312d; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; z-index: 7; padding: 24px; text-align: center; }
+.ph-closed .sub { font-size: 13px; opacity: 0.7; }
 .ph-closed .appicon { width: 72px; height: 72px; border-radius: 18px; background: #ffd23f; color: #1b1d1c; border: 0; font: inherit; font-size: 19px; font-weight: 900; line-height: 1.1; cursor: pointer; }
 .navbar { display: flex; justify-content: space-around; padding: 8px 6px 2px; }
 .navbar button { background: none; border: 0; color: #c9d1cc; font: inherit; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; padding: 4px 14px; border-radius: 10px; }
 .navbar button:hover { background: rgba(255, 255, 255, 0.08); }
 .navbar .glyph { font-size: 18px; line-height: 1; }
 .phone-hint { font-size: 14px; color: var(--muted); text-align: center; max-width: 330px; min-height: 3em; }
+/* 낮은 휴대폰 화면(노트북 1280×720·980×700·1100×600 등): 글자 크기는 그대로, 여백·아이콘만 줄여 첫 화면 세 버튼이 잘리지 않게.
+   실제 앱 v4의 max-height 760/600/560 단계와 같은 방식 */
+@container (max-height: 540px) {
+  .ph { padding: 12px 14px; gap: 10px; }
+  .ph .hello { padding-top: 0; }
+  .ph .big { padding: 12px; }
+  .ph .big .ico { font-size: 32px; }
+  .ph .bottom { gap: 14px; }
+  .ph .rows { gap: 6px; padding: 8px; }
+  .ph .rowlist { gap: 6px; }
+  .ph[data-s="setup"], .ph[data-s="add"] { gap: 8px; }
+  .ph .small { line-height: 1.4; }
+}
+@container (max-height: 440px) {
+  .ph { gap: 8px; padding: 8px 14px; }
+  .ph .big { padding: 6px 12px; gap: 0; }
+  .ph .big .ico { font-size: 26px; }
+  .ph .big .r { line-height: 1.2; }
+  .ph .bottom { gap: 6px; }
+  .ph .fam { padding: 8px 12px; line-height: 1.2; }
+}
 .flash { animation: flash 1.2s ease 2; }
 @keyframes flash { 50% { box-shadow: 0 0 0 4px #e5834f; } }
 @media (prefers-reduced-motion: reduce) { .flash { animation: none; outline: 3px solid #e5834f; } html { scroll-behavior: auto !important; } }
@@ -168,7 +196,21 @@ tr.failed td { background: var(--bad-soft); }
 @media (min-width: 980px) {
   .layout { grid-template-columns: 370px minmax(0, 1fr); column-gap: 8px; }
   .dock { display: flex; flex-direction: column; justify-content: center; position: sticky; top: var(--dock-top, 64px); height: calc(100vh - var(--dock-top, 64px)); padding: 12px 0 12px max(18px, env(safe-area-inset-left, 0px)); }
-  .dock .screen-area { height: min(560px, calc(100vh - var(--dock-top, 64px) - 185px)); min-height: 380px; max-height: none; }
+  .dock .screen-area { height: min(560px, calc(100vh - var(--dock-top, 64px) - 185px)); min-height: 360px; max-height: none; }
   .dock .eyebrow { text-align: center; }
   .inline-phone { display: none !important; }
+}
+
+/* 손가락으로 누르는 화면·폰: 문장 속 링크를 알약 모양으로 (글자는 그대로, 누르는 곳 44px) */
+@media (max-width: 640px), (pointer: coarse) {
+  a.link-pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; margin: 2px 0; border: 1.5px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); text-decoration: none; font-weight: 600; vertical-align: middle; line-height: 1.3; }
+}
+/* 폰(640px 이하): 보조 글자도 14px 이상 */
+@media (max-width: 640px) {
+  .eyebrow, .tag, .count, th, .cell-note, .msg .say small, .msg .who, .guides .scroll-hint, .qr-card figcaption { font-size: 14px; }
+  .chip { font-size: 14px; padding: 2px 10px; }
+  .navbar button { font-size: 14px; }
+  .ph .small, .ph-calling .demo, .ph-closed .sub { font-size: 14px; }
+  /* 본문 속 휴대폰: 화면 높이에 맞춰 조금 낮게 (안쪽은 위 @container 단계로 맞춤) */
+  .inline-phone .screen-area { min-height: 460px; }
 }

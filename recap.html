@@ -23,7 +23,7 @@
   .toc { position: relative; flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
   .toc::-webkit-scrollbar { display: none; }
   .toc a { flex: none; padding: 4px 11px; border-radius: 999px; font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; }
-  .toc a[aria-current="true"] { background: var(--go); color: #fff; }
+  .toc a[aria-current="true"] { background: var(--go); color: var(--on-go); }
   .bar .pill { flex: none; padding: 5px 12px; font-size: 13px; }
 
   .page { width: 100%; max-width: 1120px; margin: 0 auto; padding-block: 40px 80px; display: flex; flex-direction: column; gap: 72px; }
@@ -69,7 +69,24 @@
 
   .next { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
   footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
-  @media (max-width: 640px) { .bar .pill, .brand span { display: none; } }
+  /* 폰(640px 이하): '발표 자료'는 남기고, 누르는 곳은 44px 이상. 목차는 옆으로 밀 수 있다는 걸 오른쪽 흐림으로 */
+  @media (max-width: 640px) {
+    .brand span { display: none; }
+    .brand { min-width: 44px; min-height: 44px; justify-content: center; }
+    .bar-in { gap: 8px; }
+    .bar .pill { min-height: 44px; padding: 0 12px; }
+    .toc a { min-height: 44px; display: inline-flex; align-items: center; }
+    .toc { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+    .toggles button, #qa-all { min-height: 44px; }
+    /* 역할 표: 줄마다 카드로 쌓고 열 제목을 칸 앞에 (글은 그대로) */
+    .table-box table.cards { min-width: 0; }
+    .cards thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .cards tr { display: block; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .cards tr:last-child { border-bottom: 0; }
+    .cards td { display: block; border: 0; padding: 3px 14px; white-space: normal !important; }
+    .cards td::before { content: attr(data-label); display: inline-block; margin-right: 8px; font-size: 12px; font-weight: 700; color: var(--muted); }
+    .cards td:first-child { font-weight: 700; } .cards td:first-child::before { display: none; }
+  }
   .compare { min-width: 0; }
   .compare td:nth-child(2), .compare td:nth-child(3) { white-space: nowrap; }
   .testlist { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px; }
@@ -91,7 +108,7 @@
 
 <header class="bar">
   <div class="bar-in gutter">
-    <a class="brand" href="#top"><img src="assets/app-icon.png" alt="" width="26" height="26"><span>자세히 보기</span></a>
+    <a class="brand" href="#top" aria-label="자세히 보기 맨 위"><img src="assets/app-icon.png" alt="" width="26" height="26"><span>자세히 보기</span></a>
     <nav class="toc" aria-label="목차" id="toc">
       <a href="#top">한눈에</a><a href="#flow">흐름</a><a href="#roles">역할</a><a href="#tests">검증 방법</a><a href="#privacy">저장 방식·설명서</a><a href="#qa">질문과 답</a>
     </nav>
@@ -153,7 +170,7 @@
       <span class="count" id="dec-count" aria-live="polite"></span>
     </div>
     <div class="table-box">
-      <table><thead><tr><th>결정</th><th>출처</th><th>결과와 이유</th></tr></thead><tbody id="dec"></tbody></table>
+      <table class="cards"><thead><tr><th>결정</th><th>출처</th><th>결과와 이유</th></tr></thead><tbody id="dec"></tbody></table>
     </div>
   </section>
 
@@ -236,7 +253,7 @@
   ];
   function drawDec(f) {
     const rows = DEC.filter(d => f === "all" || d[1] === f);
-    $("dec").innerHTML = rows.map(([w, k, s, y]) => `<tr><td>${esc(w)}</td><td><span class="chip ${k}">${esc(s)}</span></td><td>${esc(y)}</td></tr>`).join("");
+    $("dec").innerHTML = rows.map(([w, k, s, y]) => `<tr><td data-label="결정">${esc(w)}</td><td data-label="출처"><span class="chip ${k}">${esc(s)}</span></td><td data-label="결과와 이유">${esc(y)}</td></tr>`).join("");
     $("dec-count").textContent = `${rows.length}개`;
   }
   document.querySelectorAll("[data-f]").forEach(b => b.addEventListener("click", () => {

@@ -127,7 +127,8 @@ tr.failed td { background: var(--bad-soft); }
 .ph .big .r { font-size: 16px; }
 .ph .go { background: var(--ph-go); } .ph .home { background: var(--ph-home); }
 .ph .bottom { margin-top: auto; display: flex; flex-direction: column; gap: 26px; }
-.ph .fix { align-self: center; background: none; border: 0; color: var(--ph-muted); text-decoration: underline; font: inherit; font-size: 15px; cursor: pointer; padding: 4px 10px; }
+/* '가족 번호 고치기': 실제 앱 v2(21px, 높이 56px)를 체험 폰 비율(약 0.78)로 줄인 크기 */
+.ph .fix { align-self: center; background: none; border: 0; color: var(--ph-muted); text-decoration: underline; text-underline-offset: 3px; font: inherit; font-size: 16px; cursor: pointer; padding: 6px 14px; min-height: 44px; }
 .ph .fam { background: #fff; border: 3px solid var(--ph-ink); color: var(--ph-ink); border-radius: 14px; padding: 12px; font: inherit; font-size: 21px; font-weight: 800; cursor: pointer; text-align: center; }
 .ph .add { background: none; border: 2px dashed #888780; color: #44443f; border-radius: 12px; padding: 10px; font: inherit; font-size: 16px; cursor: pointer; }
 .ph .save { background: var(--ph-go); color: #fff; border: 0; border-radius: 12px; padding: 13px; font: inherit; font-size: 17px; font-weight: 700; cursor: pointer; }
@@ -138,7 +139,11 @@ tr.failed td { background: var(--bad-soft); }
 .ph .pair { display: grid; grid-template-columns: 5.2em minmax(0, 1fr); gap: 6px; }
 .ph input { font: inherit; font-size: 16px; padding: 8px; border: 1px solid #b4b2a9; border-radius: 8px; background: #fff; color: var(--ph-ink); width: 100%; min-width: 0; }
 .ph .empty { background: #fff4d6; color: #6b4a00; border: 2px dashed #d9a400; border-radius: 12px; padding: 14px; font-size: 16px; text-align: center; }
+.ph .rowlist { display: flex; flex-direction: column; gap: 8px; }
 .ph .err { color: #a32d2d; font-size: 13px; min-height: 1em; }
+.ph .rows .err { font-size: 14px; font-weight: 700; }
+.ph .rows .err:empty { display: none; }
+.ph input[aria-invalid="true"] { border: 2px solid #a32d2d; background: #fff6f6; }
 .ph-toast { position: absolute; left: 10px; right: 10px; top: 10px; background: #1a1a18; color: #fff; border-radius: 16px; padding: 16px 12px; font-size: 21px; font-weight: 800; line-height: 1.35; text-align: center; pointer-events: none; z-index: 5; }
 .ph-calling { position: absolute; inset: 0; background: #1d2420; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; z-index: 6; }
 .ph-calling .who { font-size: 22px; font-weight: 800; line-height: 1.3; max-width: 100%; word-break: break-all; }

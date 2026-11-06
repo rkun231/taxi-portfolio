@@ -10,10 +10,17 @@
   /* 실제 앱과 같은 번호 확인: 010은 11자리, 112·119·1339 같은 1로 시작하는 3~4자리 허용, 그 밖에 7자리 미만은 막음 */
   const usable = n => { const d = digits(n); return d.length >= 7 || (/^1/.test(d) && d.length >= 3 && d.length <= 4); };
   const badNumber = n => { const d = digits(n); if (!d) return ""; if (d.startsWith("010") && d.length !== 11) return "자리 수가 맞지 않아요"; return usable(d) ? "" : "너무 짧아요"; };
+  /* 화면에만 '-'를 넣어 보여 줌. 실제 앱(Taxi-helper index.html fmt)과 같은 규칙: 서울 02 번호, 8자리 센터 번호, 112·119 */
   function fmt(n) {
     const d = digits(n);
-    if (/^1/.test(d) && d.length <= 4) return d;
+    if (d.startsWith("02")) {
+      if (d.length <= 2) return d;
+      if (d.length <= 5) return d.slice(0, 2) + "-" + d.slice(2);
+      if (d.length <= 9) return d.slice(0, 2) + "-" + d.slice(2, 5) + "-" + d.slice(5);
+      return d.slice(0, 2) + "-" + d.slice(2, 6) + "-" + d.slice(6, 10);
+    }
     if (d.length === 8 && /^1[5-9]/.test(d)) return d.slice(0, 4) + "-" + d.slice(4);
+    if (/^1/.test(d) && d.length <= 4) return d;
     if (d.length <= 3) return d;
     if (d.length <= 7) return d.slice(0, 3) + "-" + d.slice(3);
     if (d.length <= 10) return d.slice(0, 3) + "-" + d.slice(3, 6) + "-" + d.slice(6);
@@ -42,17 +49,19 @@
         <div class="rows">
           <label class="small">누구예요? (예: 외삼촌, 이웃집)<input type="text" data-r="aLabel" autocomplete="off"></label>
           <label class="small">전화번호<input type="tel" inputmode="tel" data-r="aPhone" placeholder="010-0000-0000"></label>
+          <div class="err" data-r="aErr" role="alert"></div>
         </div>
-        <div class="err" data-r="aErr"></div>
         <button class="save" type="button" data-a="addSave">추가하기</button>
         <button class="cancel" type="button" data-a="family">취소</button>
       </div>
       <div class="ph" data-s="setup">
         <h4>가족 번호 설정</h4>
         <p class="small">번호는 이 휴대폰 안에만 저장됩니다. 비워둔 사람은 화면에 나오지 않아요.</p>
-        <div class="rows" data-r="rows"></div>
-        <button class="add" type="button" data-a="row">+ 다른 번호 추가</button>
-        <div class="err" data-r="sErr"></div>
+        <div class="rows">
+          <div class="rowlist" data-r="rows"></div>
+          <button class="add" type="button" data-a="row">+ 다른 번호 추가</button>
+        </div>
+        <div class="err" data-r="sErr" role="alert"></div>
         <button class="save" type="button" data-a="setupSave">저장하기</button>
         <button class="cancel" type="button" data-a="home">취소</button>
       </div>
@@ -102,9 +111,18 @@
       go("family");
       hint("'처음으로' 버튼이 없어요. 이름을 누르면 전화가 걸리고, 그냥 나가려면 '뒤로'를 누르세요.");
     }
-    const rowHtml = f => `<div class="pair"><input type="text" class="fl" value="${esc(f.label)}" aria-label="호칭"><input type="tel" class="fp" inputmode="tel" value="${esc(fmt(f.phone))}" placeholder="010-0000-0000" aria-label="번호"></div>`;
+    const rowHtml = f => `<div class="pair"><input type="text" class="fl" value="${esc(f.label)}" placeholder="누구" aria-label="호칭"><input type="tel" class="fp" inputmode="tel" value="${esc(fmt(f.phone))}" placeholder="010-0000-0000" aria-label="번호"></div>`;
+    /* 실제 앱 v2와 같은 오류 표시: 틀린 칸은 빨간 테두리 + 그 칸으로 초점, 설정 화면 오류는 틀린 줄 바로 아래 */
+    const markBad = el => { el.setAttribute("aria-invalid", "true"); el.focus(); };
+    const clearBad = root => root.querySelectorAll("[aria-invalid]").forEach(el => el.removeAttribute("aria-invalid"));
+    function setupErr(msg, row) {
+      const e = r("sErr");
+      if (row) row.after(e); else host.querySelector('[data-s="setup"] .rows').after(e);
+      e.textContent = msg;
+    }
     function openSetup() {
-      r("rows").innerHTML = family.map(rowHtml).join(""); r("sErr").textContent = ""; go("setup");
+      setupErr("");                                  /* 오류 칸을 목록 밖 원래 자리로 (목록을 다시 그리기 전에) */
+      r("rows").innerHTML = family.map(rowHtml).join(""); go("setup");
       hint("이 화면은 가족이 써요. 숫자만 쳐도 '-'가 자동으로 붙어요.");
     }
     function back() {
@@ -146,21 +164,30 @@
       switch (a.dataset.a) {
         case "fix": openSetup(); break;
         case "family": openFamily(); break;
-        case "add": r("aLabel").value = ""; r("aPhone").value = ""; r("aErr").textContent = ""; go("add"); break;
+        case "add": r("aLabel").value = ""; r("aPhone").value = ""; r("aErr").textContent = ""; clearBad(host.querySelector('[data-s="add"]')); go("add"); break;
         case "addSave": {
           const label = r("aLabel").value.trim(), phone = digits(r("aPhone").value);
-          if (!label || !phone) { r("aErr").textContent = "이름과 전화번호를 모두 넣어 주세요."; break; }
+          r("aErr").textContent = ""; clearBad(host.querySelector('[data-s="add"]'));
+          if (!label || !phone) {
+            r("aErr").textContent = "이름과 전화번호를 모두 넣어 주세요.";
+            if (!phone) r("aPhone").setAttribute("aria-invalid", "true");
+            markBad(label ? r("aPhone") : r("aLabel")); break;
+          }
           const bad = badNumber(phone);
-          if (bad) { r("aErr").textContent = `번호가 ${bad}. 다시 확인해 주세요.`; hint("010 번호는 11자리여야 해요. 112·119처럼 짧은 긴급 번호는 넣을 수 있어요."); break; }
+          if (bad) { r("aErr").textContent = `번호가 ${bad}. 다시 확인해 주세요.`; markBad(r("aPhone")); hint("010 번호는 11자리여야 해요. 112·119처럼 짧은 긴급 번호는 넣을 수 있어요."); break; }
           const slot = family.find(f => f.label === label && !digits(f.phone));
           if (slot) slot.phone = phone; else family.push({ label, phone });
           openFamily(); break;
         }
-        case "row": r("rows").insertAdjacentHTML("beforeend", rowHtml({ label: "", phone: "" })); break;
+        case "row": {
+          r("rows").insertAdjacentHTML("beforeend", rowHtml({ label: "", phone: "" }));
+          const fl = r("rows").querySelectorAll(".fl"); fl[fl.length - 1].focus(); break;
+        }
         case "setupSave": {
           const ls = [...host.querySelectorAll(".fl")], ps = [...host.querySelectorAll(".fp")];
+          setupErr(""); clearBad(r("rows"));
           const bi = ps.findIndex(p => badNumber(p.value));
-          if (bi >= 0) { r("sErr").textContent = `'${ls[bi].value.trim() || "가족"}' 번호가 ${badNumber(ps[bi].value)}. 다시 확인해 주세요.`; ps[bi].focus();
+          if (bi >= 0) { setupErr(`'${ls[bi].value.trim() || "가족"}' 번호가 ${badNumber(ps[bi].value)}. 다시 확인해 주세요.`, ps[bi].closest(".pair")); markBad(ps[bi]);
             hint("번호를 잘못 넣으면 어느 칸인지 알려 주고 저장을 멈춰요."); break; }
           family = ls.map((l, i) => ({ label: l.value.trim() || "가족", phone: digits(ps[i].value) }))
             .filter((f, i) => i < DEFAULT.length || usable(f.phone));
@@ -174,7 +201,10 @@
         case "reopen": r("closed").hidden = true; home(); hint("다시 열면 언제나 첫 화면부터 시작해요."); break;
       }
     });
-    host.addEventListener("input", e => { if (e.target.matches('input[type="tel"]')) e.target.value = fmt(e.target.value); });
+    host.addEventListener("input", e => {
+      if (e.target.matches('input[type="tel"]')) e.target.value = fmt(e.target.value);
+      e.target.removeAttribute("aria-invalid");     /* 고치기 시작하면 빨간 테두리 해제 */
+    });
 
     const flash = el => { el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); };
     function show(action) {
@@ -192,12 +222,18 @@
 
   const phones = [...document.querySelectorAll("[data-phone]")].map(mount);
   window.TaxiPhone = {
-    show(action) {
+    show(action, opt) {
       /* 보이는 휴대폰을 고른다 (넓은 화면은 왼쪽 고정, 좁은 화면은 본문 속) */
       const p = phones.find(x => x.host.offsetParent !== null) || phones[0]; if (!p) return;
       p.show(action);
-      const rect = p.host.getBoundingClientRect();
-      if (rect.top < 0 || rect.bottom > innerHeight) p.host.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+      /* 위쪽 고정 바 아래부터 보이게: 휴대폰이 다 들어가면 남은 화면 가운데, 안 들어가면 휴대폰 윗면을 바 바로 아래에 */
+      const bar = document.querySelector(".bar");
+      const barB = bar && /fixed|sticky/.test(getComputedStyle(bar).position) ? bar.getBoundingClientRect().bottom : 0;
+      const rect = p.host.getBoundingClientRect(), room = innerHeight - barB - 16;
+      const forced = opt && opt.scroll === "top";
+      if (!forced && rect.top >= barB && rect.bottom <= innerHeight) return;
+      const top = rect.height <= room ? barB + 8 + (room - rect.height) / 2 : barB + 8;
+      window.scrollTo({ top: Math.max(0, scrollY + rect.top - top), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     }
   };
 })();

@@ -33,6 +33,8 @@
   .prog-btn { display: none; font: inherit; font-family: var(--mono); font-size: 13px; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 0 12px; min-height: 44px; cursor: pointer; white-space: nowrap; }
   .prog-btn .caret { font-size: 11px; margin-left: 4px; color: var(--muted); }
   .touch-only { display: none; }
+  .narrow-only { display: none; }
+  @media (max-width: 640px) { .narrow-only { display: inline; } .wide-only { display: none; } }
   @media (hover: none) and (pointer: coarse) { .kbd-only { display: none; } .touch-only { display: inline; } }
   .help-btn { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); }
 
@@ -95,7 +97,7 @@
     .bar.toc-open .toc a b { font-size: 14px; }
     .bar.toc-open .toc .stage { align-self: flex-start; margin: 8px 0 0; font-size: 14px; }
     /* 보조 글자 14px 이상 */
-    .bar .pill, .prog-btn, .prog-btn .caret, .steps li b, .cover .cover-problem b { font-size: 14px; }
+    .bar .pill, .prog-btn, .prog-btn .caret, .steps li b { font-size: 14px; }
     /* 장면 길이 줄이기: 글은 그대로, 여백·줄간격만 */
     body { line-height: 1.6; }
     .slide { padding-block: 72px 40px; }
@@ -150,8 +152,6 @@
     .cut { padding: 8px 12px; }
     .cuts { gap: 6px; }
   }
-  .cover-problem { border-left: 3px solid var(--home); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 2px; max-width: 60ch; }
-  .cover-problem b { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; color: var(--home); font-weight: 500; }
   .compare { min-width: 0; }
   .compare td:nth-child(2), .compare td:nth-child(3) { white-space: nowrap; }
   .guides.thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -187,13 +187,12 @@
           <span class="eyebrow">SK AIGEN 지원 포트폴리오 · 유경군</span>
           <h1>할머니의 수첩을<br><em>한 화면으로</em></h1>
           <p class="lede">80세가 넘은 외할머니를 위해 웹앱 '병원 택시'를 만든 과정입니다.<br>과제정의 → 해결안 → 검증 → 의사결정 기록 → 회고 순서로 정리했습니다.</p>
-          <p class="cover-problem"><b>문제</b><span>할머니는 단축번호를 외우기 어려워 수첩을 보고 번호를 누르셨고, 이제는 갈 때와 올 때 걸 곳까지 달라졌습니다.</span></p>
           <div class="pills">
             <a class="pill solid" href="#4">직접 눌러보기</a>
             <a class="pill" href="recap.html">자세히 보기</a>
             <a class="pill" href="https://rkun231.github.io/Taxi-helper/?test" target="_blank" rel="noopener">실제 앱 ↗</a>
           </div>
-          <p class="note"><span class="kbd-only">→ 키나 스페이스로 다음 장면 · ? 키로 조작법</span><span class="touch-only">아래로 넘기면 다음 장면 · 위쪽 번호를 누르면 그 장면으로 가요</span></p>
+          <p class="note"><span class="kbd-only">→ 키나 스페이스로 다음 장면 · ? 키로 조작법</span><span class="touch-only">아래로 넘기면 다음 장면 · <span class="wide-only">위쪽 번호를 누르면 그 장면으로 가요</span><span class="narrow-only">위쪽 n / 12를 누르면 장면 목록이 나와요</span></span></p>
         </div>
         <figure class="qr-card">
           <img src="assets/qr.png" alt="이 발표 자료로 연결되는 QR 코드" width="250" height="250">

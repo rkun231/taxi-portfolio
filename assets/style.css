@@ -143,6 +143,16 @@ tr.failed td { background: var(--bad-soft); }
 .ph input { font: inherit; font-size: 16px; padding: 8px; border: 1px solid #b4b2a9; border-radius: 8px; background: #fff; color: var(--ph-ink); width: 100%; min-width: 0; }
 .ph input::placeholder { color: #6b6a65; opacity: 1; }   /* 실제 앱 v4와 같은 색: 빨간 오류 배경 위에서도 4.5:1 이상 */
 .ph .empty { background: #fff4d6; color: #6b4a00; border: 2px dashed #d9a400; border-radius: 12px; padding: 14px; font-size: 16px; text-align: center; }
+/* 실제 앱 v6: '+ 다른 번호 추가' 옆 '편집', 편집 중에만 줄마다 ✕(48×48), 저장·취소 줄은 아래에 붙임 */
+.ph .tools { display: flex; align-items: center; gap: 8px; }
+.ph .tools .add { flex: 1 1 auto; min-width: 0; }
+.ph .edit-btn { background: transparent; border: 0; font: inherit; font-size: 16px; color: var(--ph-muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 0 8px; min-height: 48px; flex: 0 0 auto; }
+.ph .del { display: none; width: 48px; height: 48px; border-radius: 50%; border: 2px solid #a32d2d; background: #fff; color: #a32d2d; font: inherit; font-size: 22px; font-weight: 800; line-height: 1; cursor: pointer; align-self: center; padding: 0; }
+.ph[data-s="setup"].editing .del { display: block; }
+.ph[data-s="setup"].editing .pair { grid-template-columns: 4.6em minmax(0, 1fr) 48px; gap: 4px; }
+.ph[data-s="setup"].editing .pair input { padding-left: 6px; padding-right: 4px; }
+.ph[data-s="setup"] .btns { position: sticky; bottom: -16px; z-index: 5; margin: auto -14px -16px; padding: 10px 14px 16px; background: var(--ph-bg); border-top: 1px solid #d3d1c7; }
+.ph[data-s="setup"] input, .ph[data-s="setup"] .rows button { scroll-margin-bottom: 90px; }
 .ph .rowlist { display: flex; flex-direction: column; gap: 7px; }
 .ph[data-s="setup"], .ph[data-s="add"] { gap: 10px; }   /* 설정 화면이 1366×768 노트북의 휴대폰 화면에도 한 번에 들어오게 */
 /* 오류: 실제 앱 v4처럼 어디서나 굵게, 오류가 없을 때는 자리를 차지하지 않음 */

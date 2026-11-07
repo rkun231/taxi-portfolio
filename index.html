@@ -32,6 +32,9 @@
   /* 폰(640px 이하): 'n / 12'를 누르면 장면 목록이 아래로 펼쳐짐. 넓은 화면에서는 숫자만 */
   .prog-btn { display: none; font: inherit; font-family: var(--mono); font-size: 13px; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 0 12px; min-height: 44px; cursor: pointer; white-space: nowrap; }
   .prog-btn .caret { font-size: 11px; margin-left: 4px; color: var(--muted); }
+  .skip-link { position: absolute; left: 8px; top: -100px; z-index: 1000; background: #000; color: #fff; padding: 10px 16px; border-radius: 6px; font-weight: 700; text-decoration: none; }
+  .skip-link:focus { top: 8px; outline: 3px solid #ffd400; outline-offset: 2px; }
+  main:focus { outline: none; }
   .touch-only { display: none; }
   .narrow-only { display: none; }
   @media (max-width: 640px) { .narrow-only { display: inline; } .wide-only { display: none; } }
@@ -97,7 +100,7 @@
     .bar.toc-open .toc a b { font-size: 14px; }
     .bar.toc-open .toc .stage { align-self: flex-start; margin: 8px 0 0; font-size: 14px; }
     /* 보조 글자 14px 이상 */
-    .bar .pill, .prog-btn, .prog-btn .caret, .steps li b { font-size: 14px; }
+    .bar .pill, .prog-btn, .prog-btn .caret, .steps li b, .cover .cover-problem b { font-size: 14px; }
     /* 장면 길이 줄이기: 글은 그대로, 여백·줄간격만 */
     body { line-height: 1.6; }
     .slide { padding-block: 72px 40px; }
@@ -152,6 +155,8 @@
     .cut { padding: 8px 12px; }
     .cuts { gap: 6px; }
   }
+  .cover-problem { border-left: 3px solid var(--home); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 2px; max-width: 60ch; }
+  .cover-problem b { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; color: var(--home); font-weight: 500; }
   .compare { min-width: 0; }
   .compare td:nth-child(2), .compare td:nth-child(3) { white-space: nowrap; }
   .guides.thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -161,6 +166,7 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
 <header class="bar">
   <div class="bar-in gutter">
@@ -178,7 +184,7 @@
     <div class="eyebrow">직접 눌러보세요 · 가짜 번호로 동작</div>
     <div data-phone></div>
   </aside>
-<main>
+<main id="main" tabindex="-1">
 
   <section class="slide cover" id="1" data-title="표지">
     <div class="slide-in gutter">
@@ -187,6 +193,7 @@
           <span class="eyebrow">SK AIGEN 지원 포트폴리오 · 유경군</span>
           <h1>할머니의 수첩을<br><em>한 화면으로</em></h1>
           <p class="lede">80세가 넘은 외할머니를 위해 웹앱 '병원 택시'를 만든 과정입니다.<br>과제정의 → 해결안 → 검증 → 의사결정 기록 → 회고 순서로 정리했습니다.</p>
+          <p class="cover-problem"><b>문제</b><span>할머니는 단축번호를 외우기 어려워 수첩을 보고 번호를 누르셨고, 이제는 갈 때와 올 때 걸 곳까지 달라졌습니다.</span></p>
           <div class="pills">
             <a class="pill solid" href="#4">직접 눌러보기</a>
             <a class="pill" href="recap.html">자세히 보기</a>
@@ -328,7 +335,7 @@
           <thead><tr><th>확인한 것</th><th>고치기 전</th><th>지금</th></tr></thead>
           <tbody>
             <tr><td>갤럭시에서 '뒤로 두 번이면 닫힘'</td><td class="no">안 됨</td><td class="yes">됨 · 어머니 갤럭시 S22로 확인</td></tr>
-            <tr><td>'뒤로'를 눌러도 갤럭시가 무시하고 건너뛰던 단계 (자동 테스트로 센 수)</td><td class="no">11개</td><td class="yes">0개</td></tr>
+            <tr><td>갤럭시가 무시하는 '몰래 만든 뒤로 단계' (자동 테스트 14가지 상황에서 센 수)</td><td class="no">11개</td><td class="yes">0개</td></tr>
             <tr><td>나머지 자동 테스트 13가지 × 크롬·삼성 인터넷</td><td>통과</td><td class="yes">통과</td></tr>
           </tbody>
         </table>
@@ -372,7 +379,7 @@
       <h2>배운 것, 놓친 것, 이어갈 것</h2>
       <div class="steps retro" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
         <div class="center go" style="gap:6px"><b>배운 것</b><span>만들 때는 문제 없어 보여도 계속 써 보면서 문제를 찾아 고쳐야 한다는 걸 배웠습니다. '처음으로' 버튼도, 갤럭시 뒤로가기도 다 써 보고 나서야 문제를 알게 되었습니다.</span></div>
-        <div class="center home" style="gap:6px"><b>놓친 것</b><span>뒤로가기 오류와 수정은 이해시켜 드리기 어려울 것 같아 따로 설명드리지 못했고 할머니 폰을 직접 만져 보지 못해, 비슷한 조건인 어머니의 갤럭시 S22로 확인했습니다. '병원 갈 때', '집에 올 때'는 아직 실제로 쓰이지 않았고, 또 동네에 같은 택시를 부르시는 분들이 계시다는 것도 할머니께 전해 들었을 뿐 직접 만나 보지 못했습니다.</span></div>
+        <div class="center home" style="gap:6px"><b>놓친 것</b><span>뒤로가기 오류와 수정 내용은 할머니께 이해시켜 드리기 어려울 것 같아 따로 설명드리지 못했습니다. 할머니 폰도 직접 만져 보지 못해, 비슷한 조건인 어머니의 갤럭시 S22로 확인했습니다. '병원 갈 때', '집에 올 때'는 아직 실제로 쓰이지 않았고, 또 동네에 같은 택시를 부르시는 분들이 계시다는 것도 할머니께 전해 들었을 뿐 직접 만나 보지 못했습니다.</span></div>
         <div class="center go" style="gap:6px"><b>이어갈 것</b><span>동네 어르신들을 직접 만나 병원길이 어디서 막히는지 확인하고, 여러 분이 써도 되는지 시험해 보고 싶습니다. 가족에게 호출 알림을 보내는 기능은 서버와 문자 발송 서비스가 필요해 보류했습니다. 이 기능은 따로 공부하고 있는 파이썬과 AI 활용으로 이어서 만들어 볼 생각입니다. 버튼 사용 기록이 쌓이면 어떤 버튼이 실제로 잘 쓰이는지, 특히 병원 버튼이 문제 없이 잘 사용되는지 확인하겠습니다.</span></div>
       </div>
       <div class="cover-grid" style="margin-top:12px">

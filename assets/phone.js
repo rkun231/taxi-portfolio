@@ -63,7 +63,10 @@
         <p class="small">번호는 이 휴대폰 안에만 저장됩니다. 비워둔 사람은 화면에 나오지 않아요.</p>
         <div class="rows">
           <div class="rowlist" data-r="rows"></div>
-          <button class="add" type="button" data-a="row">+ 다른 번호 추가</button>
+          <div class="tools">
+            <button class="add" type="button" data-a="row">+ 다른 번호 추가</button>
+            <button class="edit-btn" type="button" data-a="edit" data-r="edit">편집</button>
+          </div>
         </div>
         <div class="err" data-r="sErr" id="${u}-f-err" role="alert"></div>
         <div class="btns">
@@ -118,8 +121,29 @@
       go("family");
       hint("'처음으로' 버튼이 없어요. 이름을 누르면 전화가 걸리고, 그냥 나가려면 '뒤로'를 누르세요.");
     }
+    const delName = (label, n) => `이 줄 지우기 (${String(label || "").trim() || n + "번째 줄"})`;
     /* 실제 앱 v4와 같은 이름: 스크린리더가 몇 번째 줄인지 알 수 있게 'n번째 줄 호칭/번호' */
-    const rowHtml = (f, i) => `<div class="pair"><input type="text" class="fl" value="${esc(f.label)}" placeholder="누구" aria-label="${i + 1}번째 줄 호칭"><input type="tel" class="fp" inputmode="tel" value="${esc(fmt(f.phone))}" placeholder="010-0000-0000" aria-label="${i + 1}번째 줄 번호"></div>`;
+    const rowHtml = (f, i) => `<div class="pair"><input type="text" class="fl" value="${esc(f.label)}" placeholder="누구" aria-label="${i + 1}번째 줄 호칭"><input type="tel" class="fp" inputmode="tel" value="${esc(fmt(f.phone))}" placeholder="010-0000-0000" aria-label="${i + 1}번째 줄 번호"><button class="del" type="button" data-a="del" aria-label="${esc(delName(f.label, i + 1))}">✕</button></div>`;
+    /* 실제 앱 v6: 편집 중에만 줄마다 ✕. 기본 6줄은 비우기만, 추가한 줄은 줄째 지움 (저장해야 반영) */
+    const setup = () => host.querySelector('[data-s="setup"]');
+    function setEdit(on) { setup().classList.toggle("editing", on); r("edit").textContent = on ? "완료" : "편집"; }
+    function renumber() {
+      r("rows").querySelectorAll(".pair").forEach((row, i) => {
+        row.querySelector(".fl").setAttribute("aria-label", `${i + 1}번째 줄 호칭`);
+        row.querySelector(".fp").setAttribute("aria-label", `${i + 1}번째 줄 번호`);
+        row.querySelector(".del").setAttribute("aria-label", delName(row.querySelector(".fl").value, i + 1));
+      });
+    }
+    function delRow(btn) {
+      const row = btn.closest(".pair"), rows = [...r("rows").querySelectorAll(".pair")], i = rows.indexOf(row);
+      if (r("sErr").previousElementSibling === row) setupErr("");
+      if (i < DEFAULT.length) {
+        row.querySelectorAll("input").forEach(el => { el.value = ""; el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); });
+        renumber(); btn.focus();
+      } else {
+        row.remove(); renumber(); r("rows").querySelectorAll(".del")[i - 1].focus();
+      }
+    }
     /* 실제 앱 v4와 같은 오류 표시: 틀린 칸은 빨간 테두리 + 그 칸으로 초점, 설정 화면 오류는 틀린 줄 바로 아래 */
     const markBad = el => { el.setAttribute("aria-invalid", "true"); el.focus(); };
     const clearBad = root => root.querySelectorAll("[aria-invalid]").forEach(el => el.removeAttribute("aria-invalid"));
@@ -130,7 +154,7 @@
     }
     function openSetup() {
       setupErr("");                                  /* 오류 칸을 목록 밖 원래 자리로 (목록을 다시 그리기 전에) */
-      r("rows").innerHTML = family.map(rowHtml).join(""); go("setup");
+      r("rows").innerHTML = family.map(rowHtml).join(""); setEdit(false); go("setup");
       hint("이 화면은 가족이 써요. 숫자만 쳐도 '-'가 자동으로 붙어요.");
     }
     function back() {
@@ -187,19 +211,31 @@
           if (slot) slot.phone = phone; else family.push({ label, phone });
           openFamily(); break;
         }
+        case "edit": setEdit(!setup().classList.contains("editing")); break;
+        case "del": delRow(a); break;
         case "row": {
           r("rows").insertAdjacentHTML("beforeend", rowHtml({ label: "", phone: "" }, r("rows").querySelectorAll(".pair").length));
           const fl = r("rows").querySelectorAll(".fl"); fl[fl.length - 1].focus(); break;
         }
         case "setupSave": {
           const ls = [...host.querySelectorAll(".fl")], ps = [...host.querySelectorAll(".fp")];
-          setupErr(""); clearBad(r("rows"));
+          setEdit(false); setupErr(""); clearBad(r("rows"));
           r("rows").querySelectorAll("[aria-describedby]").forEach(el => el.removeAttribute("aria-describedby"));
           const bi = ps.findIndex(p => badNumber(p.value));
           if (bi >= 0) { setupErr(`'${ls[bi].value.trim() || "가족"}' 번호가 ${badNumber(ps[bi].value)}. 다시 확인해 주세요.`, ps[bi].closest(".pair"));
             ps[bi].setAttribute("aria-describedby", r("sErr").id);   /* 틀린 칸에 오류 문구를 연결 (앱과 같음) */
             markBad(ps[bi]);
             hint("번호를 잘못 넣으면 어느 칸인지 알려 주고 저장을 멈춰요."); break; }
+          /* 실제 앱 v6: 번호가 있는 줄끼리 호칭이 같으면 막음 */
+          const seen = new Set(); let dup = -1;
+          for (let i = 0; i < ls.length; i++) {
+            if (!digits(ps[i].value)) continue;
+            const name = ls[i].value.trim() || "가족";
+            if (seen.has(name)) { dup = i; break; }
+            seen.add(name);
+          }
+          if (dup >= 0) { setupErr("같은 이름이 두 번 있어요. 하나를 '큰아들'처럼 바꿔 주세요", ls[dup].closest(".pair"));
+            ls[dup].setAttribute("aria-describedby", r("sErr").id); markBad(ls[dup]); break; }
           family = ls.map((l, i) => ({ label: l.value.trim() || "가족", phone: digits(ps[i].value) }))
             .filter((f, i) => i < DEFAULT.length || usable(f.phone));
           home(); r("saved").hidden = false; clearTimeout(savedTimer); savedTimer = setTimeout(() => { r("saved").hidden = true; }, 2000);
@@ -214,6 +250,7 @@
     });
     host.addEventListener("input", e => {
       if (e.target.matches('input[type="tel"]')) e.target.value = fmt(e.target.value);
+      if (e.target.classList.contains("fl")) renumber();
       e.target.removeAttribute("aria-invalid");     /* 고치기 시작하면 빨간 테두리 해제 */
     });
 

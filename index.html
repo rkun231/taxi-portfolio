@@ -155,6 +155,9 @@
     .cut { padding: 8px 12px; }
     .cuts { gap: 6px; }
   }
+  /* 11번: 처음 설계 표와 따로, 마무리 AI 검증 묶음 */
+  .final-check { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .final-check p { font-size: 15px; color: var(--muted); margin: 0; }
   .cover-problem { border-left: 3px solid var(--home); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 2px; max-width: 60ch; }
   .cover-problem b { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; color: var(--home); font-weight: 500; }
   .compare { min-width: 0; }
@@ -370,6 +373,10 @@
         </table>
       </div>
       <p class="lede">코드는 Claude가 썼습니다. 무엇을 넣고 뺄지는 제가 정했고, 할머니 반응과 기기별 동작은 제가 확인했습니다.</p>
+      <div class="final-check">
+        <span class="tag">마무리 검증 · 33건</span>
+        <p>앱과 이 포트폴리오를 마무리하면서 AI 검증에서 나온 제안 33건도 하나씩 보고, 바꿀지 그대로 둘지 제가 골랐습니다. <a class="link-pill" href="https://rkun231.github.io/aigen-portfolio/decisions.html" target="_blank" rel="noopener">결정 기록 ↗</a></p>
+      </div>
     </div>
   </section>
 

@@ -27,6 +27,11 @@
     return d.slice(0, 3) + "-" + d.slice(3, 7) + "-" + d.slice(7, 11);
   }
 
+  /* 실제 앱 v5부터: 설정 화면 안내 글 바로 아래 초록 밑줄 '사용 설명서 보기 ↗' (앱 .guide와 같은 모양, 체험 폰 글자 크기에 맞춤) */
+  document.head.insertAdjacentHTML("beforeend", `<style>
+    .ph .guide { display: inline-flex; align-items: center; min-height: 44px; margin: -6px 0; padding: 0 4px; font-size: 16px; font-weight: 700; color: var(--ph-go); text-decoration: underline; text-underline-offset: 4px; align-self: flex-start; }
+  </style>`);
+
   /* 휴대폰이 한 페이지에 둘(왼쪽 고정·본문 속)이라 오류 칸 id 앞에 휴대폰마다 다른 이름을 붙인다 */
   let seq = 0;
   const MARKUP = u => `
@@ -61,6 +66,7 @@
       <div class="ph" data-s="setup">
         <h4>가족 번호 설정</h4>
         <p class="small">번호는 이 휴대폰 안에만 저장됩니다. 비워둔 사람은 화면에 나오지 않아요.</p>
+        <a class="guide" href="assets/guide-family.webp" target="_blank" rel="noopener">사용 설명서 보기 ↗</a>
         <div class="rows">
           <div class="rowlist" data-r="rows"></div>
           <div class="tools">

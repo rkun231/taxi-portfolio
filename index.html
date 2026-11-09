@@ -141,6 +141,8 @@
   @media (min-width: 980px) { .cut { padding: 12px 16px; gap: 2px; } .cuts { gap: 8px; } }
   /* 큰 화면(1440px~)에서도 12번 회고 카드 글이 길어져 960px을 넘지 않게 */
   @media (min-width: 1440px) { #\31 2 .retro span { font-size: 15px; line-height: 1.6; } }
+  /* 12번: '이어갈 것' 글이 길어 960px 안에 들도록 회고 줄 간격과 '예상 질문과 답' 제목만 조금 줄임 */
+  @media (min-width: 980px) { #\31 2 .retro span { line-height: 1.5; } #\31 2 .big-line { font-size: clamp(28px, 3.2vw, 44px) !important; } #\31 2 .qr-card { max-width: 200px !important; } }
   @media (min-width: 980px) and (max-width: 1439px) {
     .slide { padding-block: 72px 32px; }
     .slide-in { gap: 16px; }
@@ -390,7 +392,7 @@
       <div class="steps retro" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
         <div class="center go" style="gap:6px"><b>배운 것</b><span>만들 때는 문제 없어 보여도 계속 써 보면서 문제를 찾아 고쳐야 한다는 걸 배웠습니다. <strong>'처음으로' 버튼도, 갤럭시 뒤로가기도 다 써 보고 나서야 문제를 알게 되었습니다.</strong></span><span class="note">확인할 기준을 먼저 세웠어야 했습니다. 그래서 다음에 만든 컨디션 신호등에서는 첫 버전에서 오류를 겪은 뒤 점검 기준을 만들었고, 그 뒤로는 AI에게 맡기기 전에 점검 기준부터 정했습니다.</span></div>
         <div class="center home" style="gap:6px"><b>놓친 것</b><span>뒤로가기 오류와 수정 내용은 할머니께 이해시켜 드리기 어려울 것 같아 따로 설명드리지 못했습니다. 할머니 폰도 직접 만져 보지 못해, 비슷한 조건인 어머니의 갤럭시 S22로 확인했습니다. '병원 갈 때', '집에 올 때'는 아직 실제로 쓰이지 않았고, 또 동네에 같은 택시를 부르시는 분들이 계시다는 것도 할머니께 전해 들었을 뿐 직접 만나 보지 못했습니다.</span><span class="note">할머니 앱은 혼자 Claude와 만들어서, 사람과 의견이 갈려 고친 장면은 없습니다. 다른 사람과 의견을 맞춘 이야기는 지원서 3번에 있습니다.</span></div>
-        <div class="center go" style="gap:6px"><b>이어갈 것</b><span>사람들에게 널리 도움을 주는 프로그램을 만들고 싶습니다. AIGEN에서는 1지망으로 고른 사회·공공·교육 분야에서, 함평의 동네 어르신들을 직접 만나 병원에 오가실 때 어떤 일이 어려우신지 확인하고, 여러 분이 써도 되는지 시험해 보고 싶습니다. 가족에게 호출 알림을 보내는 기능은 서버와 문자 발송 서비스가 필요해 보류했습니다. 이 기능은 우선 따로 공부하고 있는 파이썬과 AI 활용으로 이어서 만들어 보고, AIGEN에 들어가면 동료와 전문가의 도움도 받아 보고 싶습니다. 버튼 사용 기록이 쌓이면 어떤 버튼이 실제로 잘 쓰이는지, 특히 병원 버튼이 문제 없이 잘 사용되는지 확인하겠습니다.</span></div>
+        <div class="center go" style="gap:6px"><b>이어갈 것</b><span>할머니 한 분을 위해 만든 이 앱이, 함평의 다른 어르신들께도 널리 도움이 되게 만들고 싶습니다. 혼자서는 할머니 한 분께 써 보시게 하는 데서 멈췄지만, AIGEN에서는 1지망으로 고른 사회·공공·교육 분야에서 동료들과 함께 동네 어르신들을 직접 만나 병원에 오가실 때 어떤 일이 어려우신지 먼저 여쭙고, AI로 그 자리에서 고쳐 가며 여러 분이 써도 되는지 시험해 보고 싶습니다. 가족에게 호출 알림을 보내는 기능은 서버와 문자 발송 서비스가 필요해 보류했습니다. 이 기능은 우선 따로 공부하고 있는 파이썬과 AI 활용으로 이어서 만들어 보고, AIGEN에 들어가면 동료와 전문가의 도움도 받아 보고 싶습니다. 버튼 사용 기록이 쌓이면 어떤 버튼이 실제로 잘 쓰이는지, 특히 병원 버튼이 문제 없이 잘 사용되는지 확인하겠습니다.</span></div>
       </div>
       <div class="cover-grid" style="margin-top:12px">
         <div class="stack">

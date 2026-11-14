@@ -26,6 +26,10 @@
   .toc a[aria-current="true"] { background: var(--go); color: var(--on-go); }
   .bar .pill { flex: none; padding: 5px 12px; font-size: 13px; }
   .help-btn { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); }
+  .prog { flex: none; font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+  /* 폰(640px 이하): 'n / 6'을 누르면 목차가 아래로 펼쳐짐. 넓은 화면에서는 숫자만 (발표 자료의 'n / 12'와 같음) */
+  .prog-btn { display: none; font: inherit; font-family: var(--mono); font-size: 13px; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 0 12px; min-height: 44px; cursor: pointer; white-space: nowrap; }
+  .prog-btn .caret { font-size: 11px; margin-left: 4px; color: var(--muted); }
   /* 조작법 창 (발표 자료와 같은 모양) */
   .help { position: fixed; inset: 0; z-index: 30; background: rgba(24, 33, 29, 0.55); display: grid; place-items: center; padding: 20px; }
   .help-card { background: var(--card); border-radius: 16px; padding: 22px 24px; max-width: 380px; width: 100%; display: flex; flex-direction: column; gap: 10px; }
@@ -83,7 +87,7 @@
 
   .next { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
   footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 14px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
-  /* 폰(640px 이하): '발표 자료'는 남기고, 누르는 곳은 44px 이상. 목차는 옆으로 밀 수 있다는 걸 오른쪽 흐림으로 */
+  /* 폰(640px 이하): '발표 자료'는 남기고, 누르는 곳은 44px 이상. 목차는 'n / 6'을 누르면 펼쳐짐 (발표 자료와 같음) */
   @media (max-width: 640px) {
     .brand span { display: none; }
     .brand { min-width: 44px; min-height: 44px; justify-content: center; }
@@ -91,7 +95,15 @@
     .bar .pill { min-height: 44px; padding: 0 12px; }
     .help-btn { width: 44px; height: 44px; }
     .toc a { min-height: 44px; display: inline-flex; align-items: center; }
-    .toc { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+    .bar-in > .pill { margin-left: auto; }
+    .prog { display: none; }
+    .prog-btn { display: inline-flex; align-items: center; }
+    /* 목차: 평소엔 접어 두고, 펼치면 위쪽 바 아래로 세로 목록 (번호는 목록에서만) */
+    .toc { display: none; }
+    .bar.toc-open .toc { display: flex; flex-direction: column; gap: 0; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 70px); max-height: calc(100svh - 70px); overflow-y: auto; background: var(--paper); border-bottom: 1px solid var(--line); padding: 6px 18px 12px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45); counter-reset: sec; }
+    .bar.toc-open .toc a { min-height: 44px; align-items: center; padding: 0 12px; font-size: 15px; }
+    .bar.toc-open .toc a::before { counter-increment: sec; content: counter(sec, decimal-leading-zero); font-family: var(--mono); font-weight: 500; font-size: 14px; margin-right: 8px; }
+    .prog-btn, .prog-btn .caret { font-size: 14px; }
     .toggles button, #qa-all { min-height: 44px; }
     /* 보조 글자 14px 이상 */
     .bar .pill, .stat .k, .qa .cat { font-size: 14px; }
@@ -138,6 +150,8 @@
       <a href="#top">한눈에</a><a href="#flow">흐름</a><a href="#roles">역할</a><a href="#tests">검증 방법</a><a href="#privacy">저장 방식·설명서</a><a href="#qa">질문과 답</a>
     </nav>
     <a class="pill" href="index.html">발표 자료</a>
+    <span class="prog" id="prog" aria-live="polite">1 / 6</span>
+    <button class="prog-btn" type="button" id="prog-btn" aria-expanded="false" aria-controls="toc" aria-label="목차 열기"><span id="prog-n">1 / 6</span><span class="caret" aria-hidden="true">▼</span></button>
     <button class="help-btn" type="button" id="help-open" aria-label="조작법">?</button>
   </div>
 </header>
@@ -271,7 +285,7 @@
       <dt>?</dt><dd>이 창 열고 닫기</dd>
       <dt>Esc</dt><dd>이 창 닫기</dd>
     </dl>
-    <p class="note">휴대폰에서는 위쪽 목차를 누르면 그 칸으로 갑니다.</p>
+    <p class="note">휴대폰에서는 위쪽 n / 6을 누르면 목차가 나옵니다.</p>
     <button type="button" id="help-close">닫기</button>
   </div>
 </div>
@@ -350,6 +364,9 @@
   const secs = tocLinks.map(a => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
   function mark(i) {
     tocLinks.forEach((a, k) => a.setAttribute("aria-current", k === i ? "true" : "false"));
+    $("prog").textContent = `${i + 1} / ${secs.length}`;
+    $("prog-n").textContent = `${i + 1} / ${secs.length}`;
+    $("prog-btn").setAttribute("aria-label", `목차 열기, 지금 ${i + 1} / ${secs.length}`);
     const t = $("toc"), a = tocLinks[i];
     if (a.offsetLeft < t.scrollLeft || a.offsetLeft + a.offsetWidth > t.scrollLeft + t.clientWidth)
       t.scrollTo({ left: a.offsetLeft - (t.clientWidth - a.offsetWidth) / 2, behavior: "smooth" });
@@ -359,6 +376,17 @@
       { rootMargin: "-30% 0px -69% 0px" });
     secs.forEach(s => io.observe(s));
   }
+  /* 폰: 'n / 6' 버튼으로 목차 펼치기·접기 (발표 자료의 'n / 12'와 같음) */
+  const bar = document.querySelector(".bar"), progBtn = $("prog-btn");
+  const setToc = open => {
+    bar.classList.toggle("toc-open", open);
+    progBtn.setAttribute("aria-expanded", String(open));
+    if (open) { const cur = $("toc").querySelector('[aria-current="true"]') || tocLinks[0]; cur.focus({ preventScroll: true }); }
+  };
+  progBtn.addEventListener("click", () => setToc(!bar.classList.contains("toc-open")));
+  $("toc").addEventListener("click", e => { if (e.target.closest("a") && bar.classList.contains("toc-open")) setToc(false); });
+  document.addEventListener("click", e => { if (bar.classList.contains("toc-open") && !e.target.closest(".bar")) setToc(false); });
+  matchMedia("(max-width: 640px)").addEventListener("change", () => setToc(false));
 
   /* 조작법 창: 발표 자료와 같은 방식. 여는 동안 Tab이 창 안에서만 돌고, 닫으면 열기 전 자리(보통 '?' 버튼)로 초점 복귀 */
   const help = $("help");
@@ -367,8 +395,8 @@
     if (open === !help.hidden) return;
     if (open) { helpReturn = document.activeElement && document.activeElement !== document.body ? document.activeElement : $("help-open"); }
     help.hidden = !open;
-    if (open) $("help-close").focus();
-    else { (helpReturn && document.contains(helpReturn) ? helpReturn : $("help-open")).focus(); helpReturn = null; }
+    if (open) $("help-close").focus({ preventScroll: true });
+    else { (helpReturn && document.contains(helpReturn) ? helpReturn : $("help-open")).focus({ preventScroll: true }); helpReturn = null; }   /* 위쪽 바가 sticky 라 그냥 focus() 하면 페이지가 위로 밀림 */
   };
   $("help-open").addEventListener("click", () => toggleHelp(true));
   $("help-close").addEventListener("click", () => toggleHelp(false));
@@ -395,6 +423,7 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       return;
     }
+    if (e.key === "Escape" && bar.classList.contains("toc-open")) { setToc(false); progBtn.focus({ preventScroll: true }); return; }
     /* 글자를 넣는 칸(체험 휴대폰 번호 칸 등)에서는 키를 가로채지 않음 */
     if (e.target.closest("input, textarea, select, [contenteditable]") || e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === "?") { toggleHelp(help.hidden); e.preventDefault(); return; }
